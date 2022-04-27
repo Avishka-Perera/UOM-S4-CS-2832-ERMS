@@ -124,6 +124,6 @@ const deleteUser = (row) => {
         if (data.status) row.remove();
         else console.log("user not deleted");
     }
-    const errorFunction = () => console.log("error:", data);
+    const errorFunction = (data) => console.log("error:", data);
     deleteEntry(endpoint, data, successFunction, errorFunction);
 }

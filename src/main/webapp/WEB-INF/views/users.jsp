@@ -13,6 +13,8 @@
     <title>User management</title>
     <script src="<%request.getContextPath();%>js/jquery-3.6.0.min.js"></script>
     <script src="<%request.getContextPath();%>js/utilities.js"></script>
+    <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
+    <script src="<%request.getContextPath();%>js/constants.js"></script>
     <script src="<%request.getContextPath();%>js/user.js"></script>
 </head>
 <body>
@@ -22,7 +24,7 @@
         <h1>Manage Users</h1>
         <div>
             <h2>Add new user</h2>
-            <form action="users" method="post" id="addUserForm">
+            <form id="addUserForm">
                 <table>
                     <tbody>
                     <tr>
@@ -46,8 +48,8 @@
                         <td><input id="contactNumber" name="contactNumber" type="text" required></td>
                     </tr>
                     <tr>
-                        <td><label>User level</label></td>
-                        <td>
+                        <td><label for="userLevels">User level</label></td>
+                        <td id="userLevels">
                             <span>
                                 <input type="radio" id="polling-station" name="userLevel" value="0" checked>
                                 <label for="polling-station">Polling Station</label><br>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Avishka
@@ -9,6 +10,11 @@
 <html>
 <head>
     <title>Vote Management</title>
+    <script src="<%request.getContextPath();%>js/jquery-3.6.0.min.js"></script>
+    <script src="<%request.getContextPath();%>js/utilities.js"></script>
+    <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
+    <script src="<%request.getContextPath();%>js/constants.js"></script>
+    <script src="<%request.getContextPath();%>js/locations.js"></script>
 </head>
 <body>
 <div>
@@ -17,7 +23,7 @@
         <h1>Vote Management</h1>
         <div>
             <h2>Add new location</h2>
-            <form action="add-location" method="post">
+            <form id="addLocationForm">
                 <table>
                     <tbody>
                     <tr>
@@ -25,31 +31,54 @@
                         <td><input type="text" id="name" name="name"></td>
                     </tr>
                     <tr>
-                        <td><label for="stationUser">Station user</label></td>
-                        <td>
-                            <select name="stationUser" id="stationUser">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="districtCenterUser">District center user</label></td>
-                        <td>
-                            <select name="districtCenterUser" id="districtCenterUser">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
-                            </select>
+                        <td><label for="userLevels">Type</label></td>
+                        <td id="userLevels">
+                            <span>
+                                <input type="radio" id="polling-station" name="type" value="0" checked>
+                                <label for="polling-station">Polling Station</label><br>
+                            </span>
+                            <span>
+                                <input type="radio" id="district-center" name="type" value="1">
+                                <label for="district-center">District Center</label><br>
+                            </span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <input type="submit" value="Add">
+                <input type="button" onclick="addLocation(event)" value="Add"/>
             </form>
+        </div>
+        <div>
+            <h2>Available locations</h2>
+            <table>
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Station User</td>
+                    <td>District User</td>
+                    <td>Type</td>
+                    <td>Action</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${locations}" var="location">
+                    <tr>
+                        <td id="tdId"><c:out value="${location.id}"/></td>
+                        <td><c:out value="${location.name}"/></td>
+                        <td><c:out value="${location.stationUserId == null ? 'None' : location.stationUserId}"/></td>
+                        <td><c:out value="${location.districtCenterUserId == null ? 'None' : location.districtCenterUserId}"/></td>
+                        <td>
+                            <select name="type">
+                                <option value="0" <c:if test="${location.type==0}">selected</c:if>>Polling Station</option>
+                                <option value="1" <c:if test="${location.type==1}">selected</c:if>>District Center</option>
+                            </select>
+                        </td>
+                        <td><button onclick="updateLocation(this.parentNode.parentNode)">Update</button><button onclick="deleteLocation(this.parentNode.parentNode)">Delete</button></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
         <div>
             <h2>Add new party</h2>

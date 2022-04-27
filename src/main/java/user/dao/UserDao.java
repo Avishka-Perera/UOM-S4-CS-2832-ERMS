@@ -1,11 +1,12 @@
 package user.dao;
 
-import constants.JDBC;
 import user.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static connection.Connection.getConnection;
 
 public class UserDao {
 
@@ -15,20 +16,6 @@ public class UserDao {
     private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users;";
     private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE id=?;";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE id=?;";
-
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String jdbcURL = JDBC.JDBC_URL;
-            String jdbcUsername = JDBC.JDBC_USERNAME;
-            String jdbcPassword = JDBC.JDBC_PASSWORD;
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 
     // create new user
     public int[] addUser(User user) throws ClassNotFoundException {
