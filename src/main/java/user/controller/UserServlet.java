@@ -8,18 +8,34 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
-@WebServlet(name = "AddUserServlet", value = Routes.ROUTE_ADD_USER)
+@WebServlet(name = "AddUserServlet", value = Routes.ROUTE_USERS)
 public class UserServlet extends HttpServlet {
 
-    private UserDao dao;
+    private final UserDao dao;
 
     public UserServlet() {
         this.dao = new UserDao();
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        String level = String.valueOf(session.getAttribute("level"));
+        if (Objects.equals(level, "3")) {
+            List<User> users = dao.selectAllUsers();
+            request.setAttribute("users", users);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/users.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + Routes.ROUTE_LOGIN);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         if ((int) session.getAttribute("level") == 3){
             String name = request.getParameter("name");
@@ -36,7 +52,9 @@ public class UserServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            response.sendRedirect(request.getContextPath() + Routes.ROUTE_USER_MANAGEMENT);
+//            response.addHeader("", String.valueOf(result));
+            System.out.println(result);
+//            response.sendRedirect(request.getContextPath() + Routes.ROUTE_USERS);
         }
     }
 }

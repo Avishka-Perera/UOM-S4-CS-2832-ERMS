@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Avishka
@@ -5,7 +6,7 @@
   Time: 18:35
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <html>
 <head>
@@ -18,7 +19,7 @@
         <h1>Manage Users</h1>
         <div>
             <h2>Add new user</h2>
-            <form action="add-user" method="post">
+            <form action="users" method="post">
                 <table>
                     <tbody>
                     <tr>
@@ -69,6 +70,19 @@
         </div>
         <div>
             <h2>Assign roles</h2>
+            <table>
+                <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td><c:out value="${user.id}"/></td>
+                        <td><c:out value="${user.name}"/></td>
+                        <td><c:out value="${user.email}"/></td>
+                        <td><c:out value="${user.contactNumber}"/></td>
+                        <td><c:out value="${user.userLevel}"/></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                 int level = result.get(1);
                 session.setAttribute("level", level);
                 if (level == 3) {
-                    response.sendRedirect(request.getContextPath() + Routes.ROUTE_USER_MANAGEMENT);
+                    response.sendRedirect(request.getContextPath() + Routes.ROUTE_USERS);
                 } else  {
                     response.sendRedirect(request.getContextPath() + Routes.ROUTE_VOTES);
                 }
