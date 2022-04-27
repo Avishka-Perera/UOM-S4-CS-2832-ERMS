@@ -2,10 +2,10 @@ package user.model;
 
 public class User {
     private int id;
-    private final String name;
-    private final String email;
-    private final String password;
-    private final String contactNumber;
+    private String name;
+    private String email;
+    private String password;
+    private String contactNumber;
     private final int userLevel;
 
     public User(int id, String name, String email, String password, String contactNumber, int userLevel) {
@@ -21,6 +21,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.contactNumber = contactNumber;
+        this.userLevel = userLevel;
+    }
+    public User(int id, int userLevel) {
+        this.id = id;
         this.userLevel = userLevel;
     }
 

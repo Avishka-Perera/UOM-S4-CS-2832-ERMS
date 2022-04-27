@@ -71,7 +71,7 @@
                 <input type="button" value="Register" onclick="addUser(event)">
             </form>
         </div>
-        <div>
+        <div id="assignRoles">
             <h2>Assign roles</h2>
             <table>
                 <thead>
@@ -85,14 +85,14 @@
                     <td>Action</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="usersTBody">
                 <c:forEach var="user" items="${users}">
                     <tr>
-                        <td><c:out value="${user.id}"/></td>
-                        <td><c:out value="${user.name}"/></td>
-                        <td><c:out value="${user.email}"/></td>
-                        <td><c:out value="${user.contactNumber}"/></td>
-                        <td>
+                        <td id="trId"><c:out value="${user.id}"/></td>
+                        <td id="trName"><c:out value="${user.name}"/></td>
+                        <td id="trEmail"><c:out value="${user.email}"/></td>
+                        <td id="trContactNumber"><c:out value="${user.contactNumber}"/></td>
+                        <td id="trUserLevel">
                             <select name="stationUser" id="userLevel">
                                 <option value="0" <c:if test="${user.userLevel==0}">selected</c:if>>Station Officer</option>
                                 <option value="1" <c:if test="${user.userLevel==1}">selected</c:if>>District Center Officer</option>
@@ -100,8 +100,8 @@
                                 <option value="3" <c:if test="${user.userLevel==3}">selected</c:if>>Admin</option>
                             </select>
                         </td>
-                        <td>Location select</td>
-                        <td><button onclick="updateUser(${user.id})">Update</button><button onclick="deleteUser(${user.id}, this.parentNode.parentNode)">Delete</button></td>
+                        <td id="trLocation">Location select</td>
+                        <td><button onclick="updateUser(this.parentNode.parentNode)">Update</button><button onclick="deleteUser(this.parentNode.parentNode)">Delete</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>

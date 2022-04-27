@@ -9,45 +9,66 @@ import java.util.List;
 
 public class UserDao {
 
-    private String jdbcURL = JDBC.JDBC_URL;
-    private String jdbcUsername = JDBC.JDBC_USERNAME;
-    private String jdbcPassword = JDBC.JDBC_PASSWORD;
-
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (name, email, password, contact_number, level) VALUES (?, ?, ?, ?, ?);";
-    private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id=?;";
-    private static final String SELECT_ALL_USERS = "SELECT * FROM users;";
+    private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?;";
+    private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?;";
+    private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users;";
     private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE id=?;";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET name=?, email=?, password=?, contact_number=?, level=? WHERE id=?;";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE id=?;";
 
     protected Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            String jdbcURL = JDBC.JDBC_URL;
+            String jdbcUsername = JDBC.JDBC_USERNAME;
+            String jdbcPassword = JDBC.JDBC_PASSWORD;
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
     // create new user
-    public int addUser(User user) throws ClassNotFoundException {
+    public int[] addUser(User user) throws ClassNotFoundException {
         int result = 0;
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(this.INSERT_USERS_QUERY)){
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getContactNumber());
-            preparedStatement.setInt(5,user.getUserLevel());
+        int id = 0;
+        try (
+                Connection connection = getConnection();
+                PreparedStatement preparedStatementCheck = connection.prepareStatement(SELECT_USER_BY_EMAIL_QUERY);
+                PreparedStatement preparedStatementUpdate = connection.prepareStatement(INSERT_USERS_QUERY)
+        ){
+            preparedStatementCheck.setString(1,user.getEmail());
+            ResultSet rs = preparedStatementCheck.executeQuery();
 
-            result = preparedStatement.executeUpdate();
+            int occerences = 0;
+            while (rs.next()) {
+                occerences++;
+            }
+
+            if (occerences == 0) {
+                // add the user
+                preparedStatementUpdate.setString(1, user.getName());
+                preparedStatementUpdate.setString(2, user.getEmail());
+                preparedStatementUpdate.setString(3, user.getPassword());
+                preparedStatementUpdate.setString(4, user.getContactNumber());
+                preparedStatementUpdate.setInt(5,user.getUserLevel());
+                result = preparedStatementUpdate.executeUpdate();
+
+                // get the id of the created user
+                ResultSet rs2 = preparedStatementCheck.executeQuery();
+                while (rs2.next()) {
+                    id = rs2.getInt("id");
+                }
+
+            } else {
+                result = 3;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return new int[]{result, id};
     }
 
     // update user
@@ -55,15 +76,11 @@ public class UserDao {
         boolean result;
         try (
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY);
+                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)
                 ) {
 
-            statement.setString(1,user.getName());
-            statement.setString(2,user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getContactNumber());
-            statement.setInt(5, user.getUserLevel());
-            statement.setInt(6, user.getId());
+            statement.setInt(1,user.getUserLevel());
+            statement.setInt(2,user.getId());
 
             result = statement.executeUpdate() > 0;
         }
@@ -75,7 +92,7 @@ public class UserDao {
         User user = null;
         try (
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_ID);
+                PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_ID_QUERY)
                 ) {
             statement.setInt(1,id);
             ResultSet rs = statement.executeQuery();
@@ -101,7 +118,7 @@ public class UserDao {
         List<User> users = new ArrayList<>();
         try (
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USERS);
+                PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USERS_QUERY)
         ) {
             ResultSet rs = statement.executeQuery();
 
@@ -127,7 +144,7 @@ public class UserDao {
         boolean rowDeleted;
         try(
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY);
+                PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)
                 ) {
             statement.setInt(1,id);
             rowDeleted = statement.executeUpdate() > 0;

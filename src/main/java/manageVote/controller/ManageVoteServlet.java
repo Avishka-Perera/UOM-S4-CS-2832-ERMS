@@ -8,7 +8,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Objects;
 
-@WebServlet(name = "ManageVoteServlet", value = Routes.ROUTE_VOTE_MANAGEMENT)
+@WebServlet(name = "ManageVoteServlet", value = "/"+Routes.ROUTE_VOTE_MANAGEMENT)
 public class ManageVoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

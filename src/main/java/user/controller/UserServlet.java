@@ -1,5 +1,8 @@
 package user.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import constants.UserLevels;
 import user.dao.UserDao;
 import user.model.User;
 import constants.Routes;
@@ -9,11 +12,12 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-@WebServlet(name = "AddUserServlet", value = Routes.ROUTE_USERS)
+@WebServlet(name = "UserServlet", value = "/"+Routes.ROUTE_USERS)
 public class UserServlet extends HttpServlet {
 
     private final UserDao dao;
@@ -25,8 +29,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        String level = String.valueOf(session.getAttribute("level"));
-        if (Objects.equals(level, "3")) {
+        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
             List<User> users = dao.selectAllUsers();
             request.setAttribute("users", users);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/users.jsp");
@@ -39,7 +42,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        if ((int) session.getAttribute("level") == 3){
+        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -47,39 +50,90 @@ public class UserServlet extends HttpServlet {
             int userLevel = Integer.parseInt(request.getParameter("userLevel"));
 
             User user = new User(name, email, password, contactNumber, userLevel);
-            int result = 0;
+            int[] results;
             try {
-                result = dao.addUser(user);
+                results = dao.addUser(user);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"result\":"+results[0]+", \"id\":"+results[1]+"}");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                response.setContentType("application/json");
+                response.getWriter().write("{\"result\":"+0+", \"id\":"+0+"}");
             }
 
-//            response.addHeader("", String.valueOf(result));
-            System.out.println(result);
-            response.sendRedirect(request.getContextPath() + Routes.ROUTE_USERS);
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = request.getReader();
+            String str;
+            while( (str = br.readLine()) != null ){
+                sb.append(str);
+            }
+            int userId = Integer.parseInt(sb.toString());
 
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = request.getReader();
-        String str;
-        while( (str = br.readLine()) != null ){
-            sb.append(str);
+            boolean deleteStatus = false;
+            try {
+                deleteStatus = dao.deleteUser(userId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":"+deleteStatus+"}");
         }
-        int userId = Integer.parseInt(sb.toString());
 
-        boolean deleteStatus = false;
-        try {
-            deleteStatus = dao.deleteUser(userId);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
+            // read the data of the request
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = request.getReader();
+            String str;
+            while( (str = br.readLine()) != null ) sb.append(str);
+            str = sb.toString();
+            GsonBuilder builder = new GsonBuilder();
+            builder.setPrettyPrinting();
+            Gson gson = builder.create();
+            PutRequestData data = gson.fromJson(str, PutRequestData.class);
+            int userId = data.getUserId();
+            int userLevel = data.getUserLevel();
+            System.out.println(userId + " " + userLevel);
+            User user = new User(userId, userLevel);
+            boolean result = false;
+            try {
+                result = dao.updateUser(user);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":"+result+"}");
         }
-        System.out.println(userId);
+    }
+}
 
-        response.setContentType("application/json");
-        response.getWriter().write("{\"status\":"+deleteStatus+"}");
+class PutRequestData {
+    private int userId;
+    private int userLevel;
+    public PutRequestData(){}
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public String toString() {
+        return "PutRequestData [ userId: "+userId+", userLevel: "+userLevel+ " ]";
     }
 }

@@ -1,4 +1,4 @@
-package addLocation.model;
+package location.model;
 
 public class Location {
     private final String name;
