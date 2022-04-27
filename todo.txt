@@ -1,3 +1,4 @@
 restrict direct access of .jsp files. e.g.:- localhost:80/ERMS/views/login.jsp should redirect to localhost:80/ERMS/login
 add a common navbar to all pages
 style pages
+create notification modal

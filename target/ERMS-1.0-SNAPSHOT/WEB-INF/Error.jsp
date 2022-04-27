@@ -11,9 +11,7 @@
     <title>Error</title>
 </head>
 <body>
-<center>
     <h1>Error</h1>
 <%--    <p><%= exception.getMessage() %></p>--%>
-</center>
 </body>
 </html>

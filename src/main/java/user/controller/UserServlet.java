@@ -7,7 +7,9 @@ import constants.Routes;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +37,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         if ((int) session.getAttribute("level") == 3){
             String name = request.getParameter("name");
@@ -54,7 +56,30 @@ public class UserServlet extends HttpServlet {
 
 //            response.addHeader("", String.valueOf(result));
             System.out.println(result);
-//            response.sendRedirect(request.getContextPath() + Routes.ROUTE_USERS);
+            response.sendRedirect(request.getContextPath() + Routes.ROUTE_USERS);
         }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = request.getReader();
+        String str;
+        while( (str = br.readLine()) != null ){
+            sb.append(str);
+        }
+        int userId = Integer.parseInt(sb.toString());
+
+        boolean deleteStatus = false;
+        try {
+            deleteStatus = dao.deleteUser(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userId);
+
+        response.setContentType("application/json");
+        response.getWriter().write("{\"status\":"+deleteStatus+"}");
     }
 }
