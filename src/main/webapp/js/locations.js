@@ -1,5 +1,4 @@
-const addLocation = (e) => {
-    e.preventDefault();
+const addLocation = () => {
 
     const name = document.querySelector("#addLocationForm #name").value;
     const type = parseInt(document.querySelector("#addLocationForm input[name='type']:checked").value);

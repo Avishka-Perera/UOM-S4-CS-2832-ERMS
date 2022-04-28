@@ -70,7 +70,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" value="Register" onclick="addUser(event)">
+                <input type="button" value="Register" onclick="addUser()">
             </form>
         </div>
         <div id="assignRoles">

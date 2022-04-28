@@ -1,6 +1,5 @@
 
-const addUser = (e) => {
-    e.preventDefault();
+const addUser = () => {
 
     const name = document.querySelector("#addUserForm #name").value;
     const email = document.querySelector("#addUserForm #email").value;

@@ -15,6 +15,7 @@
     <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
     <script src="<%request.getContextPath();%>js/constants.js"></script>
     <script src="<%request.getContextPath();%>js/locations.js"></script>
+    <script src="<%request.getContextPath();%>js/parties.js"></script>
     <script>
         const districtUsers = [
             <c:forEach var="user" items="${districtUsers}">
@@ -57,11 +58,11 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" onclick="addLocation(event)" value="Add"/>
+                <input type="button" onclick="addLocation()" value="Add"/>
             </form>
         </div>
         <div id="availableLocations">
-            <h2>Available locations</h2>
+            <h2>Available location</h2>
             <table>
                 <thead>
                 <tr>
@@ -107,7 +108,7 @@
         </div>
         <div>
             <h2>Add new party</h2>
-            <form action="add-location" method="post">
+            <form id="addPartyForm">
                 <table>
                     <tbody>
                     <tr>
@@ -116,8 +117,31 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="submit" value="Add">
+                <input type="button" onclick="addParty()" value="Add"/>
             </form>
+        </div>
+        <div id="availableParties">
+            <h2>Available parties</h2>
+            <table>
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Votes</td>
+                    <td>Delete</td>
+                </tr>
+                </thead>
+                <tbody id="partiesTBody">
+                    <c:forEach items="${parties}" var="party">
+                        <tr>
+                            <td id="tdIdParty">${party.id}</td>
+                            <td>${party.name}</td>
+                            <td>${party.votes}</td>
+                            <td><button onclick="deleteParty(this.parentNode.parentNode)">Delete</button></td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

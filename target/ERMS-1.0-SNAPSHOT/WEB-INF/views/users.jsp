@@ -15,7 +15,7 @@
     <script src="<%request.getContextPath();%>js/utilities.js"></script>
     <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
     <script src="<%request.getContextPath();%>js/constants.js"></script>
-    <script src="<%request.getContextPath();%>js/user.js"></script>
+    <script src="<%request.getContextPath();%>js/users.js"></script>
 </head>
 <body>
 <div>
@@ -70,7 +70,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" value="Register" onclick="addUser(event)">
+                <input type="button" value="Register" onclick="addUser()">
             </form>
         </div>
         <div id="assignRoles">
@@ -83,7 +83,6 @@
                     <td>Email</td>
                     <td>Contact Number</td>
                     <td>Role</td>
-                    <td>Location</td>
                     <td>Action</td>
                 </tr>
                 </thead>
@@ -102,7 +101,6 @@
                                 <option value="3" <c:if test="${user.userLevel==3}">selected</c:if>>Admin</option>
                             </select>
                         </td>
-                        <td id="trLocation">Location select</td>
                         <td><button onclick="updateUser(this.parentNode.parentNode)">Update</button><button onclick="deleteUser(this.parentNode.parentNode)">Delete</button></td>
                     </tr>
                 </c:forEach>

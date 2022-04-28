@@ -6,4 +6,5 @@ public class Routes {
     public static final String ROUTE_VOTES = "votes";
     public static final String ROUTE_USERS = "users";
     public static final String ROUTE_LOCATIONS = "locations";
+    public static final String ROUTE_PARTIES = "parties";
 }
