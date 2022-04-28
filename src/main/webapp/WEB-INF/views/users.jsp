@@ -15,7 +15,7 @@
     <script src="<%request.getContextPath();%>js/utilities.js"></script>
     <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
     <script src="<%request.getContextPath();%>js/constants.js"></script>
-    <script src="<%request.getContextPath();%>js/user.js"></script>
+    <script src="<%request.getContextPath();%>js/users.js"></script>
 </head>
 <body>
 <div>
