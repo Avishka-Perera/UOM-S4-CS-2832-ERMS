@@ -1,4 +1,7 @@
 package party.dao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ibm.db2.jcc.DB2ResultSet;
 import com.ibm.db2.jcc.json.DB2JSONResultSet;
 import location.model.Location;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static connection.Connection.getConnection;
+import static utilities.Utilities.jsonStringToObj;
 
 public class PartyDao {
 
@@ -30,18 +34,18 @@ public class PartyDao {
         ) {
             ResultSet rs = statement.executeQuery();
 
-            /////////////////////  TODO  /////////////////////////
-//            DB2ResultSet db2rs = rs.unwrap(DB2ResultSet.class);
-//            DB2JSONResultSet jsonRs = db2rs.toJSONResultSet();
-//            String jsonDoc = jsonRs.toJSONString();
-//            System.out.println(jsonDoc);
-
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String jsonVotes = rs.getString("votes");
-                System.out.println(jsonVotes);
+
                 List<PartyVote> votes = new ArrayList<>();
+                if (jsonVotes != null) {
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.setPrettyPrinting();
+                    Gson gson = builder.create();
+                    votes = gson.fromJson(jsonVotes, new TypeToken<List<PartyVote>>(){}.getType());
+                }
 
                 parties.add(new Party(id, name, votes));
             }

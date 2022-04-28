@@ -26,10 +26,10 @@ public class PartyServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
             String name = request.getParameter("partyName");
-            Party location = new Party(name);
+            Party party = new Party(name);
             int[] results = new int[0];
             try {
-                results = dao.addParty(location);
+                results = dao.addParty(party);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

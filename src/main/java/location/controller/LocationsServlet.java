@@ -12,7 +12,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static utilities.Utilities.requestJSONToString;
+import static utilities.Utilities.*;
 
 @WebServlet(name = "LocationsServlet", value = "/"+ Routes.ROUTE_LOCATIONS)
 public class LocationsServlet extends HttpServlet {
@@ -44,11 +44,7 @@ public class LocationsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
             // read the data of the request
-            String str = requestJSONToString(request);
-            GsonBuilder builder = new GsonBuilder();
-            builder.setPrettyPrinting();
-            Gson gson = builder.create();
-            PutRequestData data = gson.fromJson(str, PutRequestData.class);
+            PutRequestData data = objFromRequest(request, PutRequestData.class);
 
             int locationId = data.getLocationId();
             Integer stationUserId = data.getStationUserId();

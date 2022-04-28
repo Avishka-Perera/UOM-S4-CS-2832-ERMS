@@ -24,4 +24,12 @@ public class PartyVote {
     public void setLocationId(int locationId) {
         this.locationId = locationId;
     }
+
+    @Override
+    public String toString() {
+        return "PartyVote{" +
+                "vote=" + vote +
+                ", locationId=" + locationId +
+                '}';
+    }
 }
