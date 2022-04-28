@@ -13,6 +13,8 @@ public class UserDao {
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (name, email, password, contact_number, level) VALUES (?, ?, ?, ?, ?);";
     private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?;";
     private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?;";
+    private static final String SELECT_DISTRICT_USER_QUERY = "SELECT * FROM users WHERE level=1";
+    private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users WHERE level=0";
     private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users;";
     private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE id=?;";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE id=?;";
@@ -80,7 +82,7 @@ public class UserDao {
         try (
                 Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_ID_QUERY)
-                ) {
+        ) {
             statement.setInt(1,id);
             ResultSet rs = statement.executeQuery();
 
@@ -100,17 +102,24 @@ public class UserDao {
         return user;
     }
 
-    // select users
-    public List<User> selectAllUsers() {
+    // selects the users under the below-mentioned conditions
+    protected List<User> selectUsersConditionally(int cond) {
+        //  cond: Condition
+        //      a) 0: Select all users
+        //      b) 1: Select station users
+        //      c) 2: Select district users
+        String query = SELECT_ALL_USERS_QUERY;
+        if (cond == 1) query = SELECT_STATION_USER_QUERY;
+        if (cond == 2) query = SELECT_DISTRICT_USER_QUERY;
+
         List<User> users = new ArrayList<>();
         try (
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(SELECT_ALL_USERS_QUERY)
+                PreparedStatement statement = connection.prepareStatement(query)
         ) {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                //name=?, email=?, password=?, contact_number=?, level=?
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
@@ -124,6 +133,21 @@ public class UserDao {
             e.printStackTrace();
         }
         return users;
+    }
+
+    // select users
+    public List<User> selectAllUsers() {
+        return selectUsersConditionally(0);
+    }
+
+    // select all station users
+    public List<User> selectStationUsers() {
+        return selectUsersConditionally(1);
+    }
+
+    // select all district users
+    public List<User> selectDistrictUsers() {
+        return selectUsersConditionally(2);
     }
 
     // delete user

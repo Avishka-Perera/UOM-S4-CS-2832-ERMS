@@ -6,7 +6,7 @@
   Time: 08:05
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Vote Management</title>
@@ -15,6 +15,18 @@
     <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
     <script src="<%request.getContextPath();%>js/constants.js"></script>
     <script src="<%request.getContextPath();%>js/locations.js"></script>
+    <script>
+        const districtUsers = [
+            <c:forEach var="user" items="${districtUsers}">
+            {id: ${user.id},name: "${user.name}"},
+            </c:forEach>
+        ];
+        const stationUsers = [
+            <c:forEach var="user" items="${stationUsers}">
+            {id: ${user.id},name: "${user.name}"},
+            </c:forEach>
+        ];
+    </script>
 </head>
 <body>
 <div>
@@ -48,7 +60,7 @@
                 <input type="button" onclick="addLocation(event)" value="Add"/>
             </form>
         </div>
-        <div>
+        <div id="availableLocations">
             <h2>Available locations</h2>
             <table>
                 <thead>
@@ -61,14 +73,27 @@
                     <td>Action</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="locationsTBody">
                 <c:forEach items="${locations}" var="location">
                     <tr>
                         <td id="tdId"><c:out value="${location.id}"/></td>
                         <td><c:out value="${location.name}"/></td>
-                        <td><c:out value="${location.stationUserId == null ? 'None' : location.stationUserId}"/></td>
-                        <td><c:out value="${location.districtCenterUserId == null ? 'None' : location.districtCenterUserId}"/></td>
-                        <td>
+                        <td id="stationUserId">
+                            <select name="stationUser">
+                                <option <c:if test="${location.stationUserId == null}">selected</c:if>>None</option>
+                                <c:forEach var="user" items="${stationUsers}">
+                                    <option value="${user.id}" <c:if test="${location.stationUserId == user.id}">selected</c:if>>${user.id} ${user.name}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                        <td id="districtUserId">
+                            <select name="districtUser">
+                                <option <c:if test="${location.districtCenterUserId == null}">selected</c:if>>None</option>
+                                <c:forEach var="user" items="${districtUsers}">
+                                    <option value="${user.id}" <c:if test="${location.districtCenterUserId == user.id}">selected</c:if>>${user.id} ${user.name}</option>
+                                </c:forEach>
+                            </select>
+                        <td id="type">
                             <select name="type">
                                 <option value="0" <c:if test="${location.type==0}">selected</c:if>>Polling Station</option>
                                 <option value="1" <c:if test="${location.type==1}">selected</c:if>>District Center</option>

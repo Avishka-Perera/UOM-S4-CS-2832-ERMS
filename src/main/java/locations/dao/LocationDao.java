@@ -15,7 +15,7 @@ public class LocationDao {
     private static final String SELECT_LOCATION_BY_NAME_QUERY = "SELECT * FROM locations WHERE name=? LIMIT 1;";
     private static final String SELECT_LAST_RECORD_QUERY = "SELECT * FROM locations ORDER BY ID DESC LIMIT 1";
     private static final String DELETE_LOCATION_QUERY = "DELETE FROM locations WHERE id=?;";
-    private static final String UPDATE_LOCATION_QUERY = "UPDATE locations SET station_user_id=?, district_center_user_id=? WHERE id=?;";
+    private static final String UPDATE_LOCATION_QUERY = "UPDATE locations SET station_user_id=?, district_center_user_id=?, type=? WHERE id=?;";
 
     // select all locations
     public List<Location> selectAllLocations() {
@@ -33,7 +33,6 @@ public class LocationDao {
                 Integer districtCenterUserId = (Integer) rs.getObject("district_center_user_id");
                 int type = rs.getInt("type");
 
-                System.out.println(name + stationUserId);
                 locations.add(new Location(id, name, stationUserId, districtCenterUserId, type));
             }
         } catch (SQLException e) {
@@ -77,12 +76,12 @@ public class LocationDao {
                 PreparedStatement preparedStatementAdd = connection.prepareStatement(INSERT_LOCATION_QUERY);
                 PreparedStatement preparedStatementLastRow = connection.prepareStatement(SELECT_LAST_RECORD_QUERY)
         ){
+            // Check if there are locations with the same name
             preparedStatementCheck.setString(1, location.getName());
             ResultSet rs1 = preparedStatementCheck.executeQuery();
             int count = 0;
-            while (rs1.next()) {
+            if (rs1.next()) {
                 count++;
-                break;
             }
 
             if (count == 0) {
@@ -114,9 +113,12 @@ public class LocationDao {
                 PreparedStatement statement = connection.prepareStatement(UPDATE_LOCATION_QUERY)
         ) {
 
-            statement.setInt(1,location.getStationUserId());
-            statement.setInt(2,location.getDistrictCenterUserId());
-            statement.setInt(3,location.getId());
+            if (location.getStationUserId() == null) statement.setNull(1,  Types.INTEGER);
+            else statement.setInt(1,location.getStationUserId());
+            if (location.getDistrictCenterUserId() == null) statement.setNull(2,  Types.INTEGER);
+            else statement.setInt(2,location.getDistrictCenterUserId());
+            statement.setInt(3,location.getType());
+            statement.setInt(4,location.getId());
 
             result = statement.executeUpdate() > 0;
         }

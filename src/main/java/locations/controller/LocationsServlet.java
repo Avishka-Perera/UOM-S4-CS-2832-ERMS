@@ -27,7 +27,6 @@ public class LocationsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
-        System.out.println((int) session.getAttribute("level"));
         if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
             String name = request.getParameter("name");
             String type = request.getParameter("type");
@@ -53,19 +52,22 @@ public class LocationsServlet extends HttpServlet {
             builder.setPrettyPrinting();
             Gson gson = builder.create();
             PutRequestData data = gson.fromJson(str, PutRequestData.class);
-//            int userId = data.getUserId();
-//            int userLevel = data.getUserLevel();
-//            System.out.println(userId + " " + userLevel);
-//            User user = new User(userId, userLevel);
-//            boolean result = false;
-//            try {
-//                result = dao.updateUser(user);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
 
-//            response.setContentType("application/json");
-//            response.getWriter().write("{\"status\":"+result+"}");
+            int locationId = data.getLocationId();
+            Integer stationUserId = data.getStationUserId();
+            Integer districtUserId = data.getDistrictUserId();
+            int type = data.getType();
+
+            Location location = new Location(locationId, stationUserId, districtUserId, type);
+            boolean result = false;
+            try {
+                result = dao.updateLocation(location);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":"+result+"}");
         }
     }
 
@@ -73,7 +75,6 @@ public class LocationsServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
-            System.out.println("Got the request");
             String jsonString = requestJSONToString(request);
             int locationId = Integer.parseInt(jsonString);
 
@@ -92,5 +93,30 @@ public class LocationsServlet extends HttpServlet {
 }
 
 class PutRequestData {
+    private int locationId;
+    private Integer stationUserId;
+    private Integer districtUserId;
+    private int type;
 
+    public PutRequestData() {}
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public Integer getStationUserId() {
+        return stationUserId;
+    }
+
+    public Integer getDistrictUserId() {
+        return districtUserId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String toString() {
+        return "PutRequestData [ locationId: "+locationId+", stationUserId: "+stationUserId+", districtUserId: "+districtUserId+", type: "+type+ " ]";
+    }
 }
