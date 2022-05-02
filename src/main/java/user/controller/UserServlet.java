@@ -19,7 +19,7 @@ import java.util.Objects;
 
 import static utilities.Utilities.requestJSONToString;
 
-@WebServlet(name = "UserServlet", value = "/"+Routes.ROUTE_USERS)
+@WebServlet(name = "UserServlet", value = Routes.ENDPOINT_USERS)
 public class UserServlet extends HttpServlet {
 
     private final UserDao dao;

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@WebServlet(name = "LoginServlet", value = "/"+Routes.ROUTE_LOGIN)
+@WebServlet(name = "LoginServlet", value = Routes.ENDPOINT_LOGIN)
 public class LoginServlet extends HttpServlet {
 
     @Override
@@ -53,12 +53,12 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("level", level);
                 session.setAttribute("id", id);
                 if (level == UserLevels.ADMIN_USER_LEVEL) {
-                    response.sendRedirect(request.getContextPath() + "/" + Routes.ROUTE_VOTE_MANAGEMENT);
+                    response.sendRedirect(Routes.ROUTE_VOTE_MANAGEMENT);
                 } else  {
-                    response.sendRedirect(request.getContextPath() + "/" + Routes.ROUTE_VOTES);
+                    response.sendRedirect(Routes.ROUTE_VOTES);
                 }
             }  else {
-                response.sendRedirect(request.getContextPath() + "/" + Routes.ROUTE_LOGIN + "?error="+result.get(0));
+                response.sendRedirect( Routes.ROUTE_LOGIN + "?error="+result.get(0));
             }
         } catch (ClassNotFoundException e) {
             result.add(0);

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 import static utilities.Utilities.requestJSONToString;
 
-@WebServlet(name = "PartyServlet", value = "/"+ Routes.ROUTE_PARTIES)
+@WebServlet(name = "PartyServlet", value = Routes.ENDPOINT_PARTIES)
 public class PartyServlet extends HttpServlet {
 
     private final PartyDao dao;

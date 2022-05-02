@@ -1,7 +1,5 @@
 package location.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import constants.Routes;
 import constants.UserLevels;
 import location.dao.LocationDao;
@@ -14,7 +12,7 @@ import java.sql.SQLException;
 
 import static utilities.Utilities.*;
 
-@WebServlet(name = "LocationsServlet", value = "/"+ Routes.ROUTE_LOCATIONS)
+@WebServlet(name = "LocationsServlet", value = Routes.ENDPOINT_LOCATIONS)
 public class LocationsServlet extends HttpServlet {
 
     private final LocationDao dao;

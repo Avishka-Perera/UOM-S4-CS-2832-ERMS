@@ -15,7 +15,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ManageVoteServlet", value = "/"+Routes.ROUTE_VOTE_MANAGEMENT)
+@WebServlet(name = "ManageVoteServlet", value = Routes.ENDPOINT_VOTE_MANAGEMENT)
 public class ManageVoteServlet extends HttpServlet {
 
     private final LocationDao locationDao;
@@ -44,7 +44,7 @@ public class ManageVoteServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/voteManagement.jsp");
             dispatcher.forward(request, response);
         } else {
-            response.sendRedirect(request.getContextPath() + "/" + Routes.ROUTE_LOGIN);
+            response.sendRedirect(Routes.ENDPOINT_LOGIN);
         }
     }
 

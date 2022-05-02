@@ -15,7 +15,7 @@ import java.util.List;
 
 import static utilities.Utilities.contains;
 
-@WebServlet(name = "VotesServlet", value = "/"+ Routes.ROUTE_VOTES)
+@WebServlet(name = "VotesServlet", value = Routes.ENDPOINT_VOTES)
 public class VotesServlet extends HttpServlet {
 
     private final VotesDao dao;
@@ -25,21 +25,26 @@ public class VotesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        int level = (int) session.getAttribute("level");
-        if (contains(new int[]{UserLevels.DISTRICT_OFFICER_USER_LEVEL,UserLevels.STATION_OFFICER_USER_LEVEL}, level)){
+        Object levelObj = session.getAttribute("level");
+        if (levelObj != null) {
+            int level = (int) levelObj;
+            if (UserLevels.VOTE_USER_LEVELS.contains(level)){
 
-            int id = (int) session.getAttribute("id");
-            Votes votesData = null;
-            try {
-                votesData = dao.getVotes(id);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                int id = (int) session.getAttribute("id");
+                Votes votesData = null;
+                try {
+                    votesData = dao.getVotes(id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                request.setAttribute("votesData", votesData);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/votes.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect(Routes.ROUTE_LOGIN);
             }
-
-            request.setAttribute("votesData", votesData);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/votes.jsp");
-            dispatcher.forward(request, response);
         }
     }
 
