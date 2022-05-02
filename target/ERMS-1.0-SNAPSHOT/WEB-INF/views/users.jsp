@@ -83,6 +83,7 @@
                     <td>Email</td>
                     <td>Contact Number</td>
                     <td>Role</td>
+                    <td>Location</td>
                     <td>Action</td>
                 </tr>
                 </thead>
@@ -101,6 +102,7 @@
                                 <option value="3" <c:if test="${user.userLevel==3}">selected</c:if>>Admin</option>
                             </select>
                         </td>
+                        <td>Location</td>
                         <td><button onclick="updateUser(this.parentNode.parentNode)">Update</button><button onclick="deleteUser(this.parentNode.parentNode)">Delete</button></td>
                     </tr>
                 </c:forEach>

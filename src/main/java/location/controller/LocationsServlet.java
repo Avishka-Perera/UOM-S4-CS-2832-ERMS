@@ -52,7 +52,7 @@ public class LocationsServlet extends HttpServlet {
             int type = data.getType();
 
             Location location = new Location(locationId, stationUserId, districtUserId, type);
-            boolean result = false;
+            int result = 0;
             try {
                 result = dao.updateLocation(location);
             } catch (SQLException e) {

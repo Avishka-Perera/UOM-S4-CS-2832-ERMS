@@ -19,12 +19,16 @@
     <script>
         const districtUsers = [
             <c:forEach var="user" items="${districtUsers}">
-            {id: ${user.id},name: "${user.name}"},
+                <c:if test="${user.locationId == null}">
+                    {id: ${user.id},name: "${user.name}"},
+                </c:if>
             </c:forEach>
         ];
         const stationUsers = [
             <c:forEach var="user" items="${stationUsers}">
-            {id: ${user.id},name: "${user.name}"},
+                <c:if test="${user.locationId == null}">
+                    {id: ${user.id},name: "${user.name}"},
+                </c:if>
             </c:forEach>
         ];
     </script>

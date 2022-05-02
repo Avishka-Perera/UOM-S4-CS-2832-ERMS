@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Utilities {
     public static String requestJSONToString (HttpServletRequest request) throws IOException {
@@ -30,5 +31,9 @@ public class Utilities {
     public static  <T> T objFromRequest( HttpServletRequest request, Class<T> classOfT ) throws IOException {
         String str = requestJSONToString(request);
         return jsonStringToObj( str, classOfT );
+    }
+
+    public static boolean contains(final int[] arr, final int key) {
+        return Arrays.stream(arr).anyMatch(i -> i == key);
     }
 }

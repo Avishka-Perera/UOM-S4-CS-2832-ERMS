@@ -135,10 +135,16 @@ const updateLocation = (row) => {
     const endpoint = BASE_URL+LOCATIONS_ENDPOINT;
     const data = JSON.stringify({locationId, stationUserId, districtUserId, type})
     const successFunction = (data) => {
-        if (data.status) {
+        if (data.status in [1,2]) {
             console.log(data.status);
-        } else {
-            console.log("user not updated");
+        } else if (data.status === 0){
+            displayModal("Location not Updated", "The server faced an unexpected error. Please update again.");
+        } else if (data.status === 3) {
+            displayModal("Location not Updated", "The selected station user is already assigned for another location. Please select another user.");
+        } else if (data.status === 4) {
+            displayModal("Location not Updated", "The selected district user is already assigned for another location. Please select another user.");
+        } else if (data.status === 5) {
+            displayModal("Location not Updated", "Both selected users are already assigned for other locations. Please select different users.");
         }
     }
     const errorFunction = (data) => console.log("error:", data);

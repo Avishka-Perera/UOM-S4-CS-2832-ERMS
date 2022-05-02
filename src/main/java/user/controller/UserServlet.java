@@ -101,7 +101,6 @@ public class UserServlet extends HttpServlet {
             PutRequestData data = gson.fromJson(str, PutRequestData.class);
             int userId = data.getUserId();
             int userLevel = data.getUserLevel();
-            System.out.println(userId + " " + userLevel);
             User user = new User(userId, userLevel);
             boolean result = false;
             try {

@@ -10,14 +10,14 @@ import static connection.Connection.getConnection;
 
 public class UserDao {
 
-    private static final String INSERT_USERS_QUERY = "INSERT INTO users (name, email, password, contact_number, level) VALUES (?, ?, ?, ?, ?);";
-    private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id=?;";
+    private static final String INSERT_USERS_QUERY = "INSERT INTO users (user_name, email, password, contact_number, level) VALUES (?, ?, ?, ?, ?);";
+    private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id=?;";
     private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?;";
     private static final String SELECT_DISTRICT_USER_QUERY = "SELECT * FROM users WHERE level=1";
     private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users WHERE level=0";
     private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users;";
-    private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE id=?;";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE id=?;";
+    private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE user_id=?;";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE user_id=?;";
 
     // create new user
     public int[] addUser(User user) throws ClassNotFoundException {
@@ -48,7 +48,7 @@ public class UserDao {
                 // get the id of the created user
                 ResultSet rs2 = preparedStatementCheck.executeQuery();
                 while (rs2.next()) {
-                    id = rs2.getInt("id");
+                    id = rs2.getInt("user_id");
                 }
 
             } else {
@@ -88,7 +88,7 @@ public class UserDao {
 
             while (rs.next()) {
                 //name=?, email=?, password=?, contact_number=?, level=?
-                String name = rs.getString("name");
+                String name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String contactNumber = rs.getString("contact_number");
@@ -120,8 +120,8 @@ public class UserDao {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
+                int id = rs.getInt("user_id");
+                String name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 String contactNumber = rs.getString("contact_number");

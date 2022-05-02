@@ -11,19 +11,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static connection.Connection.getConnection;
+
 public class LoginDao {
 
     public static ArrayList<Integer> loginUser(LoginModel loginModel, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException {
-        String GET_USER_QUERY = "SELECT password, level FROM users WHERE email='"+loginModel.getEmail()+"'";
+        String GET_USER_QUERY = "SELECT password, level, user_id FROM users WHERE email='"+loginModel.getEmail()+"'";
 
         ArrayList<Integer> returnArr = new ArrayList<>();
         //      {login_status, user_level}
         //      0: logged in, 1: user doesn't exist, 2: incorrect password, 3: other error
         //      0: station, 1: district-center, 2: secretariat-office, 3: admin
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        try (Connection connection = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/erms?useSSL=false","root", "");
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_QUERY)){
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -36,6 +36,8 @@ public class LoginDao {
                     returnArr.add(0);
                     int level = rs.getInt("level");
                     returnArr.add(level);
+                    int id = rs.getInt("user_id");
+                    returnArr.add(id);
                 } else {
                     returnArr.add(2);
                 }
