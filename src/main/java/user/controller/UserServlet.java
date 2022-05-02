@@ -3,7 +3,6 @@ package user.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import constants.UserLevels;
-import gsonClasses.UserPutRequestData;
 import user.dao.UserDao;
 import user.model.User;
 import constants.Routes;
@@ -13,8 +12,10 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 import static utilities.Utilities.requestJSONToString;
 
@@ -97,7 +98,7 @@ public class UserServlet extends HttpServlet {
             GsonBuilder builder = new GsonBuilder();
             builder.setPrettyPrinting();
             Gson gson = builder.create();
-            UserPutRequestData data = gson.fromJson(str, UserPutRequestData.class);
+            PutRequestData data = gson.fromJson(str, PutRequestData.class);
             int userId = data.getUserId();
             int userLevel = data.getUserLevel();
             User user = new User(userId, userLevel);
@@ -114,3 +115,20 @@ public class UserServlet extends HttpServlet {
     }
 }
 
+class PutRequestData {
+    private int userId;
+    private int userLevel;
+    public PutRequestData(){}
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public String toString() {
+        return "PutRequestData [ userId: "+userId+", userLevel: "+userLevel+ " ]";
+    }
+}
