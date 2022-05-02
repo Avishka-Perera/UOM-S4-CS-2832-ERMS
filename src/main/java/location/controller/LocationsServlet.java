@@ -22,64 +22,74 @@ public class LocationsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
-        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
-            String name = request.getParameter("name");
-            String type = request.getParameter("type");
-            Location location = new Location(name, Integer.parseInt(type));
-            int[] results = new int[0];
-            try {
-                results = dao.addLocation(location);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+        Object levelObj = session.getAttribute("level");
+        if (levelObj != null) {
+            int level = (int) levelObj;
+            if (level == UserLevels.ADMIN_USER_LEVEL) {
+                String name = request.getParameter("name");
+                String type = request.getParameter("type");
+                Location location = new Location(name, Integer.parseInt(type));
+                int[] results = new int[0];
+                try {
+                    results = dao.addLocation(location);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                response.setContentType("application/json");
+                response.getWriter().write("{\"result\":"+results[0]+", \"id\":"+results[1]+"}");
             }
-            response.setContentType("application/json");
-            response.getWriter().write("{\"result\":"+results[0]+", \"id\":"+results[1]+"}");
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
-            // read the data of the request
-            PutRequestData data = objFromRequest(request, PutRequestData.class);
+        Object levelObj = session.getAttribute("level");
+        if (levelObj != null) {
+            int level = (int) levelObj;
+            if (level == UserLevels.ADMIN_USER_LEVEL){
+                // read the data of the request
+                PutRequestData data = objFromRequest(request, PutRequestData.class);
 
-            int locationId = data.getLocationId();
-            Integer stationUserId = data.getStationUserId();
-            Integer districtUserId = data.getDistrictUserId();
-            int type = data.getType();
+                int locationId = data.getLocationId();
+                Integer stationUserId = data.getStationUserId();
+                Integer districtUserId = data.getDistrictUserId();
+                int type = data.getType();
 
-            Location location = new Location(locationId, stationUserId, districtUserId, type);
-            int result = 0;
-            try {
-                result = dao.updateLocation(location);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                Location location = new Location(locationId, stationUserId, districtUserId, type);
+                int result = 0;
+                try {
+                    result = dao.updateLocation(location);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                response.setContentType("application/json");
+                response.getWriter().write("{\"status\":"+result+"}");
             }
-
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":"+result+"}");
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
-            String jsonString = requestJSONToString(request);
-            int locationId = Integer.parseInt(jsonString);
+        HttpSession session = request.getSession();Object levelObj = session.getAttribute("level");
+        if (levelObj != null) {
+            int level = (int) levelObj;
+            if (level == UserLevels.ADMIN_USER_LEVEL){
+                String jsonString = requestJSONToString(request);
+                int locationId = Integer.parseInt(jsonString);
 
-            boolean deleteStatus = false;
-            try {
-                deleteStatus = dao.deleteLocation(locationId);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                boolean deleteStatus = false;
+                try {
+                    deleteStatus = dao.deleteLocation(locationId);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                response.setContentType("application/json");
+                response.getWriter().write("{\"status\":"+deleteStatus+"}");
             }
-
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":"+deleteStatus+"}");
         }
-
     }
 }
 

@@ -22,13 +22,24 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
-        dispatcher.forward(request, response);
 
         String logout = request.getParameter("logout");
         if (Objects.equals(logout, "1")) {
-            HttpSession session = request.getSession();
             session.invalidate();
+            dispatcher.forward(request, response);
+        } else {
+            Object levelObj = session.getAttribute("level");
+            if (levelObj != null) {
+                int level = (int) levelObj;
+                if (level == UserLevels.ADMIN_USER_LEVEL) response.sendRedirect(Routes.ROUTE_USERS);
+                if (UserLevels.VOTE_USER_LEVELS.contains(level)) response.sendRedirect(Routes.ROUTE_VOTES);
+                if (level == UserLevels.SECRETARIAT_OFFICER_USER_LEVEL) response.sendRedirect(Routes.ROUTE_VOTES_REVIEW);
+            } else {
+                dispatcher.forward(request, response);
+            }
         }
     }
 

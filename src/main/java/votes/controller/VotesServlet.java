@@ -42,10 +42,8 @@ public class VotesServlet extends HttpServlet {
 
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/votes.jsp");
                 dispatcher.forward(request, response);
-            } else {
-                response.sendRedirect(Routes.ROUTE_LOGIN);
-            }
-        }
+            } else response.sendRedirect(Routes.ROUTE_LOGIN);
+        } else response.sendRedirect(Routes.ROUTE_LOGIN);
     }
 
     @Override

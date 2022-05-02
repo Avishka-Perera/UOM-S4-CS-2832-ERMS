@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Public page</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-Hello Servlet
+<div>
+    <%@include file="navBar.jsp" %>
+    <h1>Public page</h1>
+    <br/>
+    This is the public page
+</div>
+
 </body>
 </html>
