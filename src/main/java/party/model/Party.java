@@ -1,5 +1,7 @@
 package party.model;
 
+import gsonClasses.PartyVote;
+
 import java.util.List;
 
 public class Party {

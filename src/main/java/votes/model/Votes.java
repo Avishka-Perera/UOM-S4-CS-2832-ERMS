@@ -1,15 +1,21 @@
 package votes.model;
 
+import gsonClasses.LocationParty;
 import location.model.Location;
 import user.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Votes {
     private Location location;
     private User user;
     private String userName;
-    private List<LocationParty> parties;
+    private final List<LocationParty> parties;
+
+    public Votes() {
+        this.parties = new ArrayList<>();
+    }
 
     public Location getLocation() {
         return location;
@@ -39,13 +45,9 @@ public class Votes {
         return parties;
     }
 
-    public void setParties(List<LocationParty> parties) {
-        this.parties = parties;
+    public void addParty(int id, String name, int votes) {
+        LocationParty lp = new LocationParty(id, name, votes);
+        this.parties.add(lp);
     }
 }
 
-class LocationParty {
-    private int id;
-    private String name;
-    private int votes;
-}

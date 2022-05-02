@@ -2,18 +2,14 @@ package party.dao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.ibm.db2.jcc.DB2ResultSet;
-import com.ibm.db2.jcc.json.DB2JSONResultSet;
-import location.model.Location;
 import party.model.Party;
-import party.model.PartyVote;
+import gsonClasses.PartyVote;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static connection.Connection.getConnection;
-import static utilities.Utilities.jsonStringToObj;
 
 public class PartyDao {
 

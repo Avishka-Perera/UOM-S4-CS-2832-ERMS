@@ -9,6 +9,15 @@ public class User {
     private final int userLevel;
     private Integer locationId;
 
+    public User(int id, String name, String email, String contactNumber, int userLevel, Integer locationId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.contactNumber = contactNumber;
+        this.userLevel = userLevel;
+        this.locationId = locationId;
+    }
+
     public User(int id, String name, String email, String password, String contactNumber, int userLevel) {
         this.id = id;
         this.name = name;

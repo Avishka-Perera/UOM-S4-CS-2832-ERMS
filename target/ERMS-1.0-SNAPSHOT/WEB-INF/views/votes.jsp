@@ -19,39 +19,57 @@
         <table>
             <tbody>
             <tr>
-                <td>Location name</td>
-                <td>${votesData.location.name}</td>
-            </tr>
-            <tr>
-                <td>Location type</td>
-                <td>${votesData.location.type}</td>
-            </tr>
-            <tr>
                 <td>Officer</td>
                 <td>${votesData.user.name}</td>
             </tr>
+            <c:if test="${votesData.location != null}">
+                <tr>
+                    <td>Location name</td>
+                    <td>${votesData.location.name}</td>
+                </tr>
+                <tr>
+                    <td>Location type</td>
+                    <td>
+                        <c:if test="${votesData.location.type == 0}">Polling Station</c:if>
+                        <c:if test="${votesData.location.type == 1}">District Center</c:if>
+                    </td>
+                </tr>
+            </c:if>
+            <c:if test="${votesData.location == null}">
+                <tr>
+                    <td>Location</td>
+                    <td>No location assigned</td>
+                </tr>
+            </c:if>
             </tbody>
         </table>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>Party name</th>
-                <th>Votes</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
+        <c:if test="${votesData.location != null}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Party id</th>
+                    <th>Party name</th>
+                    <th>Votes</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="party" items="${votesData.parties}">
                     <tr>
+                        <td>${party.id}</td>
                         <td>${party.name}</td>
                         <td><input type="number" value="${party.votes}"></td>
                         <td><input type="button" value="Update" onclick=""></td>
                     </tr>
                 </c:forEach>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </c:if>
+        <c:if test="${votesData.location == null}">
+            <p>Please request the admin to assign you a location</p>
+        </c:if>
     </div>
 </div>
 </body>

@@ -1,4 +1,4 @@
-package party.model;
+package gsonClasses;
 
 public class PartyVote {
     private int vote;
