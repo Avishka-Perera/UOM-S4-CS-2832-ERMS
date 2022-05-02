@@ -2,6 +2,7 @@ package location.controller;
 
 import constants.Routes;
 import constants.UserLevels;
+import gsonClasses.LocationPutRequestData;
 import location.dao.LocationDao;
 import location.model.Location;
 
@@ -49,7 +50,7 @@ public class LocationsServlet extends HttpServlet {
             int level = (int) levelObj;
             if (level == UserLevels.ADMIN_USER_LEVEL){
                 // read the data of the request
-                PutRequestData data = objFromRequest(request, PutRequestData.class);
+                LocationPutRequestData data = objFromRequest(request, LocationPutRequestData.class);
 
                 int locationId = data.getLocationId();
                 Integer stationUserId = data.getStationUserId();
@@ -93,31 +94,3 @@ public class LocationsServlet extends HttpServlet {
     }
 }
 
-class PutRequestData {
-    private int locationId;
-    private Integer stationUserId;
-    private Integer districtUserId;
-    private int type;
-
-    public PutRequestData() {}
-
-    public int getLocationId() {
-        return locationId;
-    }
-
-    public Integer getStationUserId() {
-        return stationUserId;
-    }
-
-    public Integer getDistrictUserId() {
-        return districtUserId;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public String toString() {
-        return "PutRequestData [ locationId: "+locationId+", stationUserId: "+stationUserId+", districtUserId: "+districtUserId+", type: "+type+ " ]";
-    }
-}
