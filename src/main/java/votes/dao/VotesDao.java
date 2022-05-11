@@ -41,7 +41,7 @@ public class VotesDao {
                 int userLevel = rs.getInt("level");
 
                 // Location data
-                Location location;
+                Location location = null;
                 Integer location_id = rs.getInt("location_id");
                 if (rs.wasNull()) location_id = null;
                 if (location_id != null) {
@@ -52,11 +52,6 @@ public class VotesDao {
                     if (rs.wasNull()) district_center_user_id = null;
                     int type = rs.getInt("type");
                     location = new Location(location_id, location_name, station_user_id, district_center_user_id, type);
-
-                    User user = new User(userId, name, email, contactNumber, userLevel, location);
-                    returnVote.setUser(user);
-                    returnVote.setLocation(location);
-                    returnVote.setUserName(name);
 
                     // Parties
                     ResultSet rs2 = preparedStatementGetParties.executeQuery();
@@ -86,6 +81,11 @@ public class VotesDao {
                         returnVote.addLocationParty(lp);
                     }
                 }
+
+                User user = new User(userId, name, email, contactNumber, userLevel, location);
+                returnVote.setUser(user);
+                returnVote.setLocation(location);
+                returnVote.setUserName(name);
             }
 
         }
