@@ -59,4 +59,14 @@ public class Party {
         this.votes = getTotalVotes();
         return votes;
     }
+
+    @Override
+    public String toString() {
+        return "Party{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", votesList=" + votesList +
+                ", votes=" + votes +
+                '}';
+    }
 }
