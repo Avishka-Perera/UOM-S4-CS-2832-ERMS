@@ -100,7 +100,7 @@
                                 <option value="1" <c:if test="${location.type==1}">selected</c:if>>District Center</option>
                             </select>
                         </td>
-                        <td><button onclick="updateLocation(this.parentNode.parentNode)">Update</button><button onclick="deleteLocation(this.parentNode.parentNode)">Delete</button></td>
+                        <td><button onclick="updateLocation(this.parentNode.parentNode)">Update</button><button onclick="safeDeleteLocation(this.parentNode.parentNode)">Delete</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -137,7 +137,7 @@
                             <td id="tdIdParty">${party.id}</td>
                             <td>${party.name}</td>
                             <td>${party.votes}</td>
-                            <td><button onclick="deleteParty(this.parentNode.parentNode)">Delete</button></td>
+                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)">Delete</button></td>
                         </tr>
                     </c:forEach>
                 </tbody>

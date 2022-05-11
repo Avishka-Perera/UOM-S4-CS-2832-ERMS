@@ -41,7 +41,7 @@ const addParty = () => {
                 deleteBtnDOM.innerText = "Delete";
 
                 // bind button functions
-                deleteBtnDOM.onclick = () => deleteParty(trDOM);
+                deleteBtnDOM.onclick = () => safeDeleteParty(trDOM);
 
                 // append the rest
                 actionTdDOM.appendChild(deleteBtnDOM);
@@ -62,6 +62,10 @@ const addParty = () => {
     } else {
         displayModal(validity, message);
     }
+}
+
+const safeDeleteParty = (row) => {
+    displayConfirmationModal("DELETE PARTY", "Are you sure you want to delete this party?", ()=>deleteParty(row));
 }
 
 const deleteParty = (row) => {

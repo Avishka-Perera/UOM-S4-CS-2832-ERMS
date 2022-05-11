@@ -27,6 +27,43 @@ const displayModal = (title_text, message_text) => {
     document.body.appendChild(root);
 }
 
+const displayConfirmationModal = (title_text, message_text, confirmFunction) => {
+    const root = document.createElement("DIV");
+    const modal = document.createElement("DIV");
+    const title = document.createElement("H3");
+    const message = document.createElement("P");
+    const buttonPanel = document.createElement("DIV");
+    const confirmButton = document.createElement("BUTTON");
+    const closeButton = document.createElement("BUTTON");
+
+    title.innerText = title_text;
+    message.innerText = message_text;
+    confirmButton.innerText = "Yes";
+    closeButton.innerText = "No";
+
+    root.className = "backdrop-overlay";
+    modal.className = "modal-body";
+    title.className = "modal-heading";
+    message.className = "modal-message";
+    closeButton.className = "modal-button";
+
+    confirmButton.onclick = () => {
+        confirmFunction();
+        root.remove();
+    };
+    closeButton.onclick = () => {
+        root.remove();
+    };
+
+    modal.appendChild(title);
+    modal.appendChild(message);
+    buttonPanel.append(confirmButton, closeButton);
+    modal.appendChild(buttonPanel);
+    root.appendChild(modal);
+
+    document.body.appendChild(root);
+}
+
 const validateEmail = (mail) => {
     return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
 }

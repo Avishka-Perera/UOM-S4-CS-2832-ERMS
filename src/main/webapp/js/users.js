@@ -77,7 +77,7 @@ const addUser = () => {
                     updateUser(trDOM);
                 };
                 deleteBtnDOM.onclick = () => {
-                    deleteUser(trDOM);
+                    safeDeleteUser(trDOM);
                 }
 
                 trDOM.append(idDOM, nameDOM, emailDOM, contactNumberDOM, roleTDDOM, locationDOM, actionTDDOM);
@@ -114,6 +114,10 @@ const updateUser = (row) => {
     }
     const errorFunction = (data) => console.log("error:", data);
     updateEntry(endpoint, data, successFunction, errorFunction);
+}
+
+const safeDeleteUser = (row) => {
+    displayConfirmationModal("DELETE USER", "Are you sure you want to delete this user?", ()=>deleteUser(row));
 }
 
 const deleteUser = (row) => {
