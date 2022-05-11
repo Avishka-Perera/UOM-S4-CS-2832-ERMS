@@ -51,7 +51,7 @@ const addUser = () => {
                 districtCenterOfficerDOM.innerText = "District center officer";
                 secretariatOfficeDOM.innerText = "Secretariat office";
                 adminDOM.innerText = "Admin";
-                locationDOM.innerText = "Location select";
+                locationDOM.innerText = "Not assigned";
                 updateBtnDOM.innerText = "Update";
                 deleteBtnDOM.innerText = "Delete";
 

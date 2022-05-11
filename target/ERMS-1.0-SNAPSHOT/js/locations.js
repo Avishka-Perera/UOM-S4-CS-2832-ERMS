@@ -56,18 +56,21 @@ const addLocation = () => {
                 option.setAttribute("selected", "true");
                 option.innerText = "None";
                 districtUserSelectDOM.appendChild(option);
-                for (const user in stationUsers) {
+                for (let i = 0; i < stationUsers.length; i++) {
+                    const user = stationUsers[i];
                     const option = document.createElement("OPTION");
                     option.setAttribute("value", user.id);
                     option.innerText = user.id + " " + user.name;
                     stationUserSelectDOM.appendChild(option);
                 }
-                for (const user in districtUsers) {
+                for (let i = 0; i < districtUsers.length; i++) {
+                    const user = districtUsers[i];
                     const option = document.createElement("OPTION");
                     option.setAttribute("value", user.id);
                     option.innerText = user.id + " " + user.name;
                     districtUserSelectDOM.appendChild(option);
                 }
+
                 option = document.createElement("OPTION");
                 option.setAttribute("value", "0");
                 option.innerText = "Polling Station";

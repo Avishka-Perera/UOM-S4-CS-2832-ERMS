@@ -6,7 +6,7 @@
   Time: 08:05
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>Vote Management</title>
@@ -19,16 +19,12 @@
     <script>
         const districtUsers = [
             <c:forEach var="user" items="${districtUsers}">
-                <c:if test="${user.locationId == null}">
                     {id: ${user.id},name: "${user.name}"},
-                </c:if>
             </c:forEach>
         ];
         const stationUsers = [
             <c:forEach var="user" items="${stationUsers}">
-                <c:if test="${user.locationId == null}">
                     {id: ${user.id},name: "${user.name}"},
-                </c:if>
             </c:forEach>
         ];
     </script>
@@ -66,7 +62,7 @@
             </form>
         </div>
         <div id="availableLocations">
-            <h2>Available location</h2>
+            <h2>Available locations</h2>
             <table>
                 <thead>
                 <tr>

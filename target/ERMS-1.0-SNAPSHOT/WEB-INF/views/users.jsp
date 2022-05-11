@@ -102,7 +102,10 @@
                                 <option value="3" <c:if test="${user.userLevel==3}">selected</c:if>>Admin</option>
                             </select>
                         </td>
-                        <td>Location</td>
+                        <td>
+                            <c:if test="${user.location == null}">Not assigned</c:if>
+                            <c:if test="${user.location != null}">${user.location.name}</c:if>
+                        </td>
                         <td><button onclick="updateUser(this.parentNode.parentNode)">Update</button><button onclick="deleteUser(this.parentNode.parentNode)">Delete</button></td>
                     </tr>
                 </c:forEach>
