@@ -17,7 +17,7 @@
             <td>ID</td>
             <td>Name</td>
             <td>Votes</td>
-            <td>Delete</td>
+            <td>Details</td>
         </tr>
         </thead>
         <tbody id="partiesTBody">
