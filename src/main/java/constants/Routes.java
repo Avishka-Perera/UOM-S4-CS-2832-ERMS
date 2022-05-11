@@ -3,7 +3,7 @@ package constants;
 public class Routes {
     public static final String ROUTE_BASE_URL = "http://localhost/ERMS";
 
-    public static final String ENDPOINT_PUBLIC = "/";
+    public static final String ENDPOINT_PUBLIC = "/public";
     public static final String ENDPOINT_LOGIN = "/login";
     public static final String ENDPOINT_VOTE_MANAGEMENT = "/vote-management";
     public static final String ENDPOINT_VOTES = "/votes";
@@ -12,7 +12,7 @@ public class Routes {
     public static final String ENDPOINT_LOCATIONS = "/locations";
     public static final String ENDPOINT_PARTIES = "/parties";
 
-    public static final String ROUTE_PUBLIC = ROUTE_BASE_URL;
+    public static final String ROUTE_PUBLIC = ROUTE_BASE_URL+ENDPOINT_PUBLIC;
     public static final String ROUTE_LOGIN = ROUTE_BASE_URL+ENDPOINT_LOGIN;
     public static final String ROUTE_VOTE_MANAGEMENT = ROUTE_BASE_URL+ENDPOINT_VOTE_MANAGEMENT;
     public static final String ROUTE_VOTES = ROUTE_BASE_URL+ENDPOINT_VOTES;
