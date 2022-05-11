@@ -1,5 +1,7 @@
 package user.model;
 
+import location.model.Location;
+
 public class User {
     private int id;
     private String name;
@@ -7,15 +9,15 @@ public class User {
     private String password;
     private String contactNumber;
     private final int userLevel;
-    private Integer locationId;
+    private Location location;
 
-    public User(int id, String name, String email, String contactNumber, int userLevel, Integer locationId) {
+    public User(int id, String name, String email, String contactNumber, int userLevel, Location location) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.contactNumber = contactNumber;
         this.userLevel = userLevel;
-        this.locationId = locationId;
+        this.location = location;
     }
 
     public User(int id, String name, String email, String password, String contactNumber, int userLevel) {
@@ -71,11 +73,11 @@ public class User {
         return userLevel;
     }
 
-    public Integer getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(Integer locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

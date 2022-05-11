@@ -1,5 +1,6 @@
 package user.dao;
 
+import location.model.Location;
 import user.model.User;
 
 import java.sql.*;
@@ -13,9 +14,9 @@ public class UserDao {
     private static final String INSERT_USERS_QUERY = "INSERT INTO users (user_name, email, password, contact_number, level) VALUES (?, ?, ?, ?, ?);";
     private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users WHERE user_id=?;";
     private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?;";
-    private static final String SELECT_DISTRICT_USER_QUERY = "SELECT * FROM users WHERE level=1";
-    private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users WHERE level=0";
-    private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users;";
+    private static final String SELECT_DISTRICT_USER_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.level=1";
+    private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.level=0";
+    private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id;";
     private static final String DELETE_USER_QUERY = "DELETE FROM USERS WHERE user_id=?;";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE user_id=?;";
 
@@ -123,11 +124,26 @@ public class UserDao {
                 int id = rs.getInt("user_id");
                 String name = rs.getString("user_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String contactNumber = rs.getString("contact_number");
                 int level = rs.getInt("level");
 
-                users.add(new User(id, name, email, password, contactNumber, level));
+                Location location = null;
+                Integer location_id = rs.getInt("location_id");
+                if (rs.wasNull()) location_id = null;
+                if (location_id != null) {
+                    String location_name = rs.getString("location_name");
+                    Integer station_user_id = rs.getInt("station_user_id");
+                    if (rs.wasNull()) station_user_id = null;
+                    Integer district_center_user_id = rs.getInt("district_center_user_id");
+                    if (rs.wasNull()) district_center_user_id = null;
+                    int type = rs.getInt("type");
+                    location = new Location(location_id, location_name, station_user_id, district_center_user_id, type);
+                }
+
+                User user;
+                if (location != null) user = new User(id, name, email, contactNumber, level, location);
+                else user = new User(id, name, email, contactNumber, level);
+                users.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();

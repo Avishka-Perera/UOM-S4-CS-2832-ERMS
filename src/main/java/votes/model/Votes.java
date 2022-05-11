@@ -45,9 +45,8 @@ public class Votes {
         return parties;
     }
 
-    public void addParty(int id, String name, int votes) {
-        LocationParty lp = new LocationParty(id, name, votes);
-        this.parties.add(lp);
+    public void addLocationParty(LocationParty locationParty) {
+        this.parties.add(locationParty);
     }
 }
 

@@ -2,3 +2,4 @@ restrict direct access of .jsp files. e.g.:- localhost:80/ERMS/views/login.jsp s
 add a common navbar to all pages
 style pages
 create notification modal
+update the relevant related tables when a user, location, or a party is deleted
