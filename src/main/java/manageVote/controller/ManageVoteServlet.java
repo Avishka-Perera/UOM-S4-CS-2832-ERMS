@@ -31,11 +31,9 @@ public class ManageVoteServlet extends HttpServlet {
 
             List<User> stationUsers = userDao.selectStationUsers();
             request.setAttribute("stationUsers", stationUsers);
-            System.out.println(stationUsers.get(0).getLocation().getId());
 
             List<User> districtUsers = userDao.selectDistrictUsers();
             request.setAttribute("districtUsers", districtUsers);
-            System.out.println(districtUsers.get(0).getLocation().getId());
 
             List<Location> locations = locationDao.selectAllLocations();
             request.setAttribute("locations", locations);
