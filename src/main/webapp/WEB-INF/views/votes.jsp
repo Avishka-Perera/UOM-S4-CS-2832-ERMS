@@ -10,6 +10,11 @@
 <html>
 <head>
     <title>Votes</title>
+    <script src="<%request.getContextPath();%>js/jquery-3.6.0.min.js"></script>
+    <script src="<%request.getContextPath();%>js/utilities.js"></script>
+    <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
+    <script src="<%request.getContextPath();%>js/constants.js"></script>
+    <script src="<%request.getContextPath();%>js/votes.js"></script>
 </head>
 <body>
 <%@include file="navBar.jsp" %>
@@ -60,8 +65,8 @@
                     <tr>
                         <td>${party.id}</td>
                         <td>${party.name}</td>
-                        <td><input type="number" value="${party.votes}"></td>
-                        <td><input type="button" value="Update" onclick=""></td>
+                        <td><input type="number" value="${party.votes}" id="votes-amount"></td>
+                        <td><input type="button" value="Update" onclick="updateVote(this.parentNode.parentNode, ${party.id}, ${votesData.location.id})"></td>
                     </tr>
                 </c:forEach>
                 </tbody>

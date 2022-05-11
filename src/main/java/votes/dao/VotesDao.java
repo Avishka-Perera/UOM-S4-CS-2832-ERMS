@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import gsonClasses.LocationParty;
 import gsonClasses.PartyVote;
+import gsonClasses.VotePutRequestData;
 import location.model.Location;
 import user.model.User;
 import votes.model.Votes;
@@ -22,6 +23,8 @@ public class VotesDao {
 
     private static final String SELECT_USER_BY_ID_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.user_id=?;";
     private static final String SELECT_PARTIES = "SELECT * FROM parties";
+    private static final String GET_PARTY_VOTES_BY_ID = "SELECT votes FROM parties WHERE party_id=?";
+    private static final String UPDATE_PARTY_VOTES = "UPDATE parties SET votes=? WHERE party_id=?;";
 
     public Votes getVotes(int userId) throws SQLException {
         Votes returnVote = new Votes();
@@ -90,5 +93,49 @@ public class VotesDao {
 
         }
         return returnVote;
+    }
+
+    public int updateVote(VotePutRequestData data) throws SQLException {
+        try (
+                Connection connection = getConnection();
+                PreparedStatement preparedStatementGetPartyVotes = connection.prepareStatement(GET_PARTY_VOTES_BY_ID);
+                PreparedStatement preparedStatementUpdateVotes = connection.prepareStatement(UPDATE_PARTY_VOTES)
+        ){
+            preparedStatementGetPartyVotes.setInt(1, data.getPartyId());
+            ResultSet rs = preparedStatementGetPartyVotes.executeQuery();
+            if (rs.next()) {
+                List<PartyVote> currentVotes = new ArrayList<>();
+                String jsonVotes = rs.getString("votes");
+                if (!rs.wasNull()) {
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.setPrettyPrinting();
+                    Gson gson = builder.create();
+                    currentVotes = gson.fromJson(jsonVotes, new TypeToken<List<PartyVote>>() {}.getType());
+                }
+
+                List<PartyVote> newVotes = currentVotes;
+                boolean updatedFlag = false;
+                for (PartyVote vote :
+                        newVotes) {
+                    if (vote.getLocationId() == data.getLocationId()) {
+                        vote.setVote(data.getVotes());
+                        updatedFlag = true;
+                        break;
+                    }
+                }
+
+                // if there was no update, that means there was no data before. Therefore, we'll have to add a new data
+                if (!updatedFlag) newVotes.add(new PartyVote(data.getLocationId(), data.getVotes()));
+
+                String newVotesStr = new Gson().toJson(newVotes);
+                preparedStatementUpdateVotes.setString(1,newVotesStr);
+                preparedStatementUpdateVotes.setInt(2,data.getPartyId());
+
+                return preparedStatementUpdateVotes.executeUpdate();
+            } else {
+                // no party with that id (usually do not happen)
+                return 3;
+            }
+        }
     }
 }

@@ -1,12 +1,17 @@
 package gsonClasses;
 
 public class PartyVote {
-    private int vote;
     private int locationId;
+    private int vote;
 
     public PartyVote() {
         this.vote = 0;
         this.locationId = 0;
+    }
+
+    public PartyVote(int locationId, int vote) {
+        this.vote = vote;
+        this.locationId = locationId;
     }
 
     public int getVote() {

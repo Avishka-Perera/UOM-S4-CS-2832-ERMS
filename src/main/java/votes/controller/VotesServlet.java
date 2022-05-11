@@ -2,6 +2,8 @@ package votes.controller;
 
 import constants.Routes;
 import constants.UserLevels;
+import gsonClasses.LocationPutRequestData;
+import gsonClasses.VotePutRequestData;
 import party.model.Party;
 import votes.dao.VotesDao;
 import votes.model.Votes;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static utilities.Utilities.contains;
+import static utilities.Utilities.objFromRequest;
 
 @WebServlet(name = "VotesServlet", value = Routes.ENDPOINT_VOTES)
 public class VotesServlet extends HttpServlet {
@@ -47,7 +50,24 @@ public class VotesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Object levelObj = session.getAttribute("level");
+        if (levelObj != null) {
+            int level = (int) levelObj;
+            if (UserLevels.VOTE_USER_LEVELS.contains(level)){
+                VotePutRequestData data = objFromRequest(request, VotePutRequestData.class);
+
+                int result;
+                try {
+                    result = dao.updateVote(data);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                response.setContentType("application/json");
+                response.getWriter().write("{\"status\":"+result+"}");
+            }
+        }
     }
 }
