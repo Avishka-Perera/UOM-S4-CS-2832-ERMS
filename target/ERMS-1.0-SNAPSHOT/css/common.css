@@ -98,6 +98,24 @@
     background-color: #f44336;
 }
 
+/************************************************ Tables ************************************************/
+table {
+    background-color: white;
+    border: 1px solid #3f51b5;
+}
+td {
+    padding: 10px;
+}
+th {
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.center-table {
+    margin: auto;
+}
+
 /************************************************ Background images ************************************************/
 .bg-1 {
     background-image: url("../images/backgrounds/bg-1.jpg");
@@ -122,6 +140,10 @@
 
 .hidden {
     display: none;
+}
+
+.root {
+    height: 100vh;
 }
 
 .navBar-bottom-padding {
