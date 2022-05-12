@@ -79,7 +79,7 @@
                     </table>
                 </form>
                 <div>
-                    <button onclick="addUser()" class="btn primary-contained">Add</button>
+                    <button onclick="addUser()" id="user-action-btn" class="btn primary-contained">Add</button>
                     <button onclick="toggleModal('#add-user-modal')" class="btn secondary-outlined">Close</button>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <th>Contact Number</th>
                     <th>Role</th>
                     <th>Location</th>
-                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-user-modal')">Add new</button></th>
+                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="openAddUserModal()">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="usersTBody">
@@ -119,6 +119,7 @@
                         </td>
                         <td>
                             <button onclick="updateUser(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="openEditUserModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
                             <button onclick="safeDeleteUser(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
                         </td>
                     </tr>

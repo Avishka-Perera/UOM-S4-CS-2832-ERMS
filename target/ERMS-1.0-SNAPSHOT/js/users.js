@@ -103,6 +103,69 @@ const addUser = () => {
     }
 }
 
+const updateUserData = (id, modal) => {
+    const name = modal.querySelector("#name").value;
+    const email = modal.querySelector("#email").value;
+    const password = modal.querySelector("#password").value;
+    const confirmPassword = modal.querySelector("#confirm-password").value;
+    const contactNumber = modal.querySelector("#contactNumber").value;
+    const userLevel = modal.querySelector('input[name="userLevel"]:checked').value;
+
+    console.log(id, name, email, password, confirmPassword, contactNumber, userLevel);
+}
+
+const openAddUserModal = () => {
+    const userModalRoot = document.querySelector('#add-user-modal');
+    const nameInput = userModalRoot.querySelector("#name");
+    const emailInput = userModalRoot.querySelector("#email");
+    const passwordInput = userModalRoot.querySelector("#password");
+    const confirmPasswordInput = userModalRoot.querySelector("#confirm-password");
+    const contactNumberInput = userModalRoot.querySelector("#contactNumber");
+    const userLevelOptions = userModalRoot.querySelectorAll('input[name="userLevel"]');
+    const actionBtn = userModalRoot.querySelector("#user-action-btn");
+
+    nameInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+    confirmPasswordInput.value = "";
+    contactNumberInput.value = "";
+    userLevelOptions[0].checked = true;
+    actionBtn.innerHTML = "Add";
+    actionBtn.onclick = () => addUser();
+
+    toggleModal("#add-user-modal");
+}
+
+const openEditUserModal = (row) => {
+    const userModalRoot = document.querySelector('#add-user-modal');
+    const nameInput = userModalRoot.querySelector("#name");
+    const emailInput = userModalRoot.querySelector("#email");
+    const passwordInput = userModalRoot.querySelector("#password");
+    const confirmPasswordInput = userModalRoot.querySelector("#confirm-password");
+    const contactNumberInput = userModalRoot.querySelector("#contactNumber");
+    const userLevelOptions = userModalRoot.querySelectorAll('input[name="userLevel"]');
+    const actionBtn = userModalRoot.querySelector("#user-action-btn");
+
+    const id = row.querySelector("#trId").innerText;
+    const nameText = row.querySelector("#trName").innerText;
+    const emailText = row.querySelector("#trEmail").innerText;
+    const contactNumberText = row.querySelector("#trContactNumber").innerText;
+    const userLevel = row.querySelector("#trUserLevel select").value;
+
+    nameInput.value = nameText;
+    emailInput.value = emailText;
+    passwordInput.value = "";
+    confirmPasswordInput.value = "";
+    contactNumberInput.value = contactNumberText;
+    for (let i = 0; i < 4; i++) {
+        const option = userLevelOptions[i];
+        if (option.value === userLevel) option.checked = true;
+    }
+    actionBtn.innerHTML = "Update";
+    actionBtn.onclick = () => updateUserData(id, userModalRoot);
+    toggleModal("#add-user-modal");
+}
+
 const updateUser = (row) => {
     const userId = row.querySelector("#trId").innerHTML;
     const userLevel = $(row).children("td#trUserLevel").children("select").children("option").filter(":selected")[0].value;
