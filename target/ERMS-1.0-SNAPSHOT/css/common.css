@@ -38,6 +38,7 @@
 .modalBG .modalContent {
     background-color: #fff;
     width: fit-content;
+    max-width: 50%;
     align-self: center;
     padding: 30px 40px;
     border-radius: 10px;
