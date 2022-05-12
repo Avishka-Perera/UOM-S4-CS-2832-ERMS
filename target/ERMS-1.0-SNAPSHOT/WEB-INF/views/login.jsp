@@ -10,6 +10,10 @@
 <html>
 <head>
     <title>Login</title>
+
+    <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
     <div>
@@ -28,7 +32,7 @@
                 </tr>
                 </tbody>
             </table>
-            <input type="submit" value="Login">
+            <input type="submit" value="Login" class="btn primary-contained">
         </form>
     </div>
 </body>
