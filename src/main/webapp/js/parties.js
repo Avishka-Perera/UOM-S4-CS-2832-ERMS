@@ -67,12 +67,6 @@ const addParty = () => {
     }
 }
 
-const toggleModal = (id) => {
-    const modalRoot = document.querySelector(id);
-    if (modalRoot.classList.contains("hidden")) modalRoot.classList.remove("hidden");
-    else modalRoot.classList.add("hidden");
-}
-
 const safeDeleteParty = (row) => {
     displayConfirmationModal("DELETE PARTY", "Are you sure you want to delete this party?", ()=>deleteParty(row));
 }

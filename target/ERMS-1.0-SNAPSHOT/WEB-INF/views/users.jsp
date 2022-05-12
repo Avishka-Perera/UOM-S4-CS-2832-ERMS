@@ -26,71 +26,76 @@
 <div>
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
-    <div>
-        <h1>Manage Users</h1>
-        <div>
-            <h2>Add new user</h2>
-            <form id="addUserForm">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td><label for="name">Name</label></td>
-                        <td><input id="name" name="name" type="text" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="email">Email</label></td>
-                        <td><input id="email" name="email" type="email" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="password">Password</label></td>
-                        <td><input id="password" name="password" type="password" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="confirm-password">Confirm password</label></td>
-                        <td><input id="confirm-password" type="password" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="contactNumber">Contact number</label></td>
-                        <td><input id="contactNumber" name="contactNumber" type="text" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="userLevels">User level</label></td>
-                        <td id="userLevels">
+    <div class="bg-1">
+        <h1 class="p-3">Manage Users</h1>
+        <div id="add-user-modal" class="modalBG hidden">
+            <div class="modalContent">
+                <h2>Add new user</h2>
+                <form id="addUserForm">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label for="name">Name</label></td>
+                            <td><input id="name" name="name" type="text" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="email">Email</label></td>
+                            <td><input id="email" name="email" type="email" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="password">Password</label></td>
+                            <td><input id="password" name="password" type="password" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="confirm-password">Confirm password</label></td>
+                            <td><input id="confirm-password" type="password" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="contactNumber">Contact number</label></td>
+                            <td><input id="contactNumber" name="contactNumber" type="text" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="userLevels">User level</label></td>
+                            <td id="userLevels">
                             <span>
                                 <input type="radio" id="polling-station" name="userLevel" value="0" checked>
                                 <label for="polling-station">Polling Station</label><br>
                             </span>
-                            <span>
+                                <span>
                                 <input type="radio" id="district-center" name="userLevel" value="1">
                                 <label for="district-center">District Center</label><br>
                             </span>
-                            <span>
+                                <span>
                                 <input type="radio" id="secretariat-office" name="userLevel" value="2">
                                 <label for="secretariat-office">Secretariat Office</label>
                             </span>
-                            <span>
+                                <span>
                                 <input type="radio" id="admin" name="userLevel" value="3">
                                 <label for="admin">Admin</label>
                             </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <input type="button" value="Add" onclick="addUser()" class="btn primary-contained">
-            </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div>
+                    <button onclick="addUser()" class="btn primary-contained">Add</button>
+                    <button onclick="toggleModal('#add-user-modal')" class="btn secondary-outlined">Close</button>
+                </div>
+            </div>
         </div>
         <div id="assignRoles">
-            <h2>Assign roles</h2>
-            <table>
+<%--            <h2>Assign roles</h2>--%>
+            <table class="center-table">
                 <thead>
                 <tr>
-                    <td>User ID</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Contact Number</td>
-                    <td>Role</td>
-                    <td>Location</td>
-                    <td>Action</td>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Role</th>
+                    <th>Location</th>
+                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-user-modal')">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="usersTBody">
