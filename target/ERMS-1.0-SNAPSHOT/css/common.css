@@ -98,8 +98,33 @@
     background-color: #f44336;
 }
 
+/************************************************ Background images ************************************************/
+.bg-1 {
+    background-image: url("../images/backgrounds/bg-1.jpg");
+    background-size: cover;
+}
+.bg-2 {
+    background-image: url("../images/backgrounds/bg-2.jpg");
+    background-size: cover;
+}
+
+/************************************************ Border-radius ************************************************/
+.rounded-2 {
+    border-radius: 20px;
+}
+
+/************************************************ Shadows ************************************************/
+.shadow-lg {
+    box-shadow: 0 0 45px 10px #0004;
+}
+
 /************************************************ Common ************************************************/
 
 .hidden {
     display: none;
+}
+
+.navBar-bottom-padding {
+    height: 80px;
+    width: 100%;
 }

@@ -37,6 +37,7 @@
 <body>
 <div>
     <%@include file="navBar.jsp" %>
+    <div class="navBar-bottom-padding"></div>
     <div>
         <h1>Vote Management</h1>
         <div>

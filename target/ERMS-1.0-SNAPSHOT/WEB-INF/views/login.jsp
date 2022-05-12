@@ -13,28 +13,31 @@
 
     <%--    Styles  --%>
     <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/login.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
-    <div>
-        <%@include file="navBar.jsp" %>
-        <h1>Login</h1>
-        <form action="login" method="post">
-            <table>
-                <tbody>
-                <tr>
-                    <td><label for="email">Email</label></td>
-                    <td><input type="email" id="email" name="email"></td>
-                </tr>
-                <tr>
-                    <td><label for="password">Password</label></td>
-                    <td><input type="password" id="password" name="password"></td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="submit" value="Login" class="btn primary-contained">
-        </form>
+    <%@include file="navBar.jsp" %>
+    <div class="login-root bg-2">
+        <div  class="shadow-lg login-container rounded-2 pt-5 pb-5 pl-4 pr-4">
+            <h1 class="mb-3">Login</h1>
+            <form action="login" method="post">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><label for="email" class="m-2">Email</label></td>
+                        <td><input type="email" id="email" name="email" class="m-2"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password" class="m-2">Password</label></td>
+                        <td><input type="password" id="password" name="password" class="m-2"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="submit" value="Login" class="btn primary-contained mt-3">
+            </form>
+        </div>
     </div>
 </body>
 </html>
