@@ -36,10 +36,12 @@ const addLocation = () => {
                 const districtUserSelectDOM = document.createElement("SELECT");
                 const typeSelectDOM = document.createElement("SELECT");
                 const updateBtnDOM = document.createElement("BUTTON");
+                const editBtnDOM = document.createElement("BUTTON");
                 const deleteBtnDOM = document.createElement("BUTTON");
 
                 // assigns required ids and names
                 idTdDOM.setAttribute("id", "tdId");
+                nameTdDOM.setAttribute("id","tdName");
                 stationUserTdDOM.setAttribute("id", "stationUserId");
                 districtUserTdDOM.setAttribute("id", "districtUserId");
                 typeTdDOM.setAttribute("id", "type");
@@ -49,6 +51,7 @@ const addLocation = () => {
 
                 // adds the classes
                 updateBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1");
+                editBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1");
                 deleteBtnDOM.setAttribute("class",  "btn secondary-outlined x-small-btn m-1");
 
                 // creates the dropdowns
@@ -90,17 +93,19 @@ const addLocation = () => {
                 idTdDOM.innerText = locationId;
                 nameTdDOM.innerText = name;
                 updateBtnDOM.innerText = "Update";
+                editBtnDOM.innerText = "Edit";
                 deleteBtnDOM.innerText = "Delete";
 
                 // bind button functions
                 updateBtnDOM.onclick = () => updateLocation(trDOM);
+                editBtnDOM.onclick = () => openUpdateLocationModal(trDOM);
                 deleteBtnDOM.onclick = () => safeDeleteLocation(trDOM);
 
                 // append the rest
                 stationUserTdDOM.appendChild(stationUserSelectDOM);
                 districtUserTdDOM.appendChild(districtUserSelectDOM);
                 typeTdDOM.appendChild(typeSelectDOM);
-                actionTdDOM.append(updateBtnDOM,deleteBtnDOM);
+                actionTdDOM.append(updateBtnDOM, editBtnDOM, deleteBtnDOM);
                 trDOM.append(idTdDOM, nameTdDOM, stationUserTdDOM, districtUserTdDOM, typeTdDOM, actionTdDOM);
 
                 const tBody = document.querySelector("#availableLocations #locationsTBody");
@@ -133,6 +138,42 @@ const deleteLocation = (row) => {
     }
     const errorFunction = (data) => console.log("error:", data);
     deleteEntry(endpoint, id, successFunction, errorFunction);
+}
+
+const openAddLocationModal = () => {
+    const locationModalRoot = document.querySelector('#add-location-modal');
+    const nameInput = locationModalRoot.querySelector("#name");
+    const typeOption = locationModalRoot.querySelector('input[name="type"]');
+    const actionBtn = locationModalRoot.querySelector("#location-action-btn");
+
+    nameInput.innerHTML = "";
+    typeOption.checked = true;
+    actionBtn.onclick = () => addLocation();
+}
+
+const openUpdateLocationModal = (row) => {
+    const nameText = row.querySelector("#tdName").innerText;
+    const type = row.querySelector("#type select").value;
+    const id = row.querySelector("#tdId").innerText;
+
+    const locationModalRoot = document.querySelector('#add-location-modal');
+    const nameInput = locationModalRoot.querySelector("#name");
+    const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
+    const actionBtn = locationModalRoot.querySelector("#location-action-btn");
+
+    nameInput.setAttribute("value", nameText);
+    for (let i = 0; i < 2; i++) {
+        const option = typeOptions[i];
+        if (option.value === type) option.checked = true;
+    }
+    actionBtn.innerHTML = "Update";
+    actionBtn.onclick = () => updateLocationNameAndType(id,locationModalRoot);
+
+    toggleModal("#add-location-modal");
+}
+
+const updateLocationNameAndType = (id, locationModalRoot) => {
+    console.log(id, locationModalRoot);
 }
 
 const updateLocation = (row) => {

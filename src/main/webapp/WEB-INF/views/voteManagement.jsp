@@ -40,7 +40,7 @@
     <div class="navBar-bottom-padding"></div>
     <div>
         <h1 class="p-3">Vote Management</h1>
-        <div class="modalBG hidden" id="add-location-modal" onclick="toggleModal('#add-location-modal')">
+        <div class="modalBG hidden" id="add-location-modal" onclick="openAddLocationModal()">
             <div class="modalContent" onclick="event.stopPropagation()">
                 <h2>Add new location</h2>
                 <form id="addLocationForm">
@@ -67,7 +67,7 @@
                     </table>
                 </form>
                 <div>
-                    <button onclick="addLocation()" class="btn primary-contained">Add</button>
+                    <button onclick="addLocation()" id="location-action-btn" class="btn primary-contained">Add</button>
                     <button onclick="toggleModal('#add-location-modal')" class="btn secondary-outlined">Close</button>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <c:forEach items="${locations}" var="location">
                     <tr>
                         <td id="tdId"><c:out value="${location.id}"/></td>
-                        <td><c:out value="${location.name}"/></td>
+                        <td id="tdName"><c:out value="${location.name}"/></td>
                         <td id="stationUserId">
                             <select name="stationUser">
                                 <option <c:if test="${location.stationUserId == null}">selected</c:if>>None</option>
@@ -113,6 +113,7 @@
                         </td>
                         <td>
                             <button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="openUpdateLocationModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
                             <button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
                         </td>
                     </tr>
