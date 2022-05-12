@@ -35,7 +35,7 @@ const addParty = () => {
                 idTdDOM.setAttribute("id", "tdIdParty");
 
                 // assigns classes
-                deleteBtnDOM.setAttribute("class", "btn secondary-outlined")
+                deleteBtnDOM.setAttribute("class", "btn secondary-outlined x-small-btn m-1")
 
                 // set texts of the DOMs
                 idTdDOM.innerText = partyId;

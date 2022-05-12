@@ -12,6 +12,7 @@
     <title>Login</title>
 
     <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>

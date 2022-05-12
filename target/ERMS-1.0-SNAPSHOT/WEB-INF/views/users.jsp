@@ -18,6 +18,7 @@
     <script src="<%request.getContextPath();%>js/users.js"></script>
 
     <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
@@ -74,7 +75,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" value="Register" onclick="addUser()">
+                <input type="button" value="Add" onclick="addUser()" class="btn primary-contained">
             </form>
         </div>
         <div id="assignRoles">
@@ -110,7 +111,10 @@
                             <c:if test="${user.location == null}">Not assigned</c:if>
                             <c:if test="${user.location != null}">${user.location.name}</c:if>
                         </td>
-                        <td><button onclick="updateUser(this.parentNode.parentNode)">Update</button><button onclick="safeDeleteUser(this.parentNode.parentNode)">Delete</button></td>
+                        <td>
+                            <button onclick="updateUser(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="safeDeleteUser(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

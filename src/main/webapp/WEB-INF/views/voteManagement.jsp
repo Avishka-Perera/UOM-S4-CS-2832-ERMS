@@ -105,7 +105,10 @@
                                 <option value="1" <c:if test="${location.type==1}">selected</c:if>>District Center</option>
                             </select>
                         </td>
-                        <td><button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined">Update</button><button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined">Delete</button></td>
+                        <td>
+                            <button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -142,7 +145,7 @@
                             <td id="tdIdParty">${party.id}</td>
                             <td>${party.name}</td>
                             <td>${party.votes}</td>
-                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined">Delete</button></td>
+                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button></td>
                         </tr>
                     </c:forEach>
                 </tbody>

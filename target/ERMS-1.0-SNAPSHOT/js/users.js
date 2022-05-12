@@ -43,6 +43,9 @@ const addUser = () => {
                 const trDOM = document.createElement("TR");
                 const tBody = document.querySelector("#assignRoles #usersTBody");
 
+                updateBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1")
+                deleteBtnDOM.setAttribute("class",  "btn secondary-outlined x-small-btn m-1")
+
                 idDOM.innerText = userId;
                 nameDOM.innerText = name;
                 emailDOM.innerText = email;

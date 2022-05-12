@@ -48,8 +48,8 @@ const addLocation = () => {
                 typeSelectDOM.setAttribute("name", "type");
 
                 // adds the classes
-                updateBtnDOM.setAttribute("class", "btn primary-outlined")
-                deleteBtnDOM.setAttribute("class", "btn secondary-outlined")
+                updateBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1");
+                deleteBtnDOM.setAttribute("class",  "btn secondary-outlined x-small-btn m-1");
 
                 // creates the dropdowns
                 let option = document.createElement("OPTION");
