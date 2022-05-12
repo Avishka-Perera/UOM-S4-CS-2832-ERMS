@@ -28,6 +28,11 @@
             </c:forEach>
         ];
     </script>
+
+    <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
 <div>
@@ -58,7 +63,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" onclick="addLocation()" value="Add"/>
+                <input type="button" onclick="addLocation()" value="Add" class="btn primary-contained"/>
             </form>
         </div>
         <div id="availableLocations">
@@ -100,7 +105,7 @@
                                 <option value="1" <c:if test="${location.type==1}">selected</c:if>>District Center</option>
                             </select>
                         </td>
-                        <td><button onclick="updateLocation(this.parentNode.parentNode)">Update</button><button onclick="safeDeleteLocation(this.parentNode.parentNode)">Delete</button></td>
+                        <td><button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined">Update</button><button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined">Delete</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -117,7 +122,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="button" onclick="addParty()" value="Add"/>
+                <input type="button" onclick="addParty()" value="Add" class="btn primary-contained"/>
             </form>
         </div>
         <div id="availableParties">
@@ -137,7 +142,7 @@
                             <td id="tdIdParty">${party.id}</td>
                             <td>${party.name}</td>
                             <td>${party.votes}</td>
-                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)">Delete</button></td>
+                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined">Delete</button></td>
                         </tr>
                     </c:forEach>
                 </tbody>

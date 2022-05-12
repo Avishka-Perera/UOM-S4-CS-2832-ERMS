@@ -47,6 +47,10 @@ const addLocation = () => {
                 districtUserSelectDOM.setAttribute("name", "districtUser");
                 typeSelectDOM.setAttribute("name", "type");
 
+                // adds the classes
+                updateBtnDOM.setAttribute("class", "btn primary-outlined")
+                deleteBtnDOM.setAttribute("class", "btn secondary-outlined")
+
                 // creates the dropdowns
                 let option = document.createElement("OPTION");
                 option.setAttribute("selected", "true");

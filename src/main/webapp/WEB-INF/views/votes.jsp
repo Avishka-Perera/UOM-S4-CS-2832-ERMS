@@ -15,6 +15,10 @@
     <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
     <script src="<%request.getContextPath();%>js/constants.js"></script>
     <script src="<%request.getContextPath();%>js/votes.js"></script>
+
+    <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
 <%@include file="navBar.jsp" %>

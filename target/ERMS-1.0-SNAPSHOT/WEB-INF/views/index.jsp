@@ -56,7 +56,7 @@
             <tr>
                 <td>${party.name}</td>
                 <td>${party.votes}</td>
-                <td><button onclick="displayBreakDown(${party.id})" class="btn secondary-contained">BreakDown</button></td>
+                <td><button onclick="displayBreakDown(${party.id})" class="btn primary-contained">BreakDown</button></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -74,7 +74,7 @@
                 <tbody id="breakDownTbody">
                 </tbody>
             </table>
-            <button onclick="toggleModal()" class="btn secondary-outlined">Close</button>
+            <button onclick="toggleModal()" class="btn primary-outlined">Close</button>
         </div>
     </div>
 </div>

@@ -9,15 +9,14 @@ const displayModal = (title_text, message_text) => {
     message.innerText = message_text;
     button.innerText = "CLOSE";
 
-    root.className = "backdrop-overlay";
-    modal.className = "modal-body";
-    title.className = "modal-heading";
-    message.className = "modal-message";
-    button.className = "modal-button";
+    title.setAttribute("class", "mb-3");
+    root.setAttribute("class", "modalBG")
+    modal.setAttribute("class", "modalContent")
+    button.setAttribute("class", "m-2 btn primary-outlined");
 
-    button.onclick = () => {
-        root.remove();
-    };
+    button.onclick = () => root.remove();
+    root.onclick = () => root.remove();
+    modal.onclick = (event) => event.stopPropagation();
 
     modal.appendChild(title);
     modal.appendChild(message);
@@ -41,19 +40,19 @@ const displayConfirmationModal = (title_text, message_text, confirmFunction) => 
     confirmButton.innerText = "Yes";
     closeButton.innerText = "No";
 
-    root.className = "backdrop-overlay";
-    modal.className = "modal-body";
-    title.className = "modal-heading";
-    message.className = "modal-message";
-    closeButton.className = "modal-button";
+    title.setAttribute("class", "mb-3");
+    root.setAttribute("class", "modalBG")
+    modal.setAttribute("class", "modalContent")
+    closeButton.setAttribute("class", "m-2 btn primary-outlined");
+    confirmButton.setAttribute("class", "m-2 btn secondary-contained");
 
     confirmButton.onclick = () => {
         confirmFunction();
         root.remove();
     };
-    closeButton.onclick = () => {
-        root.remove();
-    };
+    closeButton.onclick = () => root.remove();
+    root.onclick = () => root.remove();
+    modal.onclick = (event) => event.stopPropagation();
 
     modal.appendChild(title);
     modal.appendChild(message);
