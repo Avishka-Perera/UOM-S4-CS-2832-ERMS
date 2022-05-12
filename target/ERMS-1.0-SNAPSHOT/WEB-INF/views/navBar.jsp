@@ -10,6 +10,7 @@
 --%>
 
 <nav>
+    <a href=${Routes.ROUTE_PUBLIC}><img src="<%request.getContextPath();%>images/logo.jpg" alt="logo" /></a>
     <ul>
         <li><a href=${Routes.ROUTE_PUBLIC}>Public page</a></li>
         <% if (Objects.equals(String.valueOf(session.getAttribute("level")), String.valueOf(UserLevels.ADMIN_USER_LEVEL))) { %>
