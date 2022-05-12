@@ -5,7 +5,7 @@ public class Location {
     private String name;
     private Integer stationUserId;
     private Integer districtCenterUserId;
-    private final Integer type; // 0: station, 1: district
+    private Integer type; // 0: station, 1: district
 
     public Location(int id, String name, Integer stationUserId, Integer districtCenterUserId, int type) {
         this.id = id;
@@ -25,6 +25,11 @@ public class Location {
     public Location(String name, int type) {
         this.name = name;
         this.type = type;
+    }
+
+    public Location(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public int getId() {

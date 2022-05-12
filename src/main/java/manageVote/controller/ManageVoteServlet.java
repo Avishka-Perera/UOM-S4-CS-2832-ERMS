@@ -38,7 +38,7 @@ public class ManageVoteServlet extends HttpServlet {
             List<Location> locations = locationDao.selectAllLocations();
             request.setAttribute("locations", locations);
 
-            List<Party> parties = partyDao.selectAllParties();
+            List<Party> parties = partyDao.getAllParties();
             request.setAttribute("parties", parties);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/voteManagement.jsp");

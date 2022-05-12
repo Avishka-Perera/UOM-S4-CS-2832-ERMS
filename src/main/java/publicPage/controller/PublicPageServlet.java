@@ -1,6 +1,8 @@
 package publicPage.controller;
 
 import constants.Routes;
+import location.dao.LocationDao;
+import location.model.Location;
 import party.dao.PartyDao;
 import party.model.Party;
 
@@ -13,15 +15,21 @@ import java.util.List;
 @WebServlet(name = "PublicPageServlet", value = Routes.ENDPOINT_PUBLIC)
 public class PublicPageServlet extends HttpServlet {
     private final PartyDao partyDao;
+    private final LocationDao locationDao;
 
-    public PublicPageServlet() {this.partyDao = new PartyDao();}
+    public PublicPageServlet() {
+        this.partyDao = new PartyDao();
+        this.locationDao = new LocationDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Party> parties = partyDao.selectAllParties();
+        List<Party> parties = partyDao.getAllParties();
         request.setAttribute("parties", parties);
-        System.out.println(parties);
+
+        List<Location> locations = locationDao.getAllLocationNames();
+        request.setAttribute("locations", locations);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
         dispatcher.forward(request, response);

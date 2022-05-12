@@ -23,7 +23,7 @@ public class PartyDao {
     private static final String UPDATE_VOTE_QUERY = "UPDATE parties SET %s=? WHERE %s=?;".formatted(TableData.Parties.votes, TableData.Parties.id);
 
     // select all locations
-    public List<Party> selectAllParties() {
+    public List<Party> getAllParties() {
         List<Party> parties = new ArrayList<>();
         try (
                 Connection connection = getConnection();

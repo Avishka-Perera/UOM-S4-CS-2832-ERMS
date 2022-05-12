@@ -1,4 +1,7 @@
 package location.dao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import constants.TableData;
 import gsonClasses.PartyVote;
 import location.model.Location;
@@ -229,7 +232,7 @@ public class LocationDao {
         ) {
             // update the relevant parties
             PartyDao partyDao = new PartyDao();
-            List<Party> oldParties = partyDao.selectAllParties();
+            List<Party> oldParties = partyDao.getAllParties();
             List<Party> newParties = new ArrayList<>();
             for (Party oldParty :
                     oldParties) {
@@ -265,4 +268,22 @@ public class LocationDao {
         return rowDeleted;
     }
 
+    public List<Location> getAllLocationNames() {
+        List<Location> locations = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(SELECT_ALL_LOCATIONS_QUERY)
+        ) {
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt(TableData.Locations.id);
+                String name = rs.getString(TableData.Locations.name);
+                locations.add(new Location(id, name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return locations;
+    }
 }
