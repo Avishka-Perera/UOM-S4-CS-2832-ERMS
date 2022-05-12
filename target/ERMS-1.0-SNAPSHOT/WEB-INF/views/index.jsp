@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Public page</title>
+<%--    JavaScript --%>
     <script src="<%request.getContextPath();%>js/jquery-3.6.0.min.js"></script>
     <script src="<%request.getContextPath();%>js/public.js"></script>
     <script>
@@ -30,6 +31,11 @@
             </c:forEach>
         };
     </script>
+
+<%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
+
 </head>
 <body>
 <div>
@@ -50,24 +56,26 @@
             <tr>
                 <td>${party.name}</td>
                 <td>${party.votes}</td>
-                <td><button onclick="displayBreakDown(${party.id})">BreakDown</button></td>
+                <td><button onclick="displayBreakDown(${party.id})" class="btn secondary-contained">BreakDown</button></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <div>
-        <h2 id="partyNameHeading"></h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Location</th>
-                <th>Votes</th>
-            </tr>
-            </thead>
-            <tbody id="breakDownTbody">
-            </tbody>
-        </table>
-        <button>Close</button>
+    <div class="modalBG hidden" id="breakDownModal" onclick="toggleModal()">
+        <div class="modalContent" onclick="event.stopPropagation()">
+            <h2 id="partyNameHeading"></h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Votes</th>
+                </tr>
+                </thead>
+                <tbody id="breakDownTbody">
+                </tbody>
+            </table>
+            <button onclick="toggleModal()" class="btn secondary-outlined">Close</button>
+        </div>
     </div>
 </div>
 </body>

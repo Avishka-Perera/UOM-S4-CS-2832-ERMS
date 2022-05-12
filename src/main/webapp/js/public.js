@@ -46,5 +46,12 @@ const displayBreakDown = (partyId) => {
     trDOM.append(locationTdDOM, voteTdDOM);
     tbody.appendChild(trDOM);
 
+    toggleModal();
+}
+
+const toggleModal = () => {
+    const modal = document.querySelector("#breakDownModal");
+    if (modal.classList.contains("hidden")) modal.classList.remove("hidden");
+    else modal.classList.add("hidden");
 }
 
