@@ -17,14 +17,17 @@
     <script src="<%request.getContextPath();%>js/votes.js"></script>
 
     <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
+<div class="bg-1 root">
 <%@include file="navBar.jsp" %>
-<div>
-    <h1>Votes</h1>
-    <div>
+<div class="navBar-bottom-padding"></div>
+    <h1 class="p-3">Votes</h1>
+    <div class="ml-3 mr-3">
+        <h2>Details</h2>
         <table>
             <tbody>
             <tr>
@@ -53,9 +56,10 @@
             </tbody>
         </table>
     </div>
-    <div>
+    <div class="ml-3 mr-3">
+        <h2>Parties</h2>
         <c:if test="${votesData.location != null}">
-            <table>
+            <table class="center-table whiteBg border">
                 <thead>
                 <tr>
                     <th>Party id</th>
@@ -70,7 +74,7 @@
                         <td>${party.id}</td>
                         <td>${party.name}</td>
                         <td><input type="number" value="${party.votes}" id="votes-amount"></td>
-                        <td><input type="button" value="Update" onclick="updateVote(this.parentNode.parentNode, ${party.id}, ${votesData.location.id})"></td>
+                        <td><input type="button" value="Update" class="btn primary-outlined x-small-btn" onclick="updateVote(this.parentNode.parentNode, ${party.id}, ${votesData.location.id})"></td>
                     </tr>
                 </c:forEach>
                 </tbody>
