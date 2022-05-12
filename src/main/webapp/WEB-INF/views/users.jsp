@@ -23,10 +23,10 @@
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
-<div>
+<div class="root bg-1">
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
-    <div class="bg-1">
+    <div>
         <h1 class="p-3">Manage Users</h1>
         <div id="add-user-modal" class="modalBG hidden">
             <div class="modalContent">
@@ -86,7 +86,7 @@
         </div>
         <div id="assignRoles">
 <%--            <h2>Assign roles</h2>--%>
-            <table class="center-table">
+            <table class="center-table border whiteBg">
                 <thead>
                 <tr>
                     <th>User ID</th>

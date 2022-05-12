@@ -146,7 +146,7 @@ th {
 }
 
 .root {
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .navBar-bottom-padding {

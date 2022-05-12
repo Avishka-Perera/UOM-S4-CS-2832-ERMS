@@ -43,7 +43,7 @@
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
     <h1>Election Realtime Results</h1>
-    <table class="center-table mt-5 border">
+    <table class="center-table mt-5 border whiteBg">
         <thead>
         <tr>
             <th>Name</th>

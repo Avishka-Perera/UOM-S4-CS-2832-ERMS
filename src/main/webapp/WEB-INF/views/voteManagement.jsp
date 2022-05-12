@@ -35,10 +35,10 @@
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 </head>
 <body>
-<div>
+<div class="root bg-1">
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
-    <div class="bg-1">
+    <div>
         <h1 class="p-3">Vote Management</h1>
         <div class="modalBG hidden" id="add-location-modal" onclick="toggleModal('#add-location-modal')">
             <div class="modalContent" onclick="event.stopPropagation()">
@@ -74,7 +74,7 @@
         </div>
         <div id="availableLocations">
             <h2 class="m-3">Locations</h2>
-            <table class="center-table">
+            <table class="center-table whiteBg border">
                 <thead>
                 <tr>
                     <th>Location ID</th>
@@ -141,7 +141,7 @@
         </div>
         <div id="availableParties">
             <h2 class="m-3">Parties</h2>
-            <table class="center-table">
+            <table class="center-table border whiteBg">
                 <thead>
                 <tr>
                     <th>Party ID</th>
