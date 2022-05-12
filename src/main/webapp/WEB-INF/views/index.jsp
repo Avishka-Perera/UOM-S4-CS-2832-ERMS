@@ -33,6 +33,7 @@
     </script>
 
 <%--    Styles  --%>
+    <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/common.css">
     <link rel="stylesheet" href="<%request.getContextPath();%>css/navbar.css">
 
@@ -56,7 +57,7 @@
             <tr>
                 <td>${party.name}</td>
                 <td>${party.votes}</td>
-                <td><button onclick="displayBreakDown(${party.id})" class="btn primary-contained">BreakDown</button></td>
+                <td><button onclick="displayBreakDown(${party.id})" class="m-1 btn primary-contained small-btn">BreakDown</button></td>
             </tr>
         </c:forEach>
         </tbody>

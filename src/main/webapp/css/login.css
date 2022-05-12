@@ -1,0 +1,12 @@
+.login-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-container {
+    text-align: center;
+    width: fit-content;
+    background-color: white;
+}

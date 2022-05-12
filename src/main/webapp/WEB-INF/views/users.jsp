@@ -25,6 +25,7 @@
 <body>
 <div>
     <%@include file="navBar.jsp" %>
+    <div class="navBar-bottom-padding"></div>
     <div>
         <h1>Manage Users</h1>
         <div>
