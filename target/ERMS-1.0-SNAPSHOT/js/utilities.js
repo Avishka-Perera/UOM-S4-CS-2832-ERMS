@@ -63,6 +63,12 @@ const displayConfirmationModal = (title_text, message_text, confirmFunction) => 
     document.body.appendChild(root);
 }
 
+const toggleModal = (modalRootId) => {
+    const modalRoot = document.querySelector(modalRootId);
+    if (modalRoot.classList.contains("hidden")) modalRoot.classList.remove("hidden");
+    else modalRoot.classList.add("hidden");
+}
+
 const validateEmail = (mail) => {
     return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
 }
