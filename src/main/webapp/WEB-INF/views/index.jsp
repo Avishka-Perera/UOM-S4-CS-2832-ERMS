@@ -55,19 +55,21 @@
         </c:forEach>
         </tbody>
     </table>
-    <div>
-        <h2 id="partyNameHeading"></h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Location</th>
-                <th>Votes</th>
-            </tr>
-            </thead>
-            <tbody id="breakDownTbody">
-            </tbody>
-        </table>
-        <button>Close</button>
+    <div class="modalBG hidden" id="breakDownModal" onclick="toggleModal()">
+        <div class="modalContent" onclick="event.stopPropagation()">
+            <h2 id="partyNameHeading"></h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Votes</th>
+                </tr>
+                </thead>
+                <tbody id="breakDownTbody">
+                </tbody>
+            </table>
+            <button onclick="toggleModal()">Close</button>
+        </div>
     </div>
 </div>
 </body>
