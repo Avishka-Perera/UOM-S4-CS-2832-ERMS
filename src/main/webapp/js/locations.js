@@ -98,7 +98,7 @@ const addLocation = () => {
 
                 // bind button functions
                 updateBtnDOM.onclick = () => updateLocation(trDOM);
-                editBtnDOM.onclick = () => openUpdateLocationModal(trDOM);
+                editBtnDOM.onclick = () => openEditLocationModal(trDOM);
                 deleteBtnDOM.onclick = () => safeDeleteLocation(trDOM);
 
                 // append the rest
@@ -148,18 +148,19 @@ const openAddLocationModal = () => {
 
     nameInput.innerHTML = "";
     typeOption.checked = true;
+    actionBtn.innerHTML = "Add";
     actionBtn.onclick = () => addLocation();
 }
 
-const openUpdateLocationModal = (row) => {
-    const nameText = row.querySelector("#tdName").innerText;
-    const type = row.querySelector("#type select").value;
-    const id = row.querySelector("#tdId").innerText;
-
+const openEditLocationModal = (row) => {
     const locationModalRoot = document.querySelector('#add-location-modal');
     const nameInput = locationModalRoot.querySelector("#name");
     const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
     const actionBtn = locationModalRoot.querySelector("#location-action-btn");
+
+    const nameText = row.querySelector("#tdName").innerText;
+    const type = row.querySelector("#type select").value;
+    const id = row.querySelector("#tdId").innerText;
 
     nameInput.setAttribute("value", nameText);
     for (let i = 0; i < 2; i++) {
@@ -173,7 +174,18 @@ const openUpdateLocationModal = (row) => {
 }
 
 const updateLocationNameAndType = (id, locationModalRoot) => {
-    console.log(id, locationModalRoot);
+
+    const nameInput = locationModalRoot.querySelector("#name");
+    const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
+
+    const nameText = nameInput.value;
+    let type = 0;
+    for (let i = 0; i < 2; i++) {
+        const option = typeOptions[i];
+        if (option.checked === true) type = option.value;
+    }
+
+    console.log(id, nameText, type);
 }
 
 const updateLocation = (row) => {

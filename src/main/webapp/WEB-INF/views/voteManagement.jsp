@@ -113,7 +113,7 @@
                         </td>
                         <td>
                             <button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
-                            <button onclick="openUpdateLocationModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
+                            <button onclick="openEditLocationModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
                             <button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
                         </td>
                     </tr>
@@ -135,7 +135,7 @@
                     </table>
                 </form>
                 <div>
-                    <button onclick="addParty()" class="btn primary-contained">Add</button>
+                    <button onclick="addParty()" class="btn primary-contained" id="party-action-btn">Add</button>
                     <button onclick="toggleModal('#add-party-modal')" class="btn secondary-outlined">Close</button>
                 </div>
             </div>
@@ -148,17 +148,19 @@
                     <th>Party ID</th>
                     <th>Name</th>
                     <th>Votes</th>
-                    <th>Action</th>
-                    <th><button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-party-modal')">Add new</button></th>
+                    <th>Action<button class="btn primary-outlined x-small-btn ml-2" onclick="openAddPartyModal()">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="partiesTBody">
                     <c:forEach items="${parties}" var="party">
                         <tr>
                             <td id="tdIdParty">${party.id}</td>
-                            <td>${party.name}</td>
+                            <td id="tdNameParty">${party.name}</td>
                             <td>${party.votes}</td>
-                            <td><button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button></td>
+                            <td>
+                                <button class="btn primary-outlined x-small-btn m-1" onclick="openEditPartyModal(this.parentNode.parentNode)">Edit</button>
+                                <button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -33,6 +33,7 @@ const addParty = () => {
 
                 // assigns required ids and names
                 idTdDOM.setAttribute("id", "tdIdParty");
+                nameTdDOM.setAttribute("id","tdNameParty");
 
                 // assigns classes
                 deleteBtnDOM.setAttribute("class", "btn secondary-outlined x-small-btn m-1")
@@ -65,6 +66,38 @@ const addParty = () => {
     } else {
         displayModal(validity, message);
     }
+}
+
+const updateParty = (id, modal) => {
+    const name = modal.querySelector("#partyName").value;
+    console.log(id, name);
+}
+
+const openAddPartyModal = () => {
+    const partyModalRoot = document.querySelector("#add-party-modal");
+    const nameInput = partyModalRoot.querySelector("#partyName");
+    const actionBtn = partyModalRoot.querySelector("#party-action-btn");
+
+    nameInput.setAttribute("value", "");
+    actionBtn.onclick = () => addParty();
+    actionBtn.innerHTML = "Add";
+
+    toggleModal('#add-party-modal');
+}
+
+const openEditPartyModal = (row) => {
+    const partyModalRoot = document.querySelector("#add-party-modal");
+    const nameInput = partyModalRoot.querySelector("#partyName");
+    const actionBtn = partyModalRoot.querySelector("#party-action-btn");
+
+    const partyName = row.querySelector("#tdNameParty").innerText;
+    const partyId = row.querySelector("#tdIdParty").innerText;
+
+    nameInput.setAttribute("value", partyName);
+    actionBtn.onclick = () => updateParty(partyId, partyModalRoot);
+    actionBtn.innerHTML = "Edit";
+
+    toggleModal('#add-party-modal');
 }
 
 const safeDeleteParty = (row) => {
