@@ -1,5 +1,6 @@
 package party.model;
 
+import com.google.gson.Gson;
 import gsonClasses.PartyVote;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public class Party {
         this.name = name;
         this.votesList = votes;
         this.votes = getTotalVotes();
+    }
+
+    public Party(int id) {
+        this.id = id;
     }
 
     public Party(String name) {
@@ -39,6 +44,10 @@ public class Party {
 
     public List<PartyVote> getVotesList() {
         return votesList;
+    }
+
+    public String getVoteList() {
+        return new Gson().toJson(votesList);
     }
 
     public void setVotesList(List<PartyVote> votesList) {

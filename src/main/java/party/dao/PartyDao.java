@@ -2,6 +2,7 @@ package party.dao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import constants.TableData;
 import party.model.Party;
 import gsonClasses.PartyVote;
 
@@ -19,7 +20,7 @@ public class PartyDao {
     private static final String SELECT_PARTY_BY_NAME_QUERY = "SELECT * FROM parties WHERE party_name=? LIMIT 1;";
     private static final String SELECT_LAST_RECORD_QUERY = "SELECT * FROM parties ORDER BY party_id DESC LIMIT 1";
     private static final String DELETE_PARTY_QUERY = "DELETE FROM parties WHERE party_id=?;";
-    private static final String UPDATE_PARTY_QUERY = "UPDATE parties SET station_user_id=?, district_center_user_id=?, type=? WHERE id=?;";
+    private static final String UPDATE_VOTE_QUERY = "UPDATE parties SET %s=? WHERE %s=?;".formatted(TableData.Parties.votes, TableData.Parties.id);
 
     // select all locations
     public List<Party> selectAllParties() {
@@ -49,6 +50,24 @@ public class PartyDao {
             e.printStackTrace();
         }
         return parties;
+    }
+
+    public boolean updateVotes(List<Party> parties) throws SQLException {
+        try (
+                Connection connection = getConnection();
+                PreparedStatement updateVotesStatement = connection.prepareStatement(UPDATE_VOTE_QUERY)
+                ){
+            for (Party party :
+                    parties) {
+                String votes = party.getVoteList();
+                updateVotesStatement.setString(1, votes);
+                updateVotesStatement.setInt(2,party.getId());
+                if (updateVotesStatement.executeUpdate() == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // create new party

@@ -27,6 +27,8 @@ public class UserDao {
             .formatted(TableData.locationTable, TableData.Locations.stationUserId, TableData.Locations.id);
     private static final String UPDATE_LOCATION_DISTRICT_USER = "UPDATE %s SET %s=? WHERE %s=?;"
             .formatted(TableData.locationTable, TableData.Locations.districtUserId, TableData.Locations.id);
+    private static final String REMOVE_LOCATION_QUERY = "UPDATE %s SET %s=null WHERE %s=?"
+            .formatted(TableData.userTable, TableData.Users.locationId, TableData.Users.id);
 
     // create new user
     public int[] addUser(User user) throws ClassNotFoundException {
@@ -213,5 +215,21 @@ public class UserDao {
             }
         }
         return rowDeleted;
+    }
+
+    public boolean removeLocation(Integer id) {
+        if (id == null) {
+            return true;
+        } else {
+            try (
+                    Connection connection = getConnection();
+                    PreparedStatement removeLocationStatement = connection.prepareStatement(REMOVE_LOCATION_QUERY)
+                    ) {
+                removeLocationStatement.setInt(1,id);
+                return removeLocationStatement.executeUpdate() > 0;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

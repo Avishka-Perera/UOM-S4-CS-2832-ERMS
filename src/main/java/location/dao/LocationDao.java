@@ -1,5 +1,10 @@
 package location.dao;
+import constants.TableData;
+import gsonClasses.PartyVote;
 import location.model.Location;
+import party.dao.PartyDao;
+import party.model.Party;
+import user.dao.UserDao;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -216,13 +221,46 @@ public class LocationDao {
 
     // delete location
     public boolean deleteLocation(int id) throws SQLException {
-        boolean rowDeleted;
+        boolean rowDeleted = false;
         try(
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(DELETE_LOCATION_QUERY)
+                PreparedStatement deleteLocationStatement = connection.prepareStatement(DELETE_LOCATION_QUERY);
+                PreparedStatement getUsersStatement = connection.prepareStatement(GET_LOCATION_USERS_QUERY)
         ) {
-            statement.setInt(1,id);
-            rowDeleted = statement.executeUpdate() > 0;
+            // update the relevant parties
+            PartyDao partyDao = new PartyDao();
+            List<Party> oldParties = partyDao.selectAllParties();
+            List<Party> newParties = new ArrayList<>();
+            for (Party oldParty :
+                    oldParties) {
+                Party newParty = new Party(oldParty.getId());
+                List<PartyVote> newVotesList = new ArrayList<>();
+                for (PartyVote partyVote :
+                        oldParty.getVotesList()) {
+                    if (partyVote.getLocationId() != id) newVotesList.add(partyVote);
+                }
+                newParty.setVotesList(newVotesList);
+                newParties.add(newParty);
+            }
+            boolean partiesUpdated = partyDao.updateVotes(newParties);
+
+            // update the relevant users
+            boolean usersUpdated = true;
+            getUsersStatement.setInt(1,id);
+            ResultSet rs = getUsersStatement.executeQuery();
+            if (rs.next()) {
+                Integer stationUserId = rs.getInt(TableData.Locations.stationUserId);
+                if (rs.wasNull()) stationUserId = null;
+                Integer districtUserId = rs.getInt(TableData.Locations.districtUserId);
+                if (rs.wasNull()) districtUserId = null;
+                UserDao userDao = new UserDao();
+                usersUpdated = userDao.removeLocation(stationUserId) && userDao.removeLocation(districtUserId);
+            }
+
+            if (partiesUpdated && usersUpdated) {
+                deleteLocationStatement.setInt(1, id);
+                rowDeleted = deleteLocationStatement.executeUpdate() > 0;
+            }
         }
         return rowDeleted;
     }
