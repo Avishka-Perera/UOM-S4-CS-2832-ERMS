@@ -38,46 +38,51 @@
 <div>
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
-    <div>
-        <h1>Vote Management</h1>
-        <div>
-            <h2>Add new location</h2>
-            <form id="addLocationForm">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td><label for="name">Name</label></td>
-                        <td><input type="text" id="name" name="name"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="userLevels">Type</label></td>
-                        <td id="userLevels">
-                            <span>
-                                <input type="radio" id="polling-station" name="type" value="0" checked>
-                                <label for="polling-station">Polling Station</label><br>
-                            </span>
-                            <span>
-                                <input type="radio" id="district-center" name="type" value="1">
-                                <label for="district-center">District Center</label><br>
-                            </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <input type="button" onclick="addLocation()" value="Add" class="btn primary-contained"/>
-            </form>
+    <div class="bg-1">
+        <h1 class="p-3">Vote Management</h1>
+        <div class="modalBG hidden" id="add-location-modal" onclick="toggleModal('#add-location-modal')">
+            <div class="modalContent" onclick="event.stopPropagation()">
+                <h2>Add new location</h2>
+                <form id="addLocationForm">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label for="name">Name</label></td>
+                            <td><input type="text" id="name" name="name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="userLevels">Type</label></td>
+                            <td id="userLevels">
+                                <span>
+                                    <input type="radio" id="polling-station" name="type" value="0" checked>
+                                    <label for="polling-station">Polling Station</label><br>
+                                </span>
+                                <span>
+                                    <input type="radio" id="district-center" name="type" value="1">
+                                    <label for="district-center">District Center</label><br>
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div>
+                    <button onclick="addLocation()" class="btn primary-contained">Add</button>
+                    <button onclick="toggleModal('#add-location-modal')" class="btn secondary-outlined">Close</button>
+                </div>
+            </div>
         </div>
         <div id="availableLocations">
-            <h2>Available locations</h2>
-            <table>
+            <h2 class="m-3">Locations</h2>
+            <table class="center-table">
                 <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Station User</td>
-                    <td>District User</td>
-                    <td>Type</td>
-                    <td>Action</td>
+                    <th>Location ID</th>
+                    <th>Name</th>
+                    <th>Station User</th>
+                    <th>District User</th>
+                    <th>Type</th>
+                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-location-modal')">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="locationsTBody">
@@ -115,29 +120,35 @@
                 </tbody>
             </table>
         </div>
-        <div>
-            <h2>Add new party</h2>
-            <form id="addPartyForm">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td><label for="partyName">Name</label></td>
-                        <td><input type="text" id="partyName" name="partyName"></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <input type="button" onclick="addParty()" value="Add" class="btn primary-contained"/>
-            </form>
+        <div class="modalBG hidden" id="add-party-modal" onclick="toggleModal('#add-party-modal')">
+            <div class="modalContent" onclick="event.stopPropagation()">
+                <h2>Add new party</h2>
+                <form id="addPartyForm">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label for="partyName">Name</label></td>
+                            <td><input type="text" id="partyName" name="partyName"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div>
+                    <button onclick="addParty()" class="btn primary-contained">Add</button>
+                    <button onclick="toggleModal('#add-party-modal')" class="btn secondary-outlined">Close</button>
+                </div>
+            </div>
         </div>
         <div id="availableParties">
-            <h2>Available parties</h2>
-            <table>
+            <h2 class="m-3">Parties</h2>
+            <table class="center-table">
                 <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Votes</td>
-                    <td>Delete</td>
+                    <th>Party ID</th>
+                    <th>Name</th>
+                    <th>Votes</th>
+                    <th>Action</th>
+                    <th><button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-party-modal')">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="partiesTBody">

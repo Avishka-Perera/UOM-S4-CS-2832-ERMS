@@ -43,7 +43,7 @@
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
     <h1>Election Realtime Results</h1>
-    <table class="center-table mt-5">
+    <table class="center-table mt-5 border">
         <thead>
         <tr>
             <th>Name</th>
@@ -64,7 +64,7 @@
     <div class="modalBG hidden" id="breakDownModal" onclick="toggleModal()">
         <div class="modalContent" onclick="event.stopPropagation()">
             <h2 id="partyNameHeading"></h2>
-            <table class="m-3">
+            <table class="m-3 border">
                 <thead>
                 <tr>
                     <th>Location</th>
