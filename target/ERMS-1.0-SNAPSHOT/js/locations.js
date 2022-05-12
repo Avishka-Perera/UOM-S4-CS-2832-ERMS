@@ -90,7 +90,7 @@ const addLocation = () => {
 
                 // bind button functions
                 updateBtnDOM.onclick = () => updateLocation(trDOM);
-                deleteBtnDOM.onclick = () => deleteLocation(trDOM);
+                deleteBtnDOM.onclick = () => safeDeleteLocation(trDOM);
 
                 // append the rest
                 stationUserTdDOM.appendChild(stationUserSelectDOM);
@@ -114,6 +114,10 @@ const addLocation = () => {
     } else {
         displayModal(validity, message);
     }
+}
+
+const safeDeleteLocation = (row) => {
+    displayConfirmationModal("DELETE LOCATION", "Are you sure you want to delete this location?", ()=>deleteLocation(row));
 }
 
 const deleteLocation = (row) => {
