@@ -119,10 +119,12 @@ th {
 .bg-1 {
     background-image: url("../images/backgrounds/bg-1.jpg");
     background-size: cover;
+    background-attachment: fixed;
 }
 .bg-2 {
     background-image: url("../images/backgrounds/bg-2.jpg");
     background-size: cover;
+    background-attachment: fixed;
 }
 
 /************************************************ Border ************************************************/

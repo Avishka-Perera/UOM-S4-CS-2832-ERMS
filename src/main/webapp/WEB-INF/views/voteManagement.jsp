@@ -166,6 +166,7 @@
                 </tbody>
             </table>
         </div>
+        <div class="navBar-bottom-padding"></div>
     </div>
 </div>
 </body>
