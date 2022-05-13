@@ -2,7 +2,6 @@ package location.controller;
 
 import constants.Routes;
 import constants.UserLevels;
-import gsonClasses.LocationPutRequestData;
 import location.dao.LocationDao;
 import location.model.Location;
 
@@ -50,14 +49,8 @@ public class LocationsServlet extends HttpServlet {
             int level = (int) levelObj;
             if (level == UserLevels.ADMIN_USER_LEVEL){
                 // read the data of the request
-                LocationPutRequestData data = objFromRequest(request, LocationPutRequestData.class);
+                Location location = objFromRequest(request, Location.class);
 
-                int locationId = data.getLocationId();
-                Integer stationUserId = data.getStationUserId();
-                Integer districtUserId = data.getDistrictUserId();
-                int type = data.getType();
-
-                Location location = new Location(locationId, stationUserId, districtUserId, type);
                 int result = 0;
                 try {
                     result = dao.updateLocation(location);

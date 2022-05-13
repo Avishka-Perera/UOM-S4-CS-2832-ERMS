@@ -2,7 +2,7 @@ package votes.controller;
 
 import constants.Routes;
 import constants.UserLevels;
-import gsonClasses.LocationPutRequestData;
+//import gsonClasses.LocationPutRequestData;
 import gsonClasses.VotePutRequestData;
 import party.model.Party;
 import votes.dao.VotesDao;

@@ -24,7 +24,7 @@ public class LocationDao {
     private static final String SELECT_LOCATION_BY_NAME_QUERY = "SELECT * FROM locations WHERE location_name=? LIMIT 1;";
     private static final String SELECT_LAST_RECORD_QUERY = "SELECT * FROM locations ORDER BY location_id DESC LIMIT 1";
     private static final String DELETE_LOCATION_QUERY = "DELETE FROM locations WHERE location_id=?;";
-    private static final String UPDATE_LOCATION_QUERY = "UPDATE locations SET station_user_id=?, district_center_user_id=?, type=? WHERE location_id=?;";
+    private static final String UPDATE_LOCATION_QUERY = "UPDATE locations SET location_name=?, station_user_id=?, district_center_user_id=?, type=? WHERE location_id=?;";
     private static final String GET_LOCATION_USERS_QUERY = "SELECT station_user_id, district_center_user_id FROM locations WHERE location_id=?";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET location_id=? WHERE user_id=?";
     private static final String SELECT_USER_QUERY = "SELECT location_id, user_id FROM users WHERE user_id=?";
@@ -138,7 +138,6 @@ public class LocationDao {
                 ResultSet rs1 = newStationUserCheckStatement.executeQuery();
                 if (rs1.next()) if (rs1.getString("location_id")!=null) {
                     occurrencesStationUser++;
-                    System.out.println("station user not available");
                 }
             }
             if (location.getDistrictCenterUserId() != null) {
@@ -146,7 +145,6 @@ public class LocationDao {
                 ResultSet rs2 = newDistrictUserCheckStatement.executeQuery();
                 if (rs2.next()) if (rs2.getString("location_id")!=null) {
                     occurrencesDistrictUser++;
-                    System.out.println("district user not available");
                 }
             }
 
@@ -195,12 +193,13 @@ public class LocationDao {
                 }
 
                 // update the location table
-                if (location.getStationUserId() == null) locationUpdateStatement.setNull(1,  Types.INTEGER);
-                else locationUpdateStatement.setInt(1,location.getStationUserId());
-                if (location.getDistrictCenterUserId() == null) locationUpdateStatement.setNull(2,  Types.INTEGER);
-                else locationUpdateStatement.setInt(2,location.getDistrictCenterUserId());
-                locationUpdateStatement.setInt(3,location.getType());
-                locationUpdateStatement.setInt(4,location.getId());
+                locationUpdateStatement.setString(1,location.getName());
+                if (location.getStationUserId() == null) locationUpdateStatement.setNull(2,  Types.INTEGER);
+                else locationUpdateStatement.setInt(2,location.getStationUserId());
+                if (location.getDistrictCenterUserId() == null) locationUpdateStatement.setNull(3,  Types.INTEGER);
+                else locationUpdateStatement.setInt(3,location.getDistrictCenterUserId());
+                locationUpdateStatement.setInt(4,location.getType());
+                locationUpdateStatement.setInt(5,location.getId());
 
                 // execute the queries
                 if (oldStationUserId != null) if (!oldStationUserId.equals(newStationUserId)) oldStationUserUpdateStatement.executeUpdate();

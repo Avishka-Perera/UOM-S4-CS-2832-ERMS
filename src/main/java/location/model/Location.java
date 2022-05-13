@@ -52,5 +52,14 @@ public class Location {
         return type;
     }
 
-    public String toString() { return "Location: " + this.name + ", " + this.stationUserId + ", " + this.districtCenterUserId; }
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", stationUserId=" + stationUserId +
+                ", districtCenterUserId=" + districtCenterUserId +
+                ", type=" + type +
+                '}';
+    }
 }
