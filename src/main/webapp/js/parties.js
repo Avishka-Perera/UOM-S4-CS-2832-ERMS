@@ -1,12 +1,17 @@
-const addParty = () => {
-
-    const name = document.querySelector("#addPartyForm #partyName").value;
-
+const validateParty = (name) => {
     let validity = "Valid", message = "";
     if (name === "") {
         validity = "Name Error";
         message = "The party name should be not empty";
     }
+    return [validity, message];
+}
+
+const addParty = () => {
+
+    const name = document.querySelector("#addPartyForm #partyName").value;
+
+    const [validityTitle, message] = validateParty(name);
 
     const endpoint = BASE_URL + PARTIES_ENDPOINT;
     const data = $('#addPartyForm').serialize();
@@ -60,11 +65,11 @@ const addParty = () => {
     }
     const errorFunction = (data) => displayModal("Error", data);
 
-    if (validity === "Valid") {
+    if (validityTitle === "Valid") {
         console.log("valid");
         postEntry(endpoint, data, successFunction, errorFunction);
     } else {
-        displayModal(validity, message);
+        displayModal(validityTitle, message);
     }
 }
 
@@ -82,7 +87,9 @@ const updateParty = (id, modal, row) => {
     }
     const errorFunction = (data) => displayModal("Error", data);
 
-    updateEntry(endpoint, data, successFunction, errorFunction);
+    const [validityTitle, message] = validateParty(name);
+    if (validityTitle === "Valid") updateEntry(endpoint, data, successFunction, errorFunction);
+    else displayModal(validityTitle, message);
 }
 
 const openAddPartyModal = () => {

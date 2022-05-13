@@ -1,12 +1,17 @@
-const addParty = () => {
-
-    const name = document.querySelector("#addPartyForm #partyName").value;
-
+const validateParty = (name) => {
     let validity = "Valid", message = "";
     if (name === "") {
         validity = "Name Error";
         message = "The party name should be not empty";
     }
+    return [validity, message];
+}
+
+const addParty = () => {
+
+    const name = document.querySelector("#addPartyForm #partyName").value;
+
+    const [validityTitle, message] = validateParty(name);
 
     const endpoint = BASE_URL + PARTIES_ENDPOINT;
     const data = $('#addPartyForm').serialize();
@@ -58,19 +63,33 @@ const addParty = () => {
             displayModal("Server Error", "The serve faced an unexpected error. Please resubmit the registration data.")
         }
     }
-    const errorFunction = (data) => console.log("Error", data);
+    const errorFunction = (data) => displayModal("Error", data);
 
-    if (validity === "Valid") {
+    if (validityTitle === "Valid") {
         console.log("valid");
         postEntry(endpoint, data, successFunction, errorFunction);
     } else {
-        displayModal(validity, message);
+        displayModal(validityTitle, message);
     }
 }
 
-const updateParty = (id, modal) => {
+const updateParty = (id, modal, row) => {
     const name = modal.querySelector("#partyName").value;
-    console.log(id, name);
+    const data = JSON.stringify({id, name});
+    const endpoint = BASE_URL + PARTIES_ENDPOINT;
+    const successFunction = (data) => {
+        toggleModal("#add-party-modal");
+        if (data.status === 0) displayModal("Server error", "An unidentified error occurred in the server. Please try again");
+        else if (data.status in [1,2]) {
+            const nameTdDOM = row.querySelector("#tdNameParty");
+            nameTdDOM.innerHTML = name;
+        }
+    }
+    const errorFunction = (data) => displayModal("Error", data);
+
+    const [validityTitle, message] = validateParty(name);
+    if (validityTitle === "Valid") updateEntry(endpoint, data, successFunction, errorFunction);
+    else displayModal(validityTitle, message);
 }
 
 const openAddPartyModal = () => {
@@ -94,7 +113,7 @@ const openEditPartyModal = (row) => {
     const partyId = row.querySelector("#tdIdParty").innerText;
 
     nameInput.setAttribute("value", partyName);
-    actionBtn.onclick = () => updateParty(partyId, partyModalRoot);
+    actionBtn.onclick = () => updateParty(partyId, partyModalRoot, row);
     actionBtn.innerHTML = "Edit";
 
     toggleModal('#add-party-modal');
