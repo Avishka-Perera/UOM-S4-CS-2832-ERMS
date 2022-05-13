@@ -21,7 +21,9 @@ public class UserDao {
     private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.level=0";
     private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id;";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE user_id=?;";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET level=? WHERE user_id=?;";
+    private static final String UPDATE_USER_DATA_QUERY = "UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;"
+            .formatted(TableData.userTable, TableData.Users.name, TableData.Users.email, TableData.Users.password, TableData.Users.contactNumber, TableData.Users.level, TableData.Users.id);
+    private static final String UPDATE_USER_LEVEL_QUERY = "UPDATE users SET level=? WHERE user_id=?;";
     private static final String GET_USER_DATA = "SELECT location_id, level FROM users WHERE user_id=?;";
     private static final String UPDATE_LOCATION_STATION_USER = "UPDATE %s SET %s=? WHERE %s=?;"
             .formatted(TableData.locationTable, TableData.Locations.stationUserId, TableData.Locations.id);
@@ -72,17 +74,39 @@ public class UserDao {
     }
 
     // update user
-    public boolean updateUser(User user) throws SQLException {
-        boolean result;
+    public int updateUserLevel(User user) throws SQLException {
+        int result;
         try (
                 Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)
+                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_LEVEL_QUERY)
                 ) {
 
             statement.setInt(1,user.getUserLevel());
             statement.setInt(2,user.getId());
 
-            result = statement.executeUpdate() > 0;
+            result = statement.executeUpdate();
+        }
+        return result;
+    }
+
+    public int updateUserDetails(User user) {
+        int result = 0;
+        System.out.println("flag-1, " + user);
+        try (
+                Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_DATA_QUERY);
+                ) {
+            System.out.println("flag-2");
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getContactNumber());
+            statement.setInt(5, user.getUserLevel());
+            statement.setInt(6, user.getId());
+
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -232,4 +256,5 @@ public class UserDao {
             }
         }
     }
+
 }

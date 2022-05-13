@@ -80,4 +80,17 @@ public class User {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", userLevel=" + userLevel +
+                ", location=" + location +
+                '}';
+    }
 }

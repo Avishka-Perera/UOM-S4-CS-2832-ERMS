@@ -11,7 +11,10 @@ const addUser = () => {
     const [validity, message] = validateUserFormData(name, email, password, confirmPassword, contactNumber);
 
     const endpoint = BASE_URL + USERS_ENDPOINT;
-    const data = $('#addUserForm').serialize();
+    const formData = $('#addUserForm').serializeArray();
+    const formDataObj = {};
+    formData.forEach((dataObj) => formDataObj[dataObj.name]=dataObj.value);
+    const data = JSON.stringify(formDataObj);
     const successFunction = (data) => {
         // data.length = 2
         // data[0]: query status
@@ -77,7 +80,7 @@ const addUser = () => {
                 if (userLevel === "3") adminDOM.selected = true;
 
                 updateBtnDOM.onclick = () => {
-                    updateUser(trDOM);
+                    updateUserLevel(trDOM);
                 };
                 deleteBtnDOM.onclick = () => {
                     safeDeleteUser(trDOM);
@@ -103,18 +106,63 @@ const addUser = () => {
     }
 }
 
-const updateUserData = (id, modal) => {
+const updateUserLevel = (row) => {
+    const id = row.querySelector("#trId").innerHTML;
+    const userLevel = $(row).children("td#trUserLevel").children("select").children("option").filter(":selected")[0].value;
+    const endpoint = BASE_URL+USERS_ENDPOINT;
+    const data = JSON.stringify({ task:TASK_USER_PUT_UPDATE_USER_LEVEL, user: { id, userLevel}})
+    const successFunction = (data) => {
+        if (data.status) {
+            console.log(data.status);
+        } else {
+            console.log("user not updated");
+        }
+    }
+    const errorFunction = (data) => console.log("error:", data);
+    updateEntry(endpoint, data, successFunction, errorFunction);
+}
+
+const updateUserData = (id, modal, row) => {
     const name = modal.querySelector("#name").value;
     const email = modal.querySelector("#email").value;
     const password = modal.querySelector("#password").value;
     const confirmPassword = modal.querySelector("#confirm-password").value;
     const contactNumber = modal.querySelector("#contactNumber").value;
-    const userLevel = modal.querySelector('input[name="userLevel"]:checked').value;
 
-    console.log(id, name, email, password, confirmPassword, contactNumber, userLevel);
+    // endpoint
+    const endpoint = BASE_URL + USERS_ENDPOINT;
+    // data
+    const formData = $('#addUserForm').serializeArray();
+    const userObj = {};
+    formData.forEach((data) => userObj[data.name]=data.value);
+    const data = JSON.stringify({ task:TASK_USER_PUT_UPDATE_USER_DETAILS, user: {id,...userObj}});
+
+    // success function
+    const successFunction = (data) => {
+        if (data.status === 0) displayModal("Server error","The server faced an unexpected error. Please try again");
+        else if (data.status in [1,2]) {
+            toggleModal("#add-user-modal");
+            const nameDOM = row.querySelector("#trName");
+            const emailDOM = row.querySelector("#trEmail");
+            const contactNumberDOM = row.querySelector("#trContactNumber");
+            const roleDOM = row.querySelector("#trUserLevel select");
+
+            nameDOM.innerText = userObj.name;
+            emailDOM.innerText = userObj.email;
+            contactNumberDOM.innerText = userObj.contactNumber;
+            roleDOM.value = userObj.userLevel;
+        }
+    }
+    const errorFunction = (data) => {
+        console.log(data);
+    }
+
+    const [validity, message] = validateUserFormData(name, email, password, confirmPassword, contactNumber);
+    if (validity === "Valid") updateEntry(endpoint, data, successFunction, errorFunction);
+    else displayModal(validity, message);
 }
 
-const openAddUserModal = () => {
+const getUserModalDOMs = () => {
     const userModalRoot = document.querySelector('#add-user-modal');
     const nameInput = userModalRoot.querySelector("#name");
     const emailInput = userModalRoot.querySelector("#email");
@@ -123,6 +171,12 @@ const openAddUserModal = () => {
     const contactNumberInput = userModalRoot.querySelector("#contactNumber");
     const userLevelOptions = userModalRoot.querySelectorAll('input[name="userLevel"]');
     const actionBtn = userModalRoot.querySelector("#user-action-btn");
+
+    return [userModalRoot, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn];
+}
+
+const openAddUserModal = () => {
+    const [_, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
 
     nameInput.value = "";
     emailInput.value = "";
@@ -137,14 +191,7 @@ const openAddUserModal = () => {
 }
 
 const openEditUserModal = (row) => {
-    const userModalRoot = document.querySelector('#add-user-modal');
-    const nameInput = userModalRoot.querySelector("#name");
-    const emailInput = userModalRoot.querySelector("#email");
-    const passwordInput = userModalRoot.querySelector("#password");
-    const confirmPasswordInput = userModalRoot.querySelector("#confirm-password");
-    const contactNumberInput = userModalRoot.querySelector("#contactNumber");
-    const userLevelOptions = userModalRoot.querySelectorAll('input[name="userLevel"]');
-    const actionBtn = userModalRoot.querySelector("#user-action-btn");
+    const [userModalRoot, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
 
     const id = row.querySelector("#trId").innerText;
     const nameText = row.querySelector("#trName").innerText;
@@ -162,24 +209,8 @@ const openEditUserModal = (row) => {
         if (option.value === userLevel) option.checked = true;
     }
     actionBtn.innerHTML = "Update";
-    actionBtn.onclick = () => updateUserData(id, userModalRoot);
+    actionBtn.onclick = () => updateUserData(id, userModalRoot, row);
     toggleModal("#add-user-modal");
-}
-
-const updateUser = (row) => {
-    const userId = row.querySelector("#trId").innerHTML;
-    const userLevel = $(row).children("td#trUserLevel").children("select").children("option").filter(":selected")[0].value;
-    const endpoint = BASE_URL+USERS_ENDPOINT;
-    const data = JSON.stringify({userId, userLevel})
-    const successFunction = (data) => {
-        if (data.status) {
-            console.log(data.status);
-        } else {
-            console.log("user not updated");
-        }
-    }
-    const errorFunction = (data) => console.log("error:", data);
-    updateEntry(endpoint, data, successFunction, errorFunction);
 }
 
 const safeDeleteUser = (row) => {

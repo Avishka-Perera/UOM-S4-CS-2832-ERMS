@@ -1,21 +1,29 @@
 package gsonClasses;
 
+import user.model.User;
+
 public class UserPutRequestData {
-    private int userId;
-    private int userLevel;
+    private int task;
+    private User user;
 
-    public UserPutRequestData() {
+    public UserPutRequestData(int task, User user) {
+        this.task = task;
+        this.user = user;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getTask() {
+        return task;
     }
 
-    public int getUserLevel() {
-        return userLevel;
+    public void setTask(int task) {
+        this.task = task;
     }
 
-    public String toString() {
-        return "PutRequestData [ userId: " + userId + ", userLevel: " + userLevel + " ]";
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
