@@ -112,7 +112,7 @@
                             </select>
                         </td>
                         <td>
-                            <button onclick="updateLocation(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="updateLocationDetails(${location.id}, this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
                             <button onclick="openEditLocationModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
                             <button onclick="safeDeleteLocation(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
                         </td>

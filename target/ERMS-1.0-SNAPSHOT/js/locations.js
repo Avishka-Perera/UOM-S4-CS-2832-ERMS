@@ -1,13 +1,30 @@
-const addLocation = () => {
-
-    const name = document.querySelector("#addLocationForm #name").value;
-    const type = parseInt(document.querySelector("#addLocationForm input[name='type']:checked").value);
-
+const validateLocation = (name) => {
     let validity = "Valid", message = "";
     if (name === "") {
         validity = "Name Error";
         message = "The location name should be not empty";
     }
+    return [validity, message];
+}
+
+const openAddLocationModal = () => {
+    const locationModalRoot = document.querySelector('#add-location-modal');
+    const nameInput = locationModalRoot.querySelector("#name");
+    const typeOption = locationModalRoot.querySelector('input[name="type"]');
+    const actionBtn = locationModalRoot.querySelector("#location-action-btn");
+
+    nameInput.innerHTML = "";
+    typeOption.checked = true;
+    actionBtn.innerHTML = "Add";
+    actionBtn.onclick = () => addLocation();
+}
+
+const addLocation = () => {
+
+    const name = document.querySelector("#addLocationForm #name").value;
+    const type = parseInt(document.querySelector("#addLocationForm input[name='type']:checked").value);
+
+    const [validityTitle, message] = validateLocation(name);
 
     const endpoint = BASE_URL + LOCATIONS_ENDPOINT;
     const data = $('#addLocationForm').serialize();
@@ -17,7 +34,7 @@ const addLocation = () => {
         //          0: Query didn't execute
         //          1,2 : Query did successfully execute
         //          3: Email address already taken
-        // data[1]: id of the created user
+        // data[1]: id of the created location
         if (data.result) {
             if (data.result === 3) {
                 displayModal("Location already exists", "A location with the same name already exists. Please enter another name.")
@@ -97,7 +114,7 @@ const addLocation = () => {
                 deleteBtnDOM.innerText = "Delete";
 
                 // bind button functions
-                updateBtnDOM.onclick = () => updateLocation(trDOM);
+                updateBtnDOM.onclick = () => updateLocationDetails(locationId, trDOM);
                 editBtnDOM.onclick = () => openEditLocationModal(trDOM);
                 deleteBtnDOM.onclick = () => safeDeleteLocation(trDOM);
 
@@ -115,18 +132,20 @@ const addLocation = () => {
             displayModal("Server Error", "The serve faced an unexpected error. Please resubmit the registration data.")
         }
     }
-    const errorFunction = (data) => console.log("Error", data);
 
-    if (validity === "Valid") {
-        console.log("valid");
-        postEntry(endpoint, data, successFunction, errorFunction);
-    } else {
-        displayModal(validity, message);
-    }
+    // TODO: Write this function correctly to display the error message
+    const errorFunction = (data) => displayModal("Error", data);
+
+    if (validityTitle === "Valid") postEntry(endpoint, data, successFunction, errorFunction);
+    else displayModal(validityTitle, message);
 }
 
 const safeDeleteLocation = (row) => {
-    displayConfirmationModal("DELETE LOCATION", "Are you sure you want to delete this location?", ()=>deleteLocation(row));
+    displayConfirmationModal(
+        "DELETE LOCATION",
+        "Are you sure you want to delete this location?",
+        ()=>deleteLocation(row)
+    );
 }
 
 const deleteLocation = (row) => {
@@ -138,18 +157,6 @@ const deleteLocation = (row) => {
     }
     const errorFunction = (data) => console.log("error:", data);
     deleteEntry(endpoint, id, successFunction, errorFunction);
-}
-
-const openAddLocationModal = () => {
-    const locationModalRoot = document.querySelector('#add-location-modal');
-    const nameInput = locationModalRoot.querySelector("#name");
-    const typeOption = locationModalRoot.querySelector('input[name="type"]');
-    const actionBtn = locationModalRoot.querySelector("#location-action-btn");
-
-    nameInput.innerHTML = "";
-    typeOption.checked = true;
-    actionBtn.innerHTML = "Add";
-    actionBtn.onclick = () => addLocation();
 }
 
 const openEditLocationModal = (row) => {
@@ -168,38 +175,48 @@ const openEditLocationModal = (row) => {
         if (option.value === type) option.checked = true;
     }
     actionBtn.innerHTML = "Update";
-    actionBtn.onclick = () => updateLocationNameAndType(id,locationModalRoot);
+    actionBtn.onclick = () => updateLocationDetails(id, row,locationModalRoot);
 
     toggleModal("#add-location-modal");
 }
 
-const updateLocationNameAndType = (id, locationModalRoot) => {
+const updateLocationDetails = (id, row, locationModalRoot) => {
+    //required DOMs
+    const nameTdDOM = row.querySelector("#tdName");
+    const typeSelectDOM = $(row).children("td#type").children("select")[0];
+    const typeOptionDOMs = $(typeSelectDOM).children("option");
 
-    const nameInput = locationModalRoot.querySelector("#name");
-    const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
-
-    const nameText = nameInput.value;
-    let type = 0;
-    for (let i = 0; i < 2; i++) {
-        const option = typeOptions[i];
-        if (option.checked === true) type = option.value;
-    }
-
-    console.log(id, nameText, type);
-}
-
-const updateLocation = (row) => {
-    const locationId = row.querySelector("#tdId").innerHTML;
+    // reads the data in the row
     let stationUserId = $(row).children("td#stationUserId").children("select").children("option").filter(":selected")[0].value;
     if (stationUserId === "None") stationUserId = null;
-    let districtUserId = $(row).children("td#districtUserId").children("select").children("option").filter(":selected")[0].value;
-    if (districtUserId === "None") districtUserId = null;
-    const type = $(row).children("td#type").children("select").children("option").filter(":selected")[0].value;
+    let districtCenterUserId = $(row).children("td#districtUserId").children("select").children("option").filter(":selected")[0].value;
+    if (districtCenterUserId === "None") districtCenterUserId = null;
 
+    let name = null;
+    let type = null;
+    if (locationModalRoot) {
+        // reads the data in the modal
+        const nameInput = locationModalRoot.querySelector("#name");
+        const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
+        name = nameInput.value;
+        type = 0;
+        for (let i = 0; i < typeOptions.length; i++) {
+            const option = typeOptions[i];
+            if (option.checked === true) type = option.value;
+        }
+    } else {
+        // reads the data in the row
+        type = typeOptionDOMs.filter(":selected")[0].value;
+        name = nameTdDOM.innerHTML;
+    }
+
+    // values for the put request
+    const data = JSON.stringify({id, name, type, stationUserId, districtCenterUserId});
     const endpoint = BASE_URL+LOCATIONS_ENDPOINT;
-    const data = JSON.stringify({locationId, stationUserId, districtUserId, type})
     const successFunction = (data) => {
         if (data.status in [1,2]) {
+            nameTdDOM.innerHTML = name;
+            typeSelectDOM.value = type;
             console.log(data.status);
         } else if (data.status === 0){
             displayModal("Location not Updated", "The server faced an unexpected error. Please update again.");
@@ -212,5 +229,9 @@ const updateLocation = (row) => {
         }
     }
     const errorFunction = (data) => console.log("error:", data);
-    updateEntry(endpoint, data, successFunction, errorFunction);
+
+    // checks the validity and send the data
+    const [validityTitle, message] = validateLocation(name);
+    if (validityTitle === "Valid") updateEntry(endpoint, data, successFunction, errorFunction);
+    else displayModal(validityTitle, message);
 }

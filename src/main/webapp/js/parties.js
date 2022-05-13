@@ -58,7 +58,7 @@ const addParty = () => {
             displayModal("Server Error", "The serve faced an unexpected error. Please resubmit the registration data.")
         }
     }
-    const errorFunction = (data) => console.log("Error", data);
+    const errorFunction = (data) => displayModal("Error", data);
 
     if (validity === "Valid") {
         console.log("valid");
@@ -68,9 +68,21 @@ const addParty = () => {
     }
 }
 
-const updateParty = (id, modal) => {
+const updateParty = (id, modal, row) => {
     const name = modal.querySelector("#partyName").value;
-    console.log(id, name);
+    const data = JSON.stringify({id, name});
+    const endpoint = BASE_URL + PARTIES_ENDPOINT;
+    const successFunction = (data) => {
+        toggleModal("#add-party-modal");
+        if (data.status === 0) displayModal("Server error", "An unidentified error occurred in the server. Please try again");
+        else if (data.status in [1,2]) {
+            const nameTdDOM = row.querySelector("#tdNameParty");
+            nameTdDOM.innerHTML = name;
+        }
+    }
+    const errorFunction = (data) => displayModal("Error", data);
+
+    updateEntry(endpoint, data, successFunction, errorFunction);
 }
 
 const openAddPartyModal = () => {
@@ -94,7 +106,7 @@ const openEditPartyModal = (row) => {
     const partyId = row.querySelector("#tdIdParty").innerText;
 
     nameInput.setAttribute("value", partyName);
-    actionBtn.onclick = () => updateParty(partyId, partyModalRoot);
+    actionBtn.onclick = () => updateParty(partyId, partyModalRoot, row);
     actionBtn.innerHTML = "Edit";
 
     toggleModal('#add-party-modal');

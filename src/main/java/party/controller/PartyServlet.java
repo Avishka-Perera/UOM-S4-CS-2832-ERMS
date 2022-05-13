@@ -12,6 +12,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static utilities.Utilities.objFromRequest;
 import static utilities.Utilities.requestJSONToString;
 
 @WebServlet(name = "PartyServlet", value = Routes.ENDPOINT_PARTIES)
@@ -55,6 +56,17 @@ public class PartyServlet extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write("{\"status\":"+deleteStatus+"}");
         }
+    }
 
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
+            Party party = objFromRequest(request, Party.class);
+            int result = dao.updatePartyName(party);
+
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":"+result+"}");
+        }
     }
 }

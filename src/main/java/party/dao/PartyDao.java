@@ -20,7 +20,8 @@ public class PartyDao {
     private static final String SELECT_PARTY_BY_NAME_QUERY = "SELECT * FROM parties WHERE party_name=? LIMIT 1;";
     private static final String SELECT_LAST_RECORD_QUERY = "SELECT * FROM parties ORDER BY party_id DESC LIMIT 1";
     private static final String DELETE_PARTY_QUERY = "DELETE FROM parties WHERE party_id=?;";
-    private static final String UPDATE_VOTE_QUERY = "UPDATE parties SET %s=? WHERE %s=?;".formatted(TableData.Parties.votes, TableData.Parties.id);
+    private static final String UPDATE_VOTE_QUERY = "UPDATE %s SET %s=? WHERE %s=?;".formatted(TableData.partyTable, TableData.Parties.votes, TableData.Parties.id);
+    private static final String UPDATE_NAME_QUERY = "UPDATE %s SET %s=? WHERE %s=?;".formatted(TableData.partyTable, TableData.Parties.name, TableData.Parties.id);
 
     // select all locations
     public List<Party> getAllParties() {
@@ -119,5 +120,20 @@ public class PartyDao {
             rowDeleted = statement.executeUpdate() > 0;
         }
         return rowDeleted;
+    }
+
+    public int updatePartyName(Party party) {
+        int result = 0;
+        try(
+                Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_NAME_QUERY)
+                ) {
+            statement.setString(1,party.getName());
+            statement.setInt(2,party.getId());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

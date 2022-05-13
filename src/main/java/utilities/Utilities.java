@@ -21,7 +21,7 @@ public class Utilities {
         return sb.toString();
     }
 
-    public static  <T> T jsonStringToObj( @Nullable String string, Class<T> classOfT ) {
+    public static  <T> T objFromJSONString(@Nullable String string, Class<T> classOfT ) {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         Gson gson = builder.create();
@@ -30,7 +30,7 @@ public class Utilities {
 
     public static  <T> T objFromRequest( HttpServletRequest request, Class<T> classOfT ) throws IOException {
         String str = requestJSONToString(request);
-        return jsonStringToObj( str, classOfT );
+        return objFromJSONString( str, classOfT );
     }
 
     public static boolean contains(final int[] arr, final int key) {
