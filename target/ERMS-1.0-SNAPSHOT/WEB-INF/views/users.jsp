@@ -118,7 +118,7 @@
                             <c:if test="${user.location != null}">${user.location.name}</c:if>
                         </td>
                         <td>
-                            <button onclick="updateUser(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
+                            <button onclick="updateUserLevel(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Update</button>
                             <button onclick="openEditUserModal(this.parentNode.parentNode)" class="btn primary-outlined x-small-btn m-1">Edit</button>
                             <button onclick="safeDeleteUser(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
                         </td>
