@@ -19,6 +19,6 @@ public class VotesAPIServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String json = votesDao.getJSONOfVotes();
         response.setContentType("application/json");
-        response.getWriter().write("{\"votes\":"+json+"}");
+        response.getWriter().write(json);
     }
 }

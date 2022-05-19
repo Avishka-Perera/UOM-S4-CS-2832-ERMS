@@ -10,9 +10,7 @@ import party.model.Party;
 import user.dao.UserDao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static connection.Connection.getConnection;
 
@@ -284,5 +282,14 @@ public class LocationDao {
             e.printStackTrace();
         }
         return locations;
+    }
+
+    public Map<Integer, String> getLocationNameMap() {
+        Map<Integer, String> locationNameMap = new HashMap<>();
+        List<Location> locations = getAllLocationNames();
+        for (Location location :
+                locations) locationNameMap.put(location.getId(), location.getName());
+
+        return locationNameMap;
     }
 }

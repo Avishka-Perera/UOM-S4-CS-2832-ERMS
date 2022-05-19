@@ -154,7 +154,7 @@ public class VotesDao {
 
     public String getJSONOfVotes() {
 
-        StringBuilder jsonData = new StringBuilder("[");
+        StringBuilder jsonData = new StringBuilder("{\"votes\": [");
 
         try (
                 Connection connection = getConnection();
@@ -165,23 +165,26 @@ public class VotesDao {
                 String partyName = rs.getString("party_name");
                 String votes = rs.getString("votes");
 
-                jsonData.append("{'Name: '").append(partyName).append("', 'votes': '").append(votes).append("'},");
+                jsonData.append("{\"Name: \"").append(partyName).append("\", \"votes\": \"").append(votes).append("\"},");
             }
             jsonData = new StringBuilder(jsonData.substring(0, jsonData.length() - 1));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        jsonData.append("]");
+        jsonData.append("], ");
+
+
+        Map<Integer, String> locationNameMap = locationDao.getLocationNameMap();
+        Gson gson = new Gson();
+        String jsonLocationNameMap = gson.toJson(locationNameMap);
+        jsonData.append("\"locationMap\": " + jsonLocationNameMap + "}");
 
         return jsonData.toString();
     }
 
     public String getReport () {
 
-        Map<Integer, String> locationNameMap = new HashMap<>();
-        List<Location> locations = locationDao.getAllLocationNames();
-        for (Location location :
-                locations) locationNameMap.put(location.getId(), location.getName());
+        Map<Integer, String> locationNameMap = locationDao.getLocationNameMap();
 
         StringBuilder report = new StringBuilder();
         List<Party> parties = partyDao.getAllParties();
