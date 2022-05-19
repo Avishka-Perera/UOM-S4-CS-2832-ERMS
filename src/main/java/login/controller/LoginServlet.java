@@ -42,6 +42,7 @@ public class LoginServlet extends HttpServlet {
                 int level = (int) levelObj;
                 if (level == UserLevels.ADMIN_USER_LEVEL) response.sendRedirect(Routes.ROUTE_VOTE_MANAGEMENT);
                 if (UserLevels.VOTE_USER_LEVELS.contains(level)) response.sendRedirect(Routes.ROUTE_VOTES);
+                if (level == UserLevels.MEDIA_USER_LEVEL) dispatcher.forward(request, response);
             } else {
                 dispatcher.forward(request, response);
             }
@@ -70,8 +71,10 @@ public class LoginServlet extends HttpServlet {
 
                 if (level == UserLevels.ADMIN_USER_LEVEL) {
                     responseText = "{\"redirectTo\": \"%s\", \"loginStatus\":%d}".formatted(Routes.ROUTE_VOTE_MANAGEMENT, result.get(0));
-                } else  {
+                } else if (UserLevels.VOTE_USER_LEVELS.contains(level)) {
                     responseText = "{\"redirectTo\": \"%s\", \"loginStatus\":%d}".formatted(Routes.ROUTE_VOTES, result.get(0));
+                } else if (level == UserLevels.MEDIA_USER_LEVEL) {
+                    responseText = "{\"showMessage\": \"%s\", \"loginStatus\":%d}".formatted("You do not have login access to this system", 4);
                 }
             }  else {
                 responseText = "{\"loginStatus\":%d}".formatted(result.get(0));
