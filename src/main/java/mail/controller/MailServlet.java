@@ -2,15 +2,22 @@ package mail.controller;
 
 import constants.Routes;
 import constants.UserLevels;
+import gsonClasses.PartyVote;
 import gsonClasses.SendMailData;
+import location.dao.LocationDao;
+import location.model.Location;
 import mail.functions.MailFunctions;
-import user.model.User;
+import party.dao.PartyDao;
+import party.model.Party;
 import votes.dao.VotesDao;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static utilities.Utilities.objFromRequest;
 
@@ -18,8 +25,13 @@ import static utilities.Utilities.objFromRequest;
 public class MailServlet extends HttpServlet {
 
     private VotesDao votesDao;
+    private PartyDao partyDao;
+    private LocationDao locationDao;
+
     public MailServlet() {
         votesDao = new VotesDao();
+        partyDao = new PartyDao();
+        locationDao = new LocationDao();
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

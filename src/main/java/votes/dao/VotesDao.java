@@ -6,7 +6,10 @@ import com.google.gson.reflect.TypeToken;
 import gsonClasses.LocationParty;
 import gsonClasses.PartyVote;
 import gsonClasses.VotePutRequestData;
+import location.dao.LocationDao;
 import location.model.Location;
+import party.dao.PartyDao;
+import party.model.Party;
 import user.model.User;
 import votes.model.Votes;
 
@@ -15,7 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static connection.Connection.getConnection;
 
@@ -25,6 +30,14 @@ public class VotesDao {
     private static final String SELECT_PARTIES = "SELECT * FROM parties";
     private static final String GET_PARTY_VOTES_BY_ID = "SELECT votes FROM parties WHERE party_id=?";
     private static final String UPDATE_PARTY_VOTES = "UPDATE parties SET votes=? WHERE party_id=?;";
+    private final PartyDao partyDao;
+    private final LocationDao locationDao;
+
+
+    public VotesDao() {
+        partyDao = new PartyDao();
+        locationDao = new LocationDao();
+    }
 
     public Votes getVotes(int userId) throws SQLException {
         Votes returnVote = new Votes();
@@ -140,7 +153,25 @@ public class VotesDao {
     }
 
     public String getReport () {
-        StringBuilder report = new StringBuilder("[");
+
+        Map<Integer, String> locationNameMap = new HashMap<>();
+        List<Location> locations = locationDao.getAllLocationNames();
+        for (Location location :
+                locations) locationNameMap.put(location.getId(), location.getName());
+
+        StringBuilder report = new StringBuilder();
+        List<Party> parties = partyDao.getAllParties();
+        for (Party party :
+                parties) {
+            report.append(party.getName()).append(": ").append(party.getTotalVotes()).append("\n").append("    Breakdown --> ");
+            for (PartyVote partyVote :
+                    party.getVotesList()) {
+                report.append(locationNameMap.get(partyVote.getLocationId())).append(": ").append(partyVote.getVote()).append(", ");
+            }
+            report = new StringBuilder(report.substring(0, report.length() - 2) + "\n");
+        }
+        report.append("\nYou may also need the following JSON object\n").append("[");
+
         try (
                 Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(SELECT_PARTIES);
@@ -149,6 +180,7 @@ public class VotesDao {
             while (rs.next()) {
                 String partyName = rs.getString("party_name");
                 String votes = rs.getString("votes");
+
                 report.append("{'Name: '").append(partyName).append("', 'votes': '").append(votes).append("'},");
             }
             report = new StringBuilder(report.substring(0, report.length() - 1));
