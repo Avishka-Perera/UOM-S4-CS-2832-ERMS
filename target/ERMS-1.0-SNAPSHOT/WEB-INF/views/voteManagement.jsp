@@ -40,9 +40,9 @@
     <div class="navBar-bottom-padding"></div>
     <div>
         <h1 class="p-3">Vote Management</h1>
-        <div class="modalBG hidden" id="add-location-modal" onclick="openAddLocationModal()">
+        <div class="modalBG hidden" id="add-location-modal" onclick="toggleModal('#add-location-modal')">
             <div class="modalContent" onclick="event.stopPropagation()">
-                <h2>Add new location</h2>
+                <h2 id="locationModalHeading">Add new location</h2>
                 <form id="addLocationForm">
                     <table>
                         <tbody>
@@ -82,7 +82,7 @@
                     <th>Station User</th>
                     <th>District User</th>
                     <th>Type</th>
-                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="toggleModal('#add-location-modal')">Add new</button></th>
+                    <th>Action <button class="btn primary-outlined x-small-btn ml-2" onclick="openAddLocationModal()">Add new</button></th>
                 </tr>
                 </thead>
                 <tbody id="locationsTBody">
@@ -123,7 +123,7 @@
         </div>
         <div class="modalBG hidden" id="add-party-modal" onclick="toggleModal('#add-party-modal')">
             <div class="modalContent" onclick="event.stopPropagation()">
-                <h2>Add new party</h2>
+                <h2 id="partyModalHeading">Add new party</h2>
                 <form id="addPartyForm">
                     <table>
                         <tbody>

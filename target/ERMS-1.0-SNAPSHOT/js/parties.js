@@ -94,9 +94,11 @@ const updateParty = (id, modal, row) => {
 
 const openAddPartyModal = () => {
     const partyModalRoot = document.querySelector("#add-party-modal");
+    const heading = partyModalRoot.querySelector("#partyModalHeading");
     const nameInput = partyModalRoot.querySelector("#partyName");
     const actionBtn = partyModalRoot.querySelector("#party-action-btn");
 
+    heading.innerHTML = "Add new party";
     nameInput.setAttribute("value", "");
     actionBtn.onclick = () => addParty();
     actionBtn.innerHTML = "Add";
@@ -105,13 +107,16 @@ const openAddPartyModal = () => {
 }
 
 const openEditPartyModal = (row) => {
+    console.log("editing");
     const partyModalRoot = document.querySelector("#add-party-modal");
+    const heading = partyModalRoot.querySelector("#partyModalHeading");
     const nameInput = partyModalRoot.querySelector("#partyName");
     const actionBtn = partyModalRoot.querySelector("#party-action-btn");
 
     const partyName = row.querySelector("#tdNameParty").innerText;
     const partyId = row.querySelector("#tdIdParty").innerText;
 
+    heading.innerHTML = "Edit party";
     nameInput.setAttribute("value", partyName);
     actionBtn.onclick = () => updateParty(partyId, partyModalRoot, row);
     actionBtn.innerHTML = "Edit";
