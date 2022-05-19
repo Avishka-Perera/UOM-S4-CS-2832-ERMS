@@ -46,15 +46,10 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL){
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String contactNumber = request.getParameter("contactNumber");
-            int userLevel = Integer.parseInt(request.getParameter("userLevel"));
+            User user = objFromRequest(request, User.class);
 
-            User user = new User(name, email, password, contactNumber, userLevel);
             try {
                 int[] results = dao.addUser(user);
                 response.setContentType("application/json");
