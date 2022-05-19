@@ -29,13 +29,18 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
-            List<User> users = dao.selectAllUsers();
-            request.setAttribute("users", users);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/users.jsp");
-            dispatcher.forward(request, response);
+
+        if (session.getAttribute("level") != null) {
+            if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
+                List<User> users = dao.selectAllUsers();
+                request.setAttribute("users", users);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/users.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect(Routes.ROUTE_LOGIN);
+            }
         } else {
-            response.sendRedirect(request.getContextPath() + "/" + Routes.ROUTE_LOGIN);
+            response.sendRedirect(Routes.ROUTE_LOGIN);
         }
     }
 

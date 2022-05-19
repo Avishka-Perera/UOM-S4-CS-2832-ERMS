@@ -27,24 +27,29 @@ public class ManageVoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
 
-            List<User> stationUsers = userDao.selectStationUsers();
-            request.setAttribute("stationUsers", stationUsers);
+        if (session.getAttribute("level") != null) {
+            if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
 
-            List<User> districtUsers = userDao.selectDistrictUsers();
-            request.setAttribute("districtUsers", districtUsers);
+                List<User> stationUsers = userDao.selectStationUsers();
+                request.setAttribute("stationUsers", stationUsers);
 
-            List<Location> locations = locationDao.selectAllLocations();
-            request.setAttribute("locations", locations);
+                List<User> districtUsers = userDao.selectDistrictUsers();
+                request.setAttribute("districtUsers", districtUsers);
 
-            List<Party> parties = partyDao.getAllParties();
-            request.setAttribute("parties", parties);
+                List<Location> locations = locationDao.selectAllLocations();
+                request.setAttribute("locations", locations);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/voteManagement.jsp");
-            dispatcher.forward(request, response);
+                List<Party> parties = partyDao.getAllParties();
+                request.setAttribute("parties", parties);
+
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/voteManagement.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect(Routes.ROUTE_LOGIN);
+            }
         } else {
-            response.sendRedirect(Routes.ENDPOINT_LOGIN);
+            response.sendRedirect(Routes.ROUTE_LOGIN);
         }
     }
 
