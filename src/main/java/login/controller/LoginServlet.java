@@ -42,7 +42,6 @@ public class LoginServlet extends HttpServlet {
                 int level = (int) levelObj;
                 if (level == UserLevels.ADMIN_USER_LEVEL) response.sendRedirect(Routes.ROUTE_VOTE_MANAGEMENT);
                 if (UserLevels.VOTE_USER_LEVELS.contains(level)) response.sendRedirect(Routes.ROUTE_VOTES);
-                if (level == UserLevels.SECRETARIAT_OFFICER_USER_LEVEL) response.sendRedirect(Routes.ROUTE_VOTES_REVIEW);
             } else {
                 dispatcher.forward(request, response);
             }

@@ -37,7 +37,7 @@ const addUser = () => {
                 const roleSELECTDOM = document.createElement("SELECT");
                 const stationOfficerDOM = document.createElement("OPTION");
                 const districtCenterOfficerDOM = document.createElement("OPTION");
-                const secretariatOfficeDOM = document.createElement("OPTION");
+                const mediaUserDOM = document.createElement("OPTION");
                 const adminDOM = document.createElement("OPTION");
                 const locationDOM = document.createElement("TD");
                 const actionTDDOM = document.createElement("TD");
@@ -55,7 +55,7 @@ const addUser = () => {
                 contactNumberDOM.innerText = contactNumber;
                 stationOfficerDOM.innerText = "Station officer";
                 districtCenterOfficerDOM.innerText = "District center officer";
-                secretariatOfficeDOM.innerText = "Secretariat office";
+                mediaUserDOM.innerText = "Media";
                 adminDOM.innerText = "Admin";
                 locationDOM.innerText = "Not assigned";
                 updateBtnDOM.innerText = "Update";
@@ -71,12 +71,12 @@ const addUser = () => {
 
                 stationOfficerDOM.setAttribute("value", "0")
                 districtCenterOfficerDOM.setAttribute("value", "1")
-                secretariatOfficeDOM.setAttribute("value", "2")
+                mediaUserDOM.setAttribute("value", "2")
                 adminDOM.setAttribute("value", "3")
 
                 if (userLevel === "0") stationOfficerDOM.selected = true;
                 if (userLevel === "1") districtCenterOfficerDOM.selected = true;
-                if (userLevel === "2") secretariatOfficeDOM.selected = true;
+                if (userLevel === "2") mediaUserDOM.selected = true;
                 if (userLevel === "3") adminDOM.selected = true;
 
                 updateBtnDOM.onclick = () => {
@@ -88,7 +88,7 @@ const addUser = () => {
 
                 trDOM.append(idDOM, nameDOM, emailDOM, contactNumberDOM, roleTDDOM, locationDOM, actionTDDOM);
                 roleTDDOM.appendChild(roleSELECTDOM);
-                roleSELECTDOM.append(stationOfficerDOM, districtCenterOfficerDOM, secretariatOfficeDOM, adminDOM);
+                roleSELECTDOM.append(stationOfficerDOM, districtCenterOfficerDOM, mediaUserDOM, adminDOM);
                 actionTDDOM.append(updateBtnDOM, deleteBtnDOM);
 
                 tBody.appendChild(trDOM);

@@ -66,8 +66,8 @@
                                 <label for="district-center">District Center</label><br>
                             </span>
                                 <span>
-                                <input type="radio" id="secretariat-office" name="userLevel" value="2">
-                                <label for="secretariat-office">Secretariat Office</label>
+                                <input type="radio" id="media" name="userLevel" value="2">
+                                <label for="media">Media</label>
                             </span>
                                 <span>
                                 <input type="radio" id="admin" name="userLevel" value="3">
@@ -109,7 +109,7 @@
                             <select name="stationUser" id="userLevel">
                                 <option value="0" <c:if test="${user.userLevel==0}">selected</c:if>>Station Officer</option>
                                 <option value="1" <c:if test="${user.userLevel==1}">selected</c:if>>District Center Officer</option>
-                                <option value="2" <c:if test="${user.userLevel==2}">selected</c:if>>Secretariat Office</option>
+                                <option value="2" <c:if test="${user.userLevel==2}">selected</c:if>>Media</option>
                                 <option value="3" <c:if test="${user.userLevel==3}">selected</c:if>>Admin</option>
                             </select>
                         </td>
