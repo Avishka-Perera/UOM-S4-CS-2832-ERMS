@@ -152,6 +152,30 @@ public class VotesDao {
         }
     }
 
+    public String getJSONOfVotes() {
+
+        StringBuilder jsonData = new StringBuilder("[");
+
+        try (
+                Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(SELECT_PARTIES);
+        ) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String partyName = rs.getString("party_name");
+                String votes = rs.getString("votes");
+
+                jsonData.append("{'Name: '").append(partyName).append("', 'votes': '").append(votes).append("'},");
+            }
+            jsonData = new StringBuilder(jsonData.substring(0, jsonData.length() - 1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        jsonData.append("]");
+
+        return jsonData.toString();
+    }
+
     public String getReport () {
 
         Map<Integer, String> locationNameMap = new HashMap<>();
@@ -170,24 +194,7 @@ public class VotesDao {
             }
             report = new StringBuilder(report.substring(0, report.length() - 2) + "\n");
         }
-        report.append("\nYou may also need the following JSON object\n").append("[");
-
-        try (
-                Connection connection = getConnection();
-                PreparedStatement statement = connection.prepareStatement(SELECT_PARTIES);
-                ) {
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                String partyName = rs.getString("party_name");
-                String votes = rs.getString("votes");
-
-                report.append("{'Name: '").append(partyName).append("', 'votes': '").append(votes).append("'},");
-            }
-            report = new StringBuilder(report.substring(0, report.length() - 1));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        report.append("]");
+        report.append("\nYou may also need the following JSON object\n").append(getJSONOfVotes());
 
         return report.toString();
     }

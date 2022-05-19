@@ -11,6 +11,8 @@ public class Routes {
     public static final String ENDPOINT_LOCATIONS = "/locations";
     public static final String ENDPOINT_PARTIES = "/parties";
     public static final String ENDPOINT_SENDMAIL = "/send-mail";
+    public static final String ENDPOINT_API = "/api";
+    public static final String ENDPOINT_API_VOTES = ENDPOINT_API + "/votes";
 
     public static final String ROUTE_PUBLIC = ROUTE_BASE_URL+ENDPOINT_PUBLIC;
     public static final String ROUTE_LOGIN = ROUTE_BASE_URL+ENDPOINT_LOGIN;
