@@ -34,6 +34,7 @@ const addParty = () => {
                 const nameTdDOM = document.createElement("TD");
                 const votesTdDOM = document.createElement("TD");
                 const actionTdDOM = document.createElement("TD");
+                const editBtnDOM = document.createElement("BUTTON");
                 const deleteBtnDOM = document.createElement("BUTTON");
 
                 // assigns required ids and names
@@ -41,19 +42,22 @@ const addParty = () => {
                 nameTdDOM.setAttribute("id","tdNameParty");
 
                 // assigns classes
+                editBtnDOM.setAttribute("class", "btn primary-outlined x-small-btn m-1")
                 deleteBtnDOM.setAttribute("class", "btn secondary-outlined x-small-btn m-1")
 
                 // set texts of the DOMs
                 idTdDOM.innerText = partyId;
                 nameTdDOM.innerText = name;
                 votesTdDOM.innerText = "0";
+                editBtnDOM.innerText = "Edit";
                 deleteBtnDOM.innerText = "Delete";
 
                 // bind button functions
+                editBtnDOM.onclick = () => openEditPartyModal(trDOM);
                 deleteBtnDOM.onclick = () => safeDeleteParty(trDOM);
 
                 // append the rest
-                actionTdDOM.appendChild(deleteBtnDOM);
+                actionTdDOM.append(editBtnDOM, deleteBtnDOM);
                 trDOM.append(idTdDOM, nameTdDOM, votesTdDOM, actionTdDOM);
 
                 const tBody = document.querySelector("#availableParties #partiesTBody");
