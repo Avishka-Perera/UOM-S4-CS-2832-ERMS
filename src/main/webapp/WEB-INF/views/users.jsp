@@ -30,7 +30,7 @@
         <h1 class="p-3">Manage Users</h1>
         <div id="add-user-modal" class="modalBG hidden">
             <div class="modalContent">
-                <h2>Add new user</h2>
+                <h2 id="userModalHeading">Add new user</h2>
                 <form id="addUserForm">
                     <table>
                         <tbody>

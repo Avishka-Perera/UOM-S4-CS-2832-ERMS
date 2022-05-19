@@ -164,7 +164,7 @@ const updateUserData = (id, modal, row) => {
 
 const getUserModalDOMs = () => {
     const userModalRoot = document.querySelector('#add-user-modal');
-    const headingDOM = userModalRoot.querySelector("");
+    const headingDOM = userModalRoot.querySelector("#userModalHeading");
     const nameInput = userModalRoot.querySelector("#name");
     const emailInput = userModalRoot.querySelector("#email");
     const passwordInput = userModalRoot.querySelector("#password");
@@ -173,12 +173,13 @@ const getUserModalDOMs = () => {
     const userLevelOptions = userModalRoot.querySelectorAll('input[name="userLevel"]');
     const actionBtn = userModalRoot.querySelector("#user-action-btn");
 
-    return [userModalRoot, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn];
+    return [userModalRoot, headingDOM, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn];
 }
 
 const openAddUserModal = () => {
-    const [_, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
+    const [_, heading, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
 
+    heading.innerHTML = "Add new user";
     nameInput.value = "";
     emailInput.value = "";
     passwordInput.value = "";
@@ -192,7 +193,7 @@ const openAddUserModal = () => {
 }
 
 const openEditUserModal = (row) => {
-    const [userModalRoot, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
+    const [userModalRoot, heading, nameInput, emailInput, passwordInput, confirmPasswordInput, contactNumberInput, userLevelOptions, actionBtn] = getUserModalDOMs();
 
     const id = row.querySelector("#trId").innerText;
     const nameText = row.querySelector("#trName").innerText;
@@ -200,6 +201,7 @@ const openEditUserModal = (row) => {
     const contactNumberText = row.querySelector("#trContactNumber").innerText;
     const userLevel = row.querySelector("#trUserLevel select").value;
 
+    heading.innerHTML = "Edit user";
     nameInput.value = nameText;
     emailInput.value = emailText;
     passwordInput.value = "";

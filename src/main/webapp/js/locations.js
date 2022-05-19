@@ -9,14 +9,18 @@ const validateLocation = (name) => {
 
 const openAddLocationModal = () => {
     const locationModalRoot = document.querySelector('#add-location-modal');
+    const heading = locationModalRoot.querySelector("#locationModalHeading");
     const nameInput = locationModalRoot.querySelector("#name");
     const typeOption = locationModalRoot.querySelector('input[name="type"]');
     const actionBtn = locationModalRoot.querySelector("#location-action-btn");
 
+    heading.innerHTML = "Add new location";
     nameInput.innerHTML = "";
     typeOption.checked = true;
     actionBtn.innerHTML = "Add";
     actionBtn.onclick = () => addLocation();
+
+    toggleModal("#add-location-modal");
 }
 
 const addLocation = () => {
@@ -161,6 +165,7 @@ const deleteLocation = (row) => {
 
 const openEditLocationModal = (row) => {
     const locationModalRoot = document.querySelector('#add-location-modal');
+    const heading = locationModalRoot.querySelector("#locationModalHeading");
     const nameInput = locationModalRoot.querySelector("#name");
     const typeOptions = locationModalRoot.querySelectorAll('input[name="type"]');
     const actionBtn = locationModalRoot.querySelector("#location-action-btn");
@@ -169,6 +174,7 @@ const openEditLocationModal = (row) => {
     const type = row.querySelector("#type select").value;
     const id = row.querySelector("#tdId").innerText;
 
+    heading.innerHTML = "Edit location";
     nameInput.setAttribute("value", nameText);
     for (let i = 0; i < 2; i++) {
         const option = typeOptions[i];
