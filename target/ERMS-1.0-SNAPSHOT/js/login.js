@@ -7,7 +7,6 @@ const login = () => {
     const data = JSON.stringify(formDataObj);
 
     const successFunction = (data) => {
-        console.log(data);
         // loginStatus --> 0: logged in, 1: user doesn't exist, 2: incorrect password, 3: other error, 4: show message
         if (data.loginStatus === 0) window.location.replace(data.redirectTo);
         else if (data.loginStatus === 1) displayModal("Invalid email", "A user with the given email does not exist. Please re-check your email");
