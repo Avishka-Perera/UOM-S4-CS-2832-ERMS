@@ -19,6 +19,8 @@ public class UserDao {
     private static final String SELECT_USER_BY_EMAIL_QUERY = "SELECT * FROM users WHERE email=?;";
     private static final String SELECT_DISTRICT_USER_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.level=1";
     private static final String SELECT_STATION_USER_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.level=0";
+    private static final String SELECT_MEDIA_USER_QUERY = "SELECT * FROM %s LEFT JOIN locations ON users.location_id=locations.location_id WHERE users.%s=2"
+            .formatted(TableData.userTable, TableData.Users.level);
     private static final String SELECT_ALL_USERS_QUERY = "SELECT * FROM users LEFT JOIN locations ON users.location_id=locations.location_id;";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE user_id=?;";
     private static final String UPDATE_USER_DATA_QUERY = "UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?;"
@@ -79,7 +81,7 @@ public class UserDao {
         try (
                 Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(UPDATE_USER_LEVEL_QUERY)
-                ) {
+        ) {
 
             statement.setInt(1,user.getUserLevel());
             statement.setInt(2,user.getId());
@@ -95,7 +97,7 @@ public class UserDao {
         try (
                 Connection connection = getConnection();
                 PreparedStatement statement = connection.prepareStatement(UPDATE_USER_DATA_QUERY);
-                ) {
+        ) {
             System.out.println("flag-2");
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
@@ -143,9 +145,12 @@ public class UserDao {
         //      a) 0: Select all users
         //      b) 1: Select station users
         //      c) 2: Select district users
+        //      d) 3: Select media users
+
         String query = SELECT_ALL_USERS_QUERY;
         if (cond == 1) query = SELECT_STATION_USER_QUERY;
         if (cond == 2) query = SELECT_DISTRICT_USER_QUERY;
+        if (cond == 3) query = SELECT_MEDIA_USER_QUERY;
 
         List<User> users = new ArrayList<>();
         try (
@@ -196,8 +201,10 @@ public class UserDao {
     }
 
     // select all district users
-    public List<User> selectDistrictUsers() {
-        return selectUsersConditionally(2);
+    public List<User> selectDistrictUsers() { return selectUsersConditionally(2); }
+    // select all media users
+    public List<User> selectMediaUsers() {
+        return selectUsersConditionally(3);
     }
 
     // delete user
@@ -209,7 +216,7 @@ public class UserDao {
                 PreparedStatement getUserDataStatement = connection.prepareStatement(GET_USER_DATA);
                 PreparedStatement updateLocationStationUserStatement = connection.prepareStatement(UPDATE_LOCATION_STATION_USER);
                 PreparedStatement updateLocationDistrictUserStatement = connection.prepareStatement(UPDATE_LOCATION_DISTRICT_USER)
-                ) {
+        ) {
             getUserDataStatement.setInt(1, id);
             ResultSet rs = getUserDataStatement.executeQuery();
             if (rs.next()) {
@@ -248,7 +255,7 @@ public class UserDao {
             try (
                     Connection connection = getConnection();
                     PreparedStatement removeLocationStatement = connection.prepareStatement(REMOVE_LOCATION_QUERY)
-                    ) {
+            ) {
                 removeLocationStatement.setInt(1,id);
                 return removeLocationStatement.executeUpdate() > 0;
             } catch (SQLException e) {

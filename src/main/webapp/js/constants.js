@@ -5,6 +5,7 @@ const PARTIES_ENDPOINT = "parties";
 const USERS_ENDPOINT = "users";
 const LOCATIONS_ENDPOINT = "locations";
 const VOTES_ENDPOINT = "votes";
+const SENDMAIL_ENDPOINT = "send-mail";
 
 // request  task map
 const TASK_USER_PUT_UPDATE_USER_DETAILS = 0;

@@ -16,6 +16,7 @@
     <script src="<%request.getContextPath();%>js/constants.js"></script>
     <script src="<%request.getContextPath();%>js/locations.js"></script>
     <script src="<%request.getContextPath();%>js/parties.js"></script>
+    <script src="<%request.getContextPath();%>js/media.js"></script>
     <script>
         const districtUsers = [
             <c:forEach var="user" items="${districtUsers}">
@@ -38,7 +39,6 @@
 <div class="root bg-1">
     <%@include file="navBar.jsp" %>
     <div class="navBar-bottom-padding"></div>
-    <div>
         <h1 class="p-3">Vote Management</h1>
         <div class="modalBG hidden" id="add-location-modal" onclick="toggleModal('#add-location-modal')">
             <div class="modalContent" onclick="event.stopPropagation()">
@@ -140,34 +140,63 @@
                 </div>
             </div>
         </div>
-        <div id="availableParties">
-            <h2 class="m-3">Parties</h2>
-            <table class="center-table border whiteBg">
-                <thead>
+    <div id="availableParties">
+        <h2 class="m-3">Parties</h2>
+        <table class="center-table border whiteBg">
+            <thead>
+            <tr>
+                <th>Party ID</th>
+                <th>Name</th>
+                <th>Votes</th>
+                <th>Action<button class="btn primary-outlined x-small-btn ml-2" onclick="openAddPartyModal()">Add new</button></th>
+            </tr>
+            </thead>
+            <tbody id="partiesTBody">
+            <c:forEach items="${parties}" var="party">
                 <tr>
-                    <th>Party ID</th>
-                    <th>Name</th>
-                    <th>Votes</th>
-                    <th>Action<button class="btn primary-outlined x-small-btn ml-2" onclick="openAddPartyModal()">Add new</button></th>
+                    <td id="tdIdParty">${party.id}</td>
+                    <td id="tdNameParty">${party.name}</td>
+                    <td>${party.votes}</td>
+                    <td>
+                        <button class="btn primary-outlined x-small-btn m-1" onclick="openEditPartyModal(this.parentNode.parentNode)">Edit</button>
+                        <button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
+                    </td>
                 </tr>
-                </thead>
-                <tbody id="partiesTBody">
-                    <c:forEach items="${parties}" var="party">
-                        <tr>
-                            <td id="tdIdParty">${party.id}</td>
-                            <td id="tdNameParty">${party.name}</td>
-                            <td>${party.votes}</td>
-                            <td>
-                                <button class="btn primary-outlined x-small-btn m-1" onclick="openEditPartyModal(this.parentNode.parentNode)">Edit</button>
-                                <button onclick="safeDeleteParty(this.parentNode.parentNode)" class="btn secondary-outlined x-small-btn m-1">Delete</button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <div class="navBar-bottom-padding"></div>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
+    <div>
+        <h2 class="m-3">Media</h2>
+        <form id="mediaTable" onsubmit="event.preventDefault()">
+        <table class="center-table border whiteBg">
+            <thead>
+            <tr>
+                <th><input type="checkbox" onchange="updateAllCheckboxes(this.checked)"></th>
+                <th>Media ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action <button class="btn primary-outlined x-small-btn m-1" onclick="sendMailsToSelected()">Send Mail</button></th>
+            </tr>
+            </thead>
+            <tbody id="mediaTBody">
+            <jsp:useBean id="mediaUsers" scope="request" type="java.util.List"/>
+            <c:forEach items="${mediaUsers}" var="mediaUser">
+                <tr>
+                    <td><input type="checkbox" name="${mediaUser.email}"></td>
+                    <td id="tdIdMedia">${mediaUser.id}</td>
+                    <td id="tdNameMedia">${mediaUser.name}</td>
+                    <td id="tdMailMedia">${mediaUser.email}</td>
+                    <td>
+                        <button class="btn primary-outlined x-small-btn m-1" onclick="sendMail(this.parentNode.parentNode)">Send Mail</button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        </form>
+    </div>
+    <div class="navBar-bottom-padding"></div>
 </div>
 </body>
 </html>

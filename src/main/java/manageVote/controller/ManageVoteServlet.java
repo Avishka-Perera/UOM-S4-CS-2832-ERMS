@@ -22,12 +22,16 @@ public class ManageVoteServlet extends HttpServlet {
     private final UserDao userDao;
     private final PartyDao partyDao;
 
-    public ManageVoteServlet() {this.locationDao = new LocationDao(); this.userDao = new UserDao(); this.partyDao = new PartyDao();}
+    public ManageVoteServlet() {
+        this.locationDao = new LocationDao();
+        this.userDao = new UserDao();
+        this.partyDao = new PartyDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         HttpSession session = request.getSession(false);
-
         if (session.getAttribute("level") != null) {
             if ((int) session.getAttribute("level") == UserLevels.ADMIN_USER_LEVEL) {
 
@@ -36,6 +40,9 @@ public class ManageVoteServlet extends HttpServlet {
 
                 List<User> districtUsers = userDao.selectDistrictUsers();
                 request.setAttribute("districtUsers", districtUsers);
+
+                List<User> mediaUsers = userDao.selectMediaUsers();
+                request.setAttribute("mediaUsers", mediaUsers);
 
                 List<Location> locations = locationDao.selectAllLocations();
                 request.setAttribute("locations", locations);

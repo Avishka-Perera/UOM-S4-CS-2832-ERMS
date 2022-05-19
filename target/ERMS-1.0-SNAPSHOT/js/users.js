@@ -42,11 +42,13 @@ const addUser = () => {
                 const locationDOM = document.createElement("TD");
                 const actionTDDOM = document.createElement("TD");
                 const updateBtnDOM = document.createElement("BUTTON");
+                const editBtnDOM = document.createElement("BUTTON");
                 const deleteBtnDOM = document.createElement("BUTTON");
                 const trDOM = document.createElement("TR");
                 const tBody = document.querySelector("#assignRoles #usersTBody");
 
                 updateBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1")
+                editBtnDOM.setAttribute("class",  "btn primary-outlined x-small-btn m-1")
                 deleteBtnDOM.setAttribute("class",  "btn secondary-outlined x-small-btn m-1")
 
                 idDOM.innerText = userId;
@@ -59,6 +61,7 @@ const addUser = () => {
                 adminDOM.innerText = "Admin";
                 locationDOM.innerText = "Not assigned";
                 updateBtnDOM.innerText = "Update";
+                editBtnDOM.innerText = "Edit";
                 deleteBtnDOM.innerText = "Delete";
 
                 idDOM.setAttribute("id", "trId");
@@ -82,6 +85,9 @@ const addUser = () => {
                 updateBtnDOM.onclick = () => {
                     updateUserLevel(trDOM);
                 };
+                editBtnDOM.onclick = () => {
+                    openEditUserModal(trDOM);
+                };
                 deleteBtnDOM.onclick = () => {
                     safeDeleteUser(trDOM);
                 }
@@ -89,7 +95,7 @@ const addUser = () => {
                 trDOM.append(idDOM, nameDOM, emailDOM, contactNumberDOM, roleTDDOM, locationDOM, actionTDDOM);
                 roleTDDOM.appendChild(roleSELECTDOM);
                 roleSELECTDOM.append(stationOfficerDOM, districtCenterOfficerDOM, mediaUserDOM, adminDOM);
-                actionTDDOM.append(updateBtnDOM, deleteBtnDOM);
+                actionTDDOM.append(updateBtnDOM, editBtnDOM, deleteBtnDOM);
 
                 tBody.appendChild(trDOM);
             }
@@ -97,7 +103,8 @@ const addUser = () => {
             displayModal("Server Error", "The serve faced an unexpected error. Please resubmit the registration data.")
         }
     }
-    const errorFunction = (data) => console.log("Error", data);
+    const errorFunction = (data) =>
+        displayModal("Server error", data.error);
 
     if (validity === "Valid") {
         postEntry(endpoint, data, successFunction, errorFunction);
@@ -154,7 +161,7 @@ const updateUserData = (id, modal, row) => {
         }
     }
     const errorFunction = (data) => {
-        console.log(data);
+        displayModal("Server error", data.errorMessage);
     }
 
     const [validity, message] = validateUserFormData(name, email, password, confirmPassword, contactNumber);
