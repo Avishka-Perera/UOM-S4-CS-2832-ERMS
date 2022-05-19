@@ -118,7 +118,7 @@ const updateUserLevel = (row) => {
             console.log("user not updated");
         }
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error", data);
     updateEntry(endpoint, data, successFunction, errorFunction);
 }
 

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Utilities {
+    // extracts the data in the request to a string
     public static String requestJSONToString (HttpServletRequest request) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = request.getReader();

@@ -79,7 +79,7 @@ const validateUserFormData = (name, email, password, confirmPassword, contactNum
         document.querySelector("#addUserForm #confirm-password").value = "";
         return ["Password Error", "Passwords do not match each other. Please re-enter"];
     }
-    if (password.length < 1) return ["Password Error", "Weak password. Please enter a password with 8 or more charachters"];
+    if (password.length < 8) return ["Password Error", "Weak password. Please enter a password with 8 or more charachters"];
 
     if (!validateEmail(email)) return ["Email error", "Invalid email. Please enter a valid email"];
 

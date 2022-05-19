@@ -10,6 +10,11 @@
 <html>
 <head>
     <title>Login</title>
+    <script src="<%request.getContextPath();%>js/jquery-3.6.0.min.js"></script>
+    <script src="<%request.getContextPath();%>js/utilities.js"></script>
+    <script src="<%request.getContextPath();%>js/crudFunctions.js"></script>
+    <script src="<%request.getContextPath();%>js/constants.js"></script>
+    <script src="<%request.getContextPath();%>js/login.js"></script>
 
     <%--    Styles  --%>
     <link rel="stylesheet" href="<%request.getContextPath();%>css/bootstrap.min.css">
@@ -22,7 +27,7 @@
     <div class="login-root bg-2">
         <div  class="shadow-lg login-container rounded-2 pt-5 pb-5 pl-4 pr-4">
             <h1 class="mb-3">Login</h1>
-            <form action="login" method="post">
+            <form id="login-form">
                 <table>
                     <tbody>
                     <tr>
@@ -35,8 +40,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <input type="submit" value="Login" class="btn primary-contained mt-3">
             </form>
+            <button class="btn primary-contained mt-3" onclick="login()">Login</button>
         </div>
     </div>
 </body>

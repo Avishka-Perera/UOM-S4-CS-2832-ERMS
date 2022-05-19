@@ -1,8 +1,5 @@
-restrict direct access of .jsp files. e.g.:- localhost:80/ERMS/views/login.jsp should redirect to localhost:80/ERMS/login
-add a common navbar to all pages
-style pages
 create notification modal
-update the relevant related tables when a user, location, or a party is deleted
 replace the hard coded table column names with formatted strings
 close the connections
 check whether the email of the users, names of the locations and parties are already existing before updating them
+handle secretariat user level

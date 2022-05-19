@@ -80,7 +80,6 @@ public class UserServlet extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write("{\"status\":"+deleteStatus+"}");
         }
-
     }
 
     @Override
@@ -93,8 +92,8 @@ public class UserServlet extends HttpServlet {
             User user = requestData.getUser();
             int result = 0;
             try {
-                if (task == RequestTasks.User.Put.updateUserLevel) result = dao.updateUserLevel(user);
                 if (task == RequestTasks.User.Put.updateUserDetails) result = dao.updateUserDetails(user);
+                if (task == RequestTasks.User.Put.updateUserLevel) result = dao.updateUserLevel(user);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
