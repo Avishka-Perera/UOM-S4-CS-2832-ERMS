@@ -27,7 +27,7 @@ public class VotesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         Object levelObj = session.getAttribute("level");
         if (levelObj != null) {
             int level = (int) levelObj;
