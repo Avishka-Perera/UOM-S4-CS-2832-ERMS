@@ -4,8 +4,8 @@ const updateVote = (row, partyId, locationId) => {
     const endpoint = BASE_URL+VOTES_ENDPOINT;
     const data = JSON.stringify({partyId, locationId, votes})
     const successFunction = (data) => {
-        console.log(data);
+        notification("Votes updated successfully");
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error","Votes not updated. Please try again.");
     updateEntry(endpoint, data, successFunction, errorFunction);
 }

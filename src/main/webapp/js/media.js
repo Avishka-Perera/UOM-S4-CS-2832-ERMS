@@ -20,9 +20,11 @@ const sendMailsToSelected = () => {
 }
 
 const sendMailRequest = (data) => {
-    const endpoint = SENDMAIL_ENDPOINT;
-    const errorFunction = (error) => displayModal("Error", error.error);
-    const successFunction = (data) => console.log(data);
-    const strData = JSON.stringify(data);
-    postEntry(endpoint, strData, successFunction, errorFunction);
+    if (data.mails.length > 0) {
+        const endpoint = SENDMAIL_ENDPOINT;
+        const errorFunction = (error) => displayModal("Error", "Email not sent. PLease try again.");
+        const successFunction = (data) => notification(data.successCount + " mails sent, " + data.failCount + " failed.");
+        const strData = JSON.stringify(data);
+        postEntry(endpoint, strData, successFunction, errorFunction);
+    }
 }

@@ -120,9 +120,9 @@ const updateUserLevel = (row) => {
     const data = JSON.stringify({ task:TASK_USER_PUT_UPDATE_USER_LEVEL, user: { id, userLevel}})
     const successFunction = (data) => {
         if (data.status) {
-            console.log(data.status);
+            notification("User level updated");
         } else {
-            console.log("user not updated");
+            displayModal("Error", "User not updated. Please try again.");
         }
     }
     const errorFunction = (data) => displayModal("Error", data);
@@ -231,9 +231,11 @@ const deleteUser = (row) => {
     const data = row.querySelector("#trId").innerHTML;
     const endpoint = BASE_URL + USERS_ENDPOINT;
     const successFunction = (data) => {
-        if (data.status) row.remove();
-        else console.log("user not deleted");
+        if (data.status) {
+            row.remove();
+        }
+        else displayModal("Error", "User not deleted. Please try again.");
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error", "User not deleted. Please try again.");
     deleteEntry(endpoint, data, successFunction, errorFunction);
 }

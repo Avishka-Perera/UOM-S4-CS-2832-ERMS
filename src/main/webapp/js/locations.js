@@ -131,6 +131,8 @@ const addLocation = () => {
 
                 const tBody = document.querySelector("#availableLocations #locationsTBody");
                 tBody.appendChild(trDOM);
+                toggleModal("#add-location-modal");
+                notification("Location added");
             }
         } else {
             displayModal("Server Error", "The serve faced an unexpected error. Please resubmit the registration data.")
@@ -157,9 +159,9 @@ const deleteLocation = (row) => {
     const endpoint = BASE_URL + LOCATIONS_ENDPOINT;
     const successFunction = (data) => {
         if (data.status) row.remove();
-        else console.log("user not deleted");
+        else displayModal("Error", "Location not deleted. Please try again");
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error", "Location not deleted. Please try again");
     deleteEntry(endpoint, id, successFunction, errorFunction);
 }
 
@@ -223,7 +225,7 @@ const updateLocationDetails = (id, row, locationModalRoot) => {
         if (data.status in [1,2]) {
             nameTdDOM.innerHTML = name;
             typeSelectDOM.value = type;
-            console.log(data.status);
+            notification("Location updated");
         } else if (data.status === 0){
             displayModal("Location not Updated", "The server faced an unexpected error. Please update again.");
         } else if (data.status === 3) {
@@ -234,7 +236,7 @@ const updateLocationDetails = (id, row, locationModalRoot) => {
             displayModal("Location not Updated", "Both selected users are already assigned for other locations. Please select different users.");
         }
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error", "Location not updated. Please try again.");
 
     // checks the validity and send the data
     const [validityTitle, message] = validateLocation(name);

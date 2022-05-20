@@ -176,7 +176,7 @@
                 <th>Media ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Action <button class="btn primary-outlined x-small-btn m-1" onclick="sendMailsToSelected()">Send Mail</button></th>
+                <th>Action <button class="btn primary-outlined x-small-btn m-1" onclick="sendMailsToSelected()">Send Mails</button></th>
             </tr>
             </thead>
             <tbody id="mediaTBody">

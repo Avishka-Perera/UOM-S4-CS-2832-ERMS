@@ -69,6 +69,48 @@ const toggleModal = (modalRootId) => {
     else modalRoot.classList.add("hidden");
 }
 
+const notification = (message, duration=3000) => {
+    const container = document.createElement("DIV");
+    const body = document.createElement("DIV");
+    const crossContainer = document.createElement("DIV");
+    const line1 = document.createElement("DIV");
+    const line2 = document.createElement("DIV");
+
+    body.innerText = message;
+
+    container.setAttribute("class","notification-container notification-container-inactive");
+    crossContainer.setAttribute("class","cross");
+    body.setAttribute("class","notification-body");
+
+    container.append(body, crossContainer);
+    crossContainer.append(line1,line2);
+    document.body.appendChild(container);
+
+    setTimeout(() => {
+            container.classList.remove("notification-container-inactive");
+            container.classList.add("notification-container-active");
+        },
+        1
+    )
+    setTimeout(
+        () => {
+            container.classList.remove("notification-container-active");
+            container.classList.add("notification-container-inactive");
+            setTimeout(
+                () => {
+                    container.remove();
+                },
+                300
+            )
+        },
+        duration
+    )
+    crossContainer.onclick = () => {
+        container.classList.remove("notification-container-active");
+        container.classList.add("notification-container-inactive");
+    }
+}
+
 const validateEmail = (mail) => {
     return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
 }

@@ -155,3 +155,53 @@ th {
     height: 80px;
     width: 100%;
 }
+
+/************************************************ Notification ************************************************/
+.notification-container {
+    background-color: #3e446a;
+    min-width: 300px;
+    position: fixed;
+    height: 50px;
+    left: 15px;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: row;
+}
+
+.notification-container-inactive {
+    bottom: -90px;
+}
+
+.notification-container-active {
+    bottom: 15px;
+}
+
+.notification-body {
+    width: 100%;
+    color: #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.cross {
+    cursor: pointer;
+    padding: 4px;
+    align-self: center;
+}
+
+.cross div {
+    height: 2px;
+    width: 24px;
+    background-color: #999;
+    margin: 8px 0px 8px 0px;
+}
+
+.cross div:nth-child(1) {
+    transform: rotate(45deg) translateY(7px);
+}
+
+.cross div:nth-child(2) {
+    transform: rotate(-45deg) translateY(-7px);
+}

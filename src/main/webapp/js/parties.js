@@ -70,7 +70,6 @@ const addParty = () => {
     const errorFunction = (data) => displayModal("Error", data);
 
     if (validityTitle === "Valid") {
-        console.log("valid");
         postEntry(endpoint, data, successFunction, errorFunction);
     } else {
         displayModal(validityTitle, message);
@@ -111,7 +110,6 @@ const openAddPartyModal = () => {
 }
 
 const openEditPartyModal = (row) => {
-    console.log("editing");
     const partyModalRoot = document.querySelector("#add-party-modal");
     const heading = partyModalRoot.querySelector("#partyModalHeading");
     const nameInput = partyModalRoot.querySelector("#partyName");
@@ -136,9 +134,11 @@ const deleteParty = (row) => {
     const id = row.querySelector("#tdIdParty").innerHTML;
     const endpoint = BASE_URL + PARTIES_ENDPOINT;
     const successFunction = (data) => {
-        if (data.status) row.remove();
-        else console.log("user not deleted");
+        if (data.status) {
+            row.remove();
+        }
+        else displayModal("Error", "Party not deleted. Please try again");
     }
-    const errorFunction = (data) => console.log("error:", data);
+    const errorFunction = (data) => displayModal("Error", "Party not deleted. Please try again");
     deleteEntry(endpoint, id, successFunction, errorFunction);
 }
